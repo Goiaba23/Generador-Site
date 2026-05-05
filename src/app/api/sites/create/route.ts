@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { PrismaClient, BusinessType, TemplateStyle } from '@prisma/client';
-import { generateSite, generateSiteWithInsights } from '@/lib/ai-generator';
+import { generateSiteWithInsights } from '@/lib/ai-generator';
 import { BusinessInsight } from '@/lib/ai-conversational';
 import { enhanceContentWithInsights } from '@/lib/ai-conversational';
 
@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
         toneOfVoice: data.toneOfVoice,
       };
 
-      generatedSite = await generateSite(businessDetails);
+      generatedSite = await generateSiteWithInsights(businessDetails, {});
     }
 
     // Create site

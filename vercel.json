@@ -1,9 +1,0 @@
-{
-  "version": 2,
-  "env": {
-    "DATABASE_URL": "postgresql://localhost:5432/postgres",
-    "OPENAI_API_KEY": "",
-    "NEXTAUTH_SECRET": "development-secret-change-in-production",
-    "NEXT_PUBLIC_APP_URL": "https://gerador-site-teste.vercel.app"
-  }
-}

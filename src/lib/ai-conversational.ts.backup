@@ -1,0 +1,952 @@
+﻿// Conversational AI system to understand business problems and objectives
+// This helps generate better websites by understanding the WHY behind the business
+
+import { BusinessType } from '@prisma/client';
+
+export interface BusinessProblem {
+  category: 'visibility' | 'sales' | 'booking' | 'competition' | 'online_presence' | 'customer_service' | 'other';
+  description: string;
+  urgency: 'low' | 'medium' | 'high' | 'critical';
+}
+
+export interface BusinessObjective {
+  primary: 'sell_online' | 'get_bookings' | 'increase_visibility' | 'generate_leads' | 'showcase_portfolio' | 'informational';
+  secondary?: string[];
+  targetMetric?: string; // e.g., "20 bookings per week"
+  timeline: 'immediate' | '1_month' | '3_months' | '6_months' | '1_year';
+}
+
+export interface BusinessInsight {
+  problems: BusinessProblem[];
+  objectives: BusinessObjective;
+  targetAudience: string;
+  diferentiators: string[];
+  competitors?: string[];
+  budget?: 'low' | 'medium' | 'high' | 'enterprise';
+  currentOnlinePresence?: 'none' | 'basic' | 'moderate' | 'strong';
+  messagingTone?: 'formal' | 'casual' | 'fun' | 'luxury';
+  recommendedStyle?: string;
+}
+
+// Questions the AI will ask based on business type
+export function getDiscoveryQuestions(businessType: BusinessType): DiscoveryQuestion[] {
+  const baseQuestions: DiscoveryQuestion[] = [
+    {
+      id: 'problem',
+      question: 'Qual Ã© o principal problema que seu comÃ©rcio enfrenta hoje?',
+      type: 'multiple_choice',
+      options: [
+        { value: 'visibility', label: 'NinguÃ©m conhece meu negÃ³cio', icon: 'eye' },
+        { value: 'sales', label: 'Vendas baixas ou inexistentes online', icon: 'chart-line' },
+        { value: 'booking', label: 'Dificuldade em gerar agendamentos', icon: 'calendar' },
+        { value: 'competition', label: 'ConcorrÃªncia estÃ¡ levando meus clientes', icon: 'users' },
+        { value: 'online_presence', label: 'NÃ£o tenho presenÃ§a online nenhuma', icon: 'globe' },
+        { value: 'customer_service', label: 'Dificuldade em atender clientes', icon: 'headset' },
+        { value: 'other', label: 'Outro problema especÃ­fico', icon: 'ellipsis-h' },
+      ],
+      allowMultiple: true,
+    },
+    {
+      id: 'objective',
+      question: 'Qual Ã© o seu objetivo principal com este site?',
+      type: 'single_choice',
+      options: [
+        { value: 'sell_online', label: 'Vender produtos online (e-commerce)', icon: 'shopping-cart' },
+        { value: 'get_bookings', label: 'Gerar agendamentos online', icon: 'calendar-check' },
+        { value: 'increase_visibility', label: 'Aumentar visibilidade e alcance', icon: 'bullhorn' },
+        { value: 'generate_leads', label: 'Captar leads e contatos', icon: 'user-plus' },
+        { value: 'showcase_portfolio', label: 'Exibir trabalhos/portfÃ³lio', icon: 'images' },
+        { value: 'informational', label: 'Apenas informativo (institucional)', icon: 'info-circle' },
+      ],
+    },
+    {
+      id: 'target_metric',
+      question: 'Qual seria um nÃºmero de sucesso para vocÃª? (meta)',
+      type: 'text_input',
+      placeholder: 'Ex: 30 agendamentos por semana, 50 vendas por mÃªs, etc.',
+    },
+    {
+      id: 'timeline',
+      question: 'Em quanto tempo vocÃª precisa ver resultados?',
+      type: 'single_choice',
+      options: [
+        { value: 'immediate', label: 'Imediatamente (urgente)' },
+        { value: '1_month', label: 'Em 1 mÃªs' },
+        { value: '3_months', label: 'Em 3 meses' },
+        { value: '6_months', label: 'Em 6 meses' },
+        { value: '1_year', label: 'Em 1 ano' },
+      ],
+    },
+  ];
+
+  // Business pain points and automated proposals by niche
+const NICHE_PROPOSALS: Record<string, { painPoint: string; solution: string; features: string[] }> = {
+  'BARBERSHOP': {
+    painPoint: 'Dificuldade em gerenciar horários e filas de espera',
+    solution: 'Sistema de agendamento online 24/7 com confirmação automática',
+    features: ['Agendamento Online', 'WhatsApp Integration', 'Gestão de Horários', 'Histórico de Clientes']
+  },
+  'SALON': {
+    painPoint: 'Clientes esquecem os horários e falta de controle',
+    solution: 'App de agendamento com lembretes automáticos e fidelidade',
+    features: ['Booking Inteligente', 'Programa de Fidelidade', 'Galeria de Transformações', 'Avaliações']
+  },
+  'RESTAURANT': {
+    painPoint: 'Cardápio desatualizado e pedidos pelo telefone',
+    solution: 'Cardápio digital interativo com pedidos via WhatsApp',
+    features: ['Cardápio Online', 'Delivery Integration', 'Reservas Online', 'Galeria de Pratos']
+  },
+  'CLINIC': {
+    painPoint: 'Agendamento manual e filas telefônicas',
+    solution: 'Sistema de agendamento médico com prontuário digital',
+    features: ['Booking Médico', 'Área do Paciente', 'Telemedicina', 'Planos de Saúde']
+  },
+  'GYM': {
+    painPoint: 'Dificuldade em atrair novos alunos e controle de planos',
+    solution: 'Site com planos personalizados e avaliação física grátis',
+    features: ['Planos de Treino', 'Avaliação Grátis', 'Loja de Suplementos', 'App do Aluno']
+  },
+  'RETAIL': {
+    painPoint: 'Vendas limitadas ao horário comercial',
+    solution: 'Loja virtual 24/7 com checkout otimizado',
+    features: ['E-commerce', 'Pagamento Pix', 'Carrinho Abandonado', 'Cupons de Desconto']
+  },
+  'REAL_ESTATE': {
+    painPoint: 'Imóveis não encontrados por compradores',
+    solution: 'Busca avançada com tour virtual e calculadora',
+    features: ['Busca Avançada', 'Tour 360°', 'Calculadora de Financiamento', 'Mapa Interativo']
+  },
+  'TECH': {
+    painPoint: 'Dificuldade em demonstrar valor do software/serviço',
+    solution: 'Landing page de alta conversão com demonstração',
+    features: ['Demo Interativa', 'Preços Transparentes', 'Cases de Sucesso', 'Integração API']
+  },
+    'OTHER': {
+      painPoint: 'Presença digital limitada',
+      solution: 'Site profissional para atrair mais clientes',
+      features: ['Design Profissional', 'SEO Otimizado', 'WhatsApp Direct', 'Mobile Responsivo']
+    }
+  };
+  
+  return proposals[businessType] || proposals['OTHER'];
+}
+
+// Export function to get niche proposal
+export function getNicheProposal(businessType: string): { painPoint: string; solution: string; features: string[] } {
+  const proposals: Record<string, { painPoint: string; solution: string; features: string[] }> = {
+    'BARBERSHOP': {
+      painPoint: 'Dificuldade em gerenciar horários e filas de espera',
+      solution: 'Sistema de agendamento online 24/7 com confirmação automática',
+      features: ['Agendamento Online', 'WhatsApp Integration', 'Gestão de Horários', 'Histórico de Clientes']
+    },
+    'SALON': {
+      painPoint: 'Clientes esquecem os horários e falta de controle',
+      solution: 'App de agendamento com lembretes automáticos e fidelidade',
+      features: ['Booking Inteligente', 'Programa de Fidelidade', 'Galeria de Transformações', 'Avaliações']
+    },
+    'RESTAURANT': {
+      painPoint: 'Cardápio desatualizado e pedidos pelo telefone',
+      solution: 'Cardápio digital interativo com pedidos via WhatsApp',
+      features: ['Cardápio Online', 'Delivery Integration', 'Reservas Online', 'Galeria de Pratos']
+    },
+    'CLINIC': {
+      painPoint: 'Agendamento manual e filas telefônicas',
+      solution: 'Sistema de agendamento médico com prontuário digital',
+      features: ['Booking Médico', 'Área do Paciente', 'Telemedicina', 'Planos de Saúde']
+    },
+    'GYM': {
+      painPoint: 'Dificuldade em atrair novos alunos e controle de planos',
+      solution: 'Site com planos personalizados e avaliação física grátis',
+      features: ['Planos de Treino', 'Avaliação Grátis', 'Loja de Suplementos', 'App do Aluno']
+    },
+    'RETAIL': {
+      painPoint: 'Vendas limitadas ao horário comercial',
+      solution: 'Loja virtual 24/7 com checkout otimizado',
+      features: ['E-commerce', 'Pagamento Pix', 'Carrinho Abandonado', 'Cupons de Desconto']
+    },
+    'REAL_ESTATE': {
+      painPoint: 'Imóveis não encontrados por compradores',
+      solution: 'Busca avançada com tour virtual e calculadora',
+      features: ['Busca Avançada', 'Tour 360°', 'Calculadora de Financiamento', 'Mapa Interativo']
+    },
+    'TECH': {
+      painPoint: 'Dificuldade em demonstrar valor do software/serviço',
+      solution: 'Landing page de alta conversão com demonstração',
+      features: ['Demo Interativa', 'Preços Transparentes', 'Cases de Sucesso', 'Integração API']
+    },
+    'OTHER': {
+      painPoint: 'Presença digital limitada',
+      solution: 'Site profissional para atrair mais clientes',
+      features: ['Design Profissional', 'SEO Otimizado', 'WhatsApp Direct', 'Mobile Responsivo']
+    }
+  };
+  
+  return proposals[businessType] || proposals['OTHER'];
+}
+};
+
+// Add business-type specific questions
+  const specificQuestions: any = {
+    RESTAURANT: [
+      {
+        id: 'restaurant_focus',
+        question: 'O que vocÃª quer destacar no seu site?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'menu', label: 'CardÃ¡pio digital completo', icon: 'utensils' },
+          { value: 'delivery', label: 'Delivery e pedidos online', icon: 'truck' },
+          { value: 'reservations', label: 'Reservas de mesas', icon: 'chair' },
+          { value: 'ambiance', label: 'Ambiente e atmosfera', icon: 'wine-glass' },
+        ],
+      },
+    ],
+    BAR: [
+      {
+        id: 'bar_focus',
+        question: 'O que Ã© a atraÃ§Ã£o principal do seu bar?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'drinks', label: 'Drinks artesanais', icon: 'cocktail' },
+          { value: 'music', label: 'MÃºsica ao vivo', icon: 'music' },
+          { value: 'sports', label: 'Esportes na TV', icon: 'tv' },
+          { value: 'food', label: 'Petiscos e comida', icon: 'utensils' },
+        ],
+      },
+    ],
+    SUSHI: [
+      {
+        id: 'sushi_focus',
+        question: 'O que destacar no seu restaurante japonÃªs?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'freshness', label: 'Peixes frescos', icon: 'fish' },
+          { value: 'variety', label: 'Variedade do menu', icon: 'utensils' },
+          { value: 'experience', label: 'ExperiÃªncia cultural', icon: 'flag-jp' },
+        ],
+      },
+    ],
+    ROTISSERIE: [],
+    BURGER_JOINT: [
+      {
+        id: 'burger_focus',
+        question: 'O que torna seus hambÃºrgueres especiais?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'taste', label: 'Sabor Ãºnico', icon: 'hamburger' },
+          { value: 'delivery', label: 'Delivery rÃ¡pido', icon: 'truck' },
+          { value: 'customization', label: 'Monte seu burger', icon: 'sliders-h' },
+        ],
+      },
+    ],
+    STEAKHOUSE: [
+      {
+        id: 'steakhouse_focus',
+        question: 'O que destacar na sua churrascaria?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'meat_quality', label: 'Qualidade das carnes', icon: 'drumstick-bite' },
+          { value: 'variety', label: 'Variedade de cortes', icon: 'utensils' },
+          { value: 'all_you_can_eat', label: 'RodÃ­zio', icon: 'infinity' },
+        ],
+      },
+    ],
+    SEAFOOD: [],
+    VEGAN: [],
+    ICE_CREAM: [
+      {
+        id: 'ice_cream_focus',
+        question: 'O que promover na sua sorveteria?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'flavors', label: 'Variedade de sabores', icon: 'ice-cream' },
+          { value: 'natural', label: 'Ingredientes naturais', icon: 'leaf' },
+          { value: 'delivery', label: 'Entrega em domicÃ­lio', icon: 'truck' },
+        ],
+      },
+    ],
+    BAKERY: [
+      {
+        id: 'bakery_focus',
+        question: 'O que vocÃª quer promover?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'ecommerce', label: 'Venda de bolos e doces', icon: 'birthday-cake' },
+          { value: 'custom_orders', label: 'Encomendas personalizadas', icon: 'pencil-ruler' },
+          { value: 'daily_bread', label: 'PÃ£es diÃ¡rios', icon: 'bread-slice' },
+          { value: 'events', label: 'Bolos para eventos', icon: 'glass-cheers' },
+        ],
+      },
+    ],
+    CONFECTIONERY: [],
+    CAFE: [
+      {
+        id: 'cafe_focus',
+        question: 'O que destacar no seu cafÃ©?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'coffee_quality', label: 'Qualidade do cafÃ©', icon: 'coffee' },
+          { value: 'ambiance', label: 'Ambiente acolhedor', icon: 'couch' },
+          { value: 'pastries', label: 'Doces e salgados', icon: 'cookie' },
+        ],
+      },
+    ],
+    BREWERY: [
+      {
+        id: 'brewery_focus',
+        question: 'O que promover na sua cervejaria?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'beer_variety', label: 'Variedade de cervejas', icon: 'beer' },
+          { value: 'brewing_process', label: 'Processo de fabricaÃ§Ã£o', icon: 'industry' },
+          { value: 'tastings', label: 'DegustaÃ§Ãµes', icon: 'wine-glass-alt' },
+        ],
+      },
+    ],
+    BARBERSHOP: [
+      {
+        id: 'barbershop_focus',
+        question: 'O que Ã© mais importante para sua barbearia?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'booking', label: 'Sistema de agendamento', icon: 'calendar-alt' },
+          { value: 'portfolio', label: 'PortfÃ³lio de cortes', icon: 'images' },
+          { value: 'team', label: 'Apresentar sua equipe', icon: 'users' },
+          { value: 'products', label: 'Venda de produtos', icon: 'shopping-bag' },
+        ],
+      },
+    ],
+    SALON: [
+      {
+        id: 'salon_focus',
+        question: 'Quais serviÃ§os destacar no salÃ£o?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'hair', label: 'Cabelo e penteados', icon: 'cut' },
+          { value: 'nails', label: 'Manicure e pedicure', icon: 'hand-sparkles' },
+          { value: 'beauty', label: 'Pacotes de beleza', icon: 'spa' },
+        ],
+      },
+    ],
+    SPA: [
+      {
+        id: 'spa_focus',
+        question: 'O que promover no seu spa?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'massage', label: 'Massagens relaxantes', icon: 'hands' },
+          { value: 'treatments', label: 'Tratamentos estÃ©ticos', icon: 'spa' },
+          { value: 'wellness', label: 'Bem-estar completo', icon: 'heart' },
+        ],
+      },
+    ],
+    GYM: [
+      {
+        id: 'gym_focus',
+        question: 'O que destacar na sua academia?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'equipment', label: 'Equipamentos modernos', icon: 'dumbbell' },
+          { value: 'classes', label: 'Aulas coletivas', icon: 'users' },
+          { value: 'personal', label: 'Personal trainers', icon: 'user-tie' },
+        ],
+      },
+    ],
+    YOGA_STUDIO: [
+      {
+        id: 'yoga_focus',
+        question: 'O que promover no seu studio de yoga?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'classes', label: 'Tipos de aula', icon: 'peace' },
+          { value: 'instructors', label: 'Instrutores', icon: 'user' },
+          { value: 'benefits', label: 'BenefÃ­cios para saÃºde', icon: 'heartbeat' },
+        ],
+      },
+    ],
+    DANCE_STUDIO: [
+      {
+        id: 'dance_focus',
+        question: 'Quais estilos de danÃ§a ensinar?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'ballet', label: 'Ballet', icon: 'music' },
+          { value: 'contemporary', label: 'ContemporÃ¢neo', icon: 'running' },
+          { value: 'urban', label: 'DanÃ§as urbanas', icon: 'city' },
+        ],
+      },
+    ],
+    RETAIL: [],
+    PET_SHOP: [
+      {
+        id: 'pet_shop_focus',
+        question: 'Quais serviÃ§os sÃ£o prioritÃ¡rios?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'grooming', label: 'Banho e tosa (agendamento)', icon: 'bath' },
+          { value: 'products', label: 'Venda de produtos', icon: 'paw' },
+          { value: 'veterinary', label: 'ServiÃ§os veterinÃ¡rios', icon: 'stethoscope' },
+          { value: 'boarding', label: 'Hospedagem para pets', icon: 'home' },
+        ],
+      },
+    ],
+    BOOKSTORE: [
+      {
+        id: 'bookstore_focus',
+        question: 'O que destacar na livraria?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'variety', label: 'Variedade de livros', icon: 'book' },
+          { value: 'events', label: 'Eventos literÃ¡rios', icon: 'calendar-star' },
+          { value: 'online', label: 'Venda online', icon: 'shopping-cart' },
+        ],
+      },
+    ],
+    FLORIST: [
+      {
+        id: 'florist_focus',
+        question: 'Quais arranjos promover?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'bouquets', label: 'BuquÃªs', icon: 'flower' },
+          { value: 'events', label: 'DecoraÃ§Ã£o de eventos', icon: 'wedding-ring' },
+          { value: 'plants', label: 'Plantas e suculentas', icon: 'leaf' },
+        ],
+      },
+    ],
+    TOY_STORE: [
+      {
+        id: 'toy_store_focus',
+        question: 'O que destacar na loja de brinquedos?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'variety', label: 'Variedade de brinquedos', icon: 'puzzle-piece' },
+          { value: 'educational', label: 'Brinquedos educativos', icon: 'graduation-cap' },
+          { value: 'online', label: 'Venda online', icon: 'shopping-cart' },
+        ],
+      },
+    ],
+    ELECTRONICS: [
+      {
+        id: 'electronics_focus',
+        question: 'O que destacar na loja de eletrÃ´nicos?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'latest', label: 'Ãšltimos lanÃ§amentos', icon: 'mobile-alt' },
+          { value: 'service', label: 'AssistÃªncia tÃ©cnica', icon: 'tools' },
+          { value: 'online', label: 'Venda online', icon: 'shopping-cart' },
+        ],
+      },
+    ],
+    SPORTS_STORE: [
+      {
+        id: 'sports_store_focus',
+        question: 'Quais esportes atender?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'fitness', label: 'Academia e fitness', icon: 'dumbbell' },
+          { value: 'team_sports', label: 'Esportes coletivos', icon: 'futbol' },
+          { value: 'outdoor', label: 'Aventura e ar livre', icon: 'mountain' },
+        ],
+      },
+    ],
+    CLOTHING: [
+      {
+        id: 'clothing_focus',
+        question: 'O que promover na loja de roupas?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'new_collection', label: 'Nova coleÃ§Ã£o', icon: 'tshirt' },
+          { value: 'style', label: 'Estilo e moda', icon: 'palette' },
+          { value: 'online', label: 'Loja virtual', icon: 'shopping-cart' },
+        ],
+      },
+    ],
+    JEWELRY: [
+      {
+        id: 'jewelry_focus',
+        question: 'O que destacar na joalheria?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'craftsmanship', label: 'Artesanato fino', icon: 'gem' },
+          { value: 'custom', label: 'Joias personalizadas', icon: 'ring' },
+          { value: 'occasions', label: 'Para ocasiÃµes especiais', icon: 'heart' },
+        ],
+      },
+    ],
+    ART_GALLERY: [
+      {
+        id: 'art_gallery_focus',
+        question: 'O que promover na galeria?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'exhibitions', label: 'ExposiÃ§Ãµes atuais', icon: 'image' },
+          { value: 'artists', label: 'Artistas representados', icon: 'paint-brush' },
+          { value: 'sales', label: 'Venda de obras', icon: 'shopping-cart' },
+        ],
+      },
+    ],
+    PHARMACY: [
+      {
+        id: 'pharmacy_focus',
+        question: 'Quais serviÃ§os vocÃª quer destacar?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'prescription', label: 'Upload de receitas', icon: 'prescription-bottle' },
+          { value: 'delivery', label: 'Entrega em domicÃ­lio', icon: 'truck' },
+          { value: 'products', label: 'CatÃ¡logo de produtos', icon: 'pills' },
+          { value: 'consultation', label: 'OrientaÃ§Ã£o farmacÃªutica', icon: 'user-md' },
+        ],
+      },
+    ],
+    CLINIC: [
+      {
+        id: 'clinic_focus',
+        question: 'Quais especialidades destacar?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'specialists', label: 'MÃ©dicos especialistas', icon: 'user-md' },
+          { value: 'booking', label: 'Agendamento online', icon: 'calendar-check' },
+          { value: 'exams', label: 'Exames laboratoriais', icon: 'vial' },
+        ],
+      },
+    ],
+    DENTIST: [
+      {
+        id: 'dentist_focus',
+        question: 'Quais tratamentos promover?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'cosmetic', label: 'Odontologia estÃ©tica', icon: 'smile' },
+          { value: 'implants', label: 'Implantes dentÃ¡rios', icon: 'tooth' },
+          { value: 'orthodontics', label: 'Ortodontia', icon: 'teeth-open' },
+        ],
+      },
+    ],
+    OPTICS: [
+      {
+        id: 'optics_focus',
+        question: 'O que destacar na Ã³tica?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'frames', label: 'ArmaÃ§Ãµes modernas', icon: 'glasses' },
+          { value: 'exams', label: 'Exames de vista', icon: 'eye' },
+          { value: 'lenses', label: 'Lentes de contato', icon: 'circle' },
+        ],
+      },
+    ],
+    NUTRITIONIST: [
+      {
+        id: 'nutritionist_focus',
+        question: 'Como ajudar seus pacientes?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'weight_loss', label: 'Perda de peso', icon: 'weight' },
+          { value: 'meal_plans', label: 'Planos alimentares', icon: 'utensils' },
+          { value: 'booking', label: 'Consultas online', icon: 'video' },
+        ],
+      },
+    ],
+    CLEANING_SERVICE: [
+      {
+        id: 'cleaning_focus',
+        question: 'Quais serviÃ§os de limpeza oferecer?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'residential', label: 'Residencial', icon: 'home' },
+          { value: 'commercial', label: 'Comercial', icon: 'building' },
+          { value: 'deep_clean', label: 'Limpeza pesada', icon: 'broom' },
+        ],
+      },
+    ],
+    PLUMBING: [
+      {
+        id: 'plumbing_focus',
+        question: 'Quais serviÃ§os de encanamento?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'repairs', label: 'Reparos gerais', icon: 'wrench' },
+          { value: 'installations', label: 'InstalaÃ§Ãµes', icon: 'faucet' },
+          { value: 'emergency', label: 'EmergÃªncias 24h', icon: 'clock' },
+        ],
+      },
+    ],
+    ELECTRICIAN: [
+      {
+        id: 'electrician_focus',
+        question: 'Quais serviÃ§os elÃ©tricos?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'installations', label: 'InstalaÃ§Ãµes', icon: 'bolt' },
+          { value: 'repairs', label: 'Reparos', icon: 'tools' },
+          { value: 'inspections', label: 'InspeÃ§Ãµes', icon: 'clipboard-check' },
+        ],
+      },
+    ],
+    LANDSCAPING: [
+      {
+        id: 'landscaping_focus',
+        question: 'Quais serviÃ§os de paisagismo?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'design', label: 'Design de jardins', icon: 'seedling' },
+          { value: 'maintenance', label: 'ManutenÃ§Ã£o', icon: 'cut' },
+          { value: 'irrigation', label: 'Sistemas de irrigaÃ§Ã£o', icon: 'tint' },
+        ],
+      },
+    ],
+    MOVING: [
+      {
+        id: 'moving_focus',
+        question: 'Quais serviÃ§os de mudanÃ§a?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'residential', label: 'Residencial', icon: 'home' },
+          { value: 'commercial', label: 'Comercial', icon: 'building' },
+          { value: 'packing', label: 'Embalagem', icon: 'box' },
+        ],
+      },
+    ],
+    AUTOMOTIVE: [
+      {
+        id: 'automotive_focus',
+        question: 'Quais serviÃ§os automotivos?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'mechanical', label: 'MecÃ¢nica geral', icon: 'car' },
+          { value: 'parts', label: 'AutopeÃ§as', icon: 'cogs' },
+          { value: 'diagnosis', label: 'DiagnÃ³stico', icon: 'stethoscope' },
+        ],
+      },
+    ],
+    CAR_WASH: [
+      {
+        id: 'car_wash_focus',
+        question: 'Quais serviÃ§os de lavagem?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'exterior', label: 'Lavagem externa', icon: 'car' },
+          { value: 'interior', label: 'HigienizaÃ§Ã£o interna', icon: 'soap' },
+          { value: 'polish', label: 'Polimento', icon: 'star' },
+        ],
+      },
+    ],
+    TIRE_SHOP: [
+      {
+        id: 'tire_shop_focus',
+        question: 'Quais serviÃ§os com pneus?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'sales', label: 'Venda de pneus', icon: 'circle' },
+          { value: 'alignment', label: 'Alinhamento e balanceamento', icon: 'car' },
+          { value: 'repair', label: 'Conserto de pneus', icon: 'tools' },
+        ],
+      },
+    ],
+    DETAILING: [
+      {
+        id: 'detailing_focus',
+        question: 'Quais serviÃ§os de estÃ©tica automotiva?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'polish', label: 'Polimento', icon: 'star' },
+          { value: 'protection', label: 'ProteÃ§Ã£o de pintura', icon: 'shield-alt' },
+          { value: 'interior', label: 'Limpeza interna', icon: 'soap' },
+        ],
+      },
+    ],
+    TRAVEL_AGENCY: [
+      {
+        id: 'travel_focus',
+        question: 'Quais tipos de viagens vender?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'leisure', label: 'Lazer', icon: 'umbrella-beach' },
+          { value: 'business', label: 'NegÃ³cios', icon: 'briefcase' },
+          { value: 'packages', label: 'Pacotes turÃ­sticos', icon: 'suitcase' },
+        ],
+      },
+    ],
+    REAL_ESTATE: [
+      {
+        id: 'real_estate_focus',
+        question: 'Quais imÃ³veis destacar?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'buy', label: 'Venda', icon: 'home' },
+          { value: 'rent', label: 'Aluguel', icon: 'key' },
+          { value: 'commercial', label: 'Comercial', icon: 'building' },
+        ],
+      },
+    ],
+    EVENT_PLANNER: [
+      {
+        id: 'event_focus',
+        question: 'Quais tipos de eventos planejar?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'weddings', label: 'Casamentos', icon: 'wedding-ring' },
+          { value: 'corporate', label: 'Corporativos', icon: 'briefcase' },
+          { value: 'birthdays', label: 'AniversÃ¡rios', icon: 'birthday-cake' },
+        ],
+      },
+    ],
+    PHOTOGRAPHER: [
+      {
+        id: 'photographer_focus',
+        question: 'Quais especialidades fotogrÃ¡ficas?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'portraits', label: 'Retratos', icon: 'camera' },
+          { value: 'events', label: 'Eventos', icon: 'calendar-star' },
+          { value: 'commercial', label: 'Comercial', icon: 'building' },
+        ],
+      },
+    ],
+    HOTEL: [
+      {
+        id: 'hotel_focus',
+        question: 'O que destacar no hotel?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'rooms', label: 'AcomodaÃ§Ãµes', icon: 'bed' },
+          { value: 'amenities', label: 'Comodidades', icon: 'swimming-pool' },
+          { value: 'location', label: 'LocalizaÃ§Ã£o', icon: 'map-marker-alt' },
+        ],
+      },
+    ],
+    OTHER: [],
+  };
+
+  return [...baseQuestions, ...(specificQuestions[businessType] || [])];
+}
+
+export interface DiscoveryQuestion {
+  id: string;
+  question: string;
+  type: 'single_choice' | 'multiple_choice' | 'text_input';
+  options?: { value: string; label: string; icon?: string }[];
+  placeholder?: string;
+  allowMultiple?: boolean;
+}
+
+// Generate AI-powered insights based on discovery answers
+export async function generateBusinessInsights(
+  businessType: BusinessType,
+  businessName: string,
+  answers: Record<string, any>
+): Promise<BusinessInsight> {
+  const apiKey = process.env.OPENAI_API_KEY;
+  
+  if (!apiKey) {
+    // Return basic insights without AI
+    return generateBasicInsights(businessType, answers);
+  }
+
+  try {
+    const prompt = `You are a business consultant helping a ${getBusinessTypeLabel(businessType)} named "${businessName}".
+
+Based on these answers about their business:
+${JSON.stringify(answers, null, 2)}
+
+Analyze and provide:
+1. The main problems they're facing (categorize each)
+2. Their primary and secondary objectives
+3. Target audience insights
+4. What makes them unique (diferentiators)
+5. Recommended website strategy
+
+Return JSON:
+{
+  "problems": [
+    { "category": "visibility|sales|booking|competition|online_presence|customer_service|other", "description": "...", "urgency": "low|medium|high|critical" }
+  ],
+  "objectives": {
+    "primary": "sell_online|get_bookings|increase_visibility|generate_leads|showcase_portfolio|informational",
+    "secondary": ["..."],
+    "targetMetric": "...",
+    "timeline": "immediate|1_month|3_months|6_months|1_year"
+  },
+  "targetAudience": "...",
+  "diferentiators": ["..."],
+  "recommendedStyle": "CATALOG|BOOKING|PORTFOLIO|LANDING|ECOMMERCE|BLOG",
+  "keyFeatures": ["..."],
+  "messagingTone": "formal|casual|fun|luxury",
+  "callsToAction": ["..."]
+}`;
+
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4-turbo-preview',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are an expert business consultant and web strategist. Return only valid JSON.',
+          },
+          {
+            role: 'user',
+            content: prompt,
+          },
+        ],
+        response_format: { type: 'json_object' },
+        temperature: 0.7,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`OpenAI API error: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    const aiInsights = JSON.parse(data.choices[0].message.content);
+    
+    return {
+      problems: aiInsights.problems || [],
+      objectives: aiInsights.objectives || { primary: 'increase_visibility', timeline: '3_months' },
+      targetAudience: aiInsights.targetAudience || 'General public',
+      diferentiators: aiInsights.diferentiators || [],
+      recommendedStyle: aiInsights.recommendedStyle,
+      messagingTone: aiInsights.messagingTone || 'casual',
+    };
+  } catch (error) {
+    console.error('Error generating insights:', error);
+    return generateBasicInsights(businessType, answers);
+  }
+}
+
+// Fallback insights without AI
+function generateBasicInsights(businessType: BusinessType, answers: Record<string, any>): BusinessInsight {
+  const problems: BusinessProblem[] = (answers.problem || []).map((p: string) => ({
+    category: p as any,
+    description: `Problem related to ${p}`,
+    urgency: 'high' as const,
+  }));
+
+  const objectiveMap: Record<string, BusinessObjective['primary']> = {
+    'sell_online': 'sell_online',
+    'get_bookings': 'get_bookings',
+    'increase_visibility': 'increase_visibility',
+    'generate_leads': 'generate_leads',
+    'showcase_portfolio': 'showcase_portfolio',
+    'informational': 'informational',
+  };
+
+  return {
+    problems,
+    objectives: {
+      primary: objectiveMap[answers.objective] || 'increase_visibility',
+      targetMetric: answers.target_metric || undefined,
+      timeline: answers.timeline || '3_months',
+    },
+    targetAudience: answers.target_audience || 'General public',
+    diferentiators: answers.diferencial ? [answers.diferencial] : [],
+  };
+}
+
+// Helper to get human-readable business type
+function getBusinessTypeLabel(type: BusinessType): string {
+  const labels: any = {
+    RESTAURANT: 'Restaurante/Hamburgueria',
+    BAR: 'Bar/Bar e Lounge',
+    PIZZERIA: 'Pizzaria',
+    SUSHI: 'Sushi/JaponÃªs',
+    ROTISSERIE: 'Rotisserie/Grelhados',
+    BURGER_JOINT: 'Hamburgueria',
+    STEAKHOUSE: 'Churrascaria',
+    SEAFOOD: 'Frutos do Mar',
+    VEGAN: 'Vegano',
+    ICE_CREAM: 'Sorveteria',
+    BAKERY: 'Padaria/Confeitaria',
+    CONFECTIONERY: 'Confeitaria',
+    CAFE: 'CafÃ©',
+    BREWERY: 'Cervejaria Artesanal',
+    BARBERSHOP: 'Barbearia',
+    SALON: 'SalÃ£o de Beleza',
+    SPA: 'Spa & Wellness',
+    GYM: 'Academia',
+    YOGA_STUDIO: 'Yoga Studio',
+    DANCE_STUDIO: 'DanÃ§a Studio',
+    RETAIL: 'Loja',
+    PET_SHOP: 'Pet Shop',
+    BOOKSTORE: 'Livraria',
+    FLORIST: 'Floricultura',
+    TOY_STORE: 'Loja de Brinquedos',
+    ELECTRONICS: 'Loja de EletrÃ´nicos',
+    CLOTHING: 'Loja de Roupas',
+    JEWELRY: 'Joalheria',
+    ART_GALLERY: 'Galeria de Arte',
+    PHARMACY: 'FarmÃ¡cia',
+    CLINIC: 'ClÃ­nica MÃ©dica',
+    DENTIST: 'Dentista',
+    OPTICS: 'Ã“tica',
+    NUTRITIONIST: 'Nutricionista',
+    CLEANING_SERVICE: 'ServiÃ§o de Limpeza',
+    PLUMBING: 'Encanador',
+    ELECTRICIAN: 'Eletricista',
+    LANDSCAPING: 'Paisagismo',
+    MOVING: 'MudanÃ§as',
+    AUTOMOTIVE: 'Oficina/AutopeÃ§as',
+    CAR_WASH: 'Lavagem de Carros',
+    TIRE_SHOP: 'Pneus/Tire Shop',
+    DETAILING: 'EstÃ©tica Automotiva',
+    TRAVEL_AGENCY: 'AgÃªncia de Viagens',
+    REAL_ESTATE: 'ImobiliÃ¡ria',
+    EVENT_PLANNER: 'Eventos',
+    PHOTOGRAPHER: 'FotÃ³grafo',
+    HOTEL: 'Hotel',
+    SPORTS_STORE: 'Loja de Artigos Esportivos',
+    OTHER: 'Outro ComÃ©rcio',
+  };
+  return labels[type] || type;
+}
+
+// Generate enhanced website content based on insights
+export function enhanceContentWithInsights(
+  baseContent: any,
+  insights: BusinessInsight,
+  businessName: string
+): any {
+  const content = JSON.parse(JSON.stringify(baseContent));
+
+  // Add problem-solving messaging
+  if (insights.problems.some(p => p.category === 'visibility')) {
+    // Add "Why choose us" section if not exists
+    if (!content.sections.find((s: any) => s.type === 'why_choose_us')) {
+      content.sections.splice(1, 0, {
+        type: 'why_choose_us',
+        title: 'Por que escolher a {{businessName}}?',
+        content: {
+          reasons: [
+            { title: 'PresenÃ§a Digital', description: 'Encontre-nos facilmente online' },
+            { title: 'Atendimento', description: 'Cuidamos de cada cliente' },
+            { title: 'Qualidade', description: 'Produtos e serviÃ§os de primeira' },
+          ],
+        },
+      });
+    }
+  }
+
+  // Adjust CTAs based on objectives
+  if (insights.objectives.primary === 'get_bookings') {
+    content.hero.ctaText = 'Agendar HorÃ¡rio';
+    content.hero.ctaLink = '#booking';
+  } else if (insights.objectives.primary === 'sell_online') {
+    content.hero.ctaText = 'Comprar Agora';
+    content.hero.ctaLink = '#products';
+  } else if (insights.objectives.primary === 'generate_leads') {
+    content.hero.ctaText = 'Fale Conosco';
+    content.hero.ctaLink = '#contact';
+  }
+
+  // Add urgency messaging if critical
+  if (insights.problems.some(p => p.urgency === 'critical')) {
+    content.hero.subtitle = `${content.hero.subtitle} âš¡ Atendimento imediato disponÃ­vel!`;
+  }
+
+  return content;
+}
+

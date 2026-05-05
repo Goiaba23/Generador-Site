@@ -1,8 +1,1 @@
-{
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/sites/[slug]/route": "app/api/sites/[slug]/route.js",
-  "/api/sites/create/route": "app/api/sites/create/route.js",
-  "/create/page": "app/create/page.js",
-  "/api/sites/ultimate-create/route": "app/api/sites/ultimate-create/route.js",
-  "/page": "app/page.js"
-}
+{}

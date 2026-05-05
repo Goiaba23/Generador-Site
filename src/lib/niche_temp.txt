@@ -1,0 +1,213 @@
+﻿
+> ai-conversational.ts:83:const NICHE_PROPOSALS: Record<string, { painPoint: string; solution: string; features: 
+string[] }> = {
+  ai-conversational.ts:84:  'BARBERSHOP': {
+  ai-conversational.ts:85:    painPoint: 'Dificuldade em gerenciar horários e filas de espera',
+  ai-conversational.ts:86:    solution: 'Sistema de agendamento online 24/7 com confirmação automática',
+  ai-conversational.ts:87:    features: ['Agendamento Online', 'WhatsApp Integration', 'Gestão de Horários', 
+'Histórico de Clientes']
+  ai-conversational.ts:88:  },
+  ai-conversational.ts:89:  'SALON': {
+  ai-conversational.ts:90:    painPoint: 'Clientes esquecem os horários e falta de controle',
+  ai-conversational.ts:91:    solution: 'App de agendamento com lembretes automáticos e fidelidade',
+  ai-conversational.ts:92:    features: ['Booking Inteligente', 'Programa de Fidelidade', 'Galeria de Transformações', 
+'Avaliações']
+  ai-conversational.ts:93:  },
+  ai-conversational.ts:94:  'RESTAURANT': {
+  ai-conversational.ts:95:    painPoint: 'Cardápio desatualizado e pedidos pelo telefone',
+  ai-conversational.ts:96:    solution: 'Cardápio digital interativo com pedidos via WhatsApp',
+  ai-conversational.ts:97:    features: ['Cardápio Online', 'Delivery Integration', 'Reservas Online', 'Galeria de 
+Pratos']
+  ai-conversational.ts:98:  },
+  ai-conversational.ts:99:  'CLINIC': {
+  ai-conversational.ts:100:    painPoint: 'Agendamento manual e filas telefônicas',
+  ai-conversational.ts:101:    solution: 'Sistema de agendamento médico com prontuário digital',
+  ai-conversational.ts:102:    features: ['Booking Médico', 'Área do Paciente', 'Telemedicina', 'Planos de Saúde']
+  ai-conversational.ts:103:  },
+  ai-conversational.ts:104:  'GYM': {
+  ai-conversational.ts:105:    painPoint: 'Dificuldade em atrair novos alunos e controle de planos',
+  ai-conversational.ts:106:    solution: 'Site com planos personalizados e avaliação física grátis',
+  ai-conversational.ts:107:    features: ['Planos de Treino', 'Avaliação Grátis', 'Loja de Suplementos', 'App do 
+Aluno']
+  ai-conversational.ts:108:  },
+  ai-conversational.ts:109:  'RETAIL': {
+  ai-conversational.ts:110:    painPoint: 'Vendas limitadas ao horário comercial',
+  ai-conversational.ts:111:    solution: 'Loja virtual 24/7 com checkout otimizado',
+  ai-conversational.ts:112:    features: ['E-commerce', 'Pagamento Pix', 'Carrinho Abandonado', 'Cupons de Desconto']
+  ai-conversational.ts:113:  },
+  ai-conversational.ts:114:  'REAL_ESTATE': {
+  ai-conversational.ts:115:    painPoint: 'Imóveis não encontrados por compradores',
+  ai-conversational.ts:116:    solution: 'Busca avançada com tour virtual e calculadora',
+  ai-conversational.ts:117:    features: ['Busca Avançada', 'Tour 360°', 'Calculadora de Financiamento', 'Mapa 
+Interativo']
+  ai-conversational.ts:118:  },
+  ai-conversational.ts:119:  'TECH': {
+  ai-conversational.ts:120:    painPoint: 'Dificuldade em demonstrar valor do software/serviço',
+  ai-conversational.ts:121:    solution: 'Landing page de alta conversão com demonstração',
+  ai-conversational.ts:122:    features: ['Demo Interativa', 'Preços Transparentes', 'Cases de Sucesso', 'Integração 
+API']
+  ai-conversational.ts:123:  },
+  ai-conversational.ts:124:  'OTHER': {
+  ai-conversational.ts:125:    painPoint: 'Presença digital limitada',
+  ai-conversational.ts:126:    solution: 'Site profissional para atrair mais clientes',
+  ai-conversational.ts:127:    features: ['Design Profissional', 'SEO Otimizado', 'WhatsApp Direct', 'Mobile 
+Responsivo']
+  ai-conversational.ts:128:  }
+  ai-conversational.ts:129:};
+  ai-conversational.ts:130:
+  ai-conversational.ts:131:// Add business-type specific questions
+  ai-conversational.ts:132:  const specificQuestions: any = {
+  ai-conversational.ts:133:    RESTAURANT: [
+  ai-conversational.ts:134:      {
+  ai-conversational.ts:135:        id: 'restaurant_focus',
+  ai-conversational.ts:136:        question: 'O que vocÃª quer destacar no seu site?',
+  ai-conversational.ts:137:        type: 'multiple_choice',
+  ai-conversational.ts:138:        options: [
+  ai-conversational.ts:139:          { value: 'menu', label: 'CardÃ¡pio digital completo', icon: 'utensils' },
+  ai-conversational.ts:140:          { value: 'delivery', label: 'Delivery e pedidos online', icon: 'truck' },
+  ai-conversational.ts:141:          { value: 'reservations', label: 'Reservas de mesas', icon: 'chair' },
+  ai-conversational.ts:142:          { value: 'ambiance', label: 'Ambiente e atmosfera', icon: 'wine-glass' },
+  ai-conversational.ts:143:        ],
+  ai-conversational.ts:144:      },
+  ai-conversational.ts:145:    ],
+  ai-conversational.ts:146:    BAR: [
+  ai-conversational.ts:147:      {
+  ai-conversational.ts:148:        id: 'bar_focus',
+  ai-conversational.ts:149:        question: 'O que Ã© a atraÃ§Ã£o principal do seu bar?',
+  ai-conversational.ts:150:        type: 'multiple_choice',
+  ai-conversational.ts:151:        options: [
+  ai-conversational.ts:152:          { value: 'drinks', label: 'Drinks artesanais', icon: 'cocktail' },
+  ai-conversational.ts:153:          { value: 'music', label: 'MÃºsica ao vivo', icon: 'music' },
+  ai-conversational.ts:154:          { value: 'sports', label: 'Esportes na TV', icon: 'tv' },
+  ai-conversational.ts:155:          { value: 'food', label: 'Petiscos e comida', icon: 'utensils' },
+  ai-conversational.ts:156:        ],
+  ai-conversational.ts:157:      },
+  ai-conversational.ts:158:    ],
+  ai-conversational.ts:159:    SUSHI: [
+  ai-conversational.ts:160:      {
+  ai-conversational.ts:161:        id: 'sushi_focus',
+  ai-conversational.ts:162:        question: 'O que destacar no seu restaurante japonÃªs?',
+  ai-conversational.ts:163:        type: 'multiple_choice',
+  ai-conversational.ts:164:        options: [
+  ai-conversational.ts:165:          { value: 'freshness', label: 'Peixes frescos', icon: 'fish' },
+  ai-conversational.ts:166:          { value: 'variety', label: 'Variedade do menu', icon: 'utensils' },
+  ai-conversational.ts:167:          { value: 'experience', label: 'ExperiÃªncia cultural', icon: 'flag-jp' },
+  ai-conversational.ts:168:        ],
+  ai-conversational.ts:169:      },
+  ai-conversational.ts:170:    ],
+  ai-conversational.ts:171:    ROTISSERIE: [],
+  ai-conversational.ts:172:    BURGER_JOINT: [
+  ai-conversational.ts:173:      {
+  ai-conversational.ts:174:        id: 'burger_focus',
+  ai-conversational.ts:175:        question: 'O que torna seus hambÃºrgueres especiais?',
+  ai-conversational.ts:176:        type: 'multiple_choice',
+  ai-conversational.ts:177:        options: [
+  ai-conversational.ts:178:          { value: 'taste', label: 'Sabor Ãºnico', icon: 'hamburger' },
+  ai-conversational.ts:179:          { value: 'delivery', label: 'Delivery rÃ¡pido', icon: 'truck' },
+  ai-conversational.ts:180:          { value: 'customization', label: 'Monte seu burger', icon: 'sliders-h' },
+  ai-conversational.ts:181:        ],
+  ai-conversational.ts:182:      },
+  ai-conversational.ts:183:    ],
+  ai-conversational.ts:184:    STEAKHOUSE: [
+  ai-conversational.ts:185:      {
+  ai-conversational.ts:186:        id: 'steakhouse_focus',
+  ai-conversational.ts:187:        question: 'O que destacar na sua churrascaria?',
+  ai-conversational.ts:188:        type: 'multiple_choice',
+  ai-conversational.ts:189:        options: [
+  ai-conversational.ts:190:          { value: 'meat_quality', label: 'Qualidade das carnes', icon: 'drumstick-bite' },
+  ai-conversational.ts:191:          { value: 'variety', label: 'Variedade de cortes', icon: 'utensils' },
+  ai-conversational.ts:192:          { value: 'all_you_can_eat', label: 'RodÃ­zio', icon: 'infinity' },
+  ai-conversational.ts:193:        ],
+  ai-conversational.ts:194:      },
+  ai-conversational.ts:195:    ],
+  ai-conversational.ts:196:    SEAFOOD: [],
+  ai-conversational.ts:197:    VEGAN: [],
+  ai-conversational.ts:198:    ICE_CREAM: [
+  ai-conversational.ts:199:      {
+  ai-conversational.ts:200:        id: 'ice_cream_focus',
+  ai-conversational.ts:201:        question: 'O que promover na sua sorveteria?',
+  ai-conversational.ts:202:        type: 'multiple_choice',
+  ai-conversational.ts:203:        options: [
+  ai-conversational.ts:204:          { value: 'flavors', label: 'Variedade de sabores', icon: 'ice-cream' },
+  ai-conversational.ts:205:          { value: 'natural', label: 'Ingredientes naturais', icon: 'leaf' },
+  ai-conversational.ts:206:          { value: 'delivery', label: 'Entrega em domicÃ­lio', icon: 'truck' },
+  ai-conversational.ts:207:        ],
+  ai-conversational.ts:208:      },
+  ai-conversational.ts:209:    ],
+  ai-conversational.ts:210:    BAKERY: [
+  ai-conversational.ts:211:      {
+  ai-conversational.ts:212:        id: 'bakery_focus',
+  ai-conversational.ts:213:        question: 'O que vocÃª quer promover?',
+  ai-conversational.ts:214:        type: 'multiple_choice',
+  ai-conversational.ts:215:        options: [
+  ai-conversational.ts:216:          { value: 'ecommerce', label: 'Venda de bolos e doces', icon: 'birthday-cake' },
+  ai-conversational.ts:217:          { value: 'custom_orders', label: 'Encomendas personalizadas', icon: 
+'pencil-ruler' },
+  ai-conversational.ts:218:          { value: 'daily_bread', label: 'PÃ£es diÃ¡rios', icon: 'bread-slice' },
+  ai-conversational.ts:219:          { value: 'events', label: 'Bolos para eventos', icon: 'glass-cheers' },
+  ai-conversational.ts:220:        ],
+  ai-conversational.ts:221:      },
+  ai-conversational.ts:222:    ],
+  ai-conversational.ts:223:    CONFECTIONERY: [],
+  ai-conversational.ts:224:    CAFE: [
+  ai-conversational.ts:225:      {
+  ai-conversational.ts:226:        id: 'cafe_focus',
+  ai-conversational.ts:227:        question: 'O que destacar no seu cafÃ©?',
+  ai-conversational.ts:228:        type: 'multiple_choice',
+  ai-conversational.ts:229:        options: [
+  ai-conversational.ts:230:          { value: 'coffee_quality', label: 'Qualidade do cafÃ©', icon: 'coffee' },
+  ai-conversational.ts:231:          { value: 'ambiance', label: 'Ambiente acolhedor', icon: 'couch' },
+  ai-conversational.ts:232:          { value: 'pastries', label: 'Doces e salgados', icon: 'cookie' },
+  ai-conversational.ts:233:        ],
+  ai-conversational.ts:234:      },
+  ai-conversational.ts:235:    ],
+  ai-conversational.ts:236:    BREWERY: [
+  ai-conversational.ts:237:      {
+  ai-conversational.ts:238:        id: 'brewery_focus',
+  ai-conversational.ts:239:        question: 'O que promover na sua cervejaria?',
+  ai-conversational.ts:240:        type: 'multiple_choice',
+  ai-conversational.ts:241:        options: [
+  ai-conversational.ts:242:          { value: 'beer_variety', label: 'Variedade de cervejas', icon: 'beer' },
+  ai-conversational.ts:243:          { value: 'brewing_process', label: 'Processo de fabricaÃ§Ã£o', icon: 'industry' },
+  ai-conversational.ts:244:          { value: 'tastings', label: 'DegustaÃ§Ãµes', icon: 'wine-glass-alt' },
+  ai-conversational.ts:245:        ],
+  ai-conversational.ts:246:      },
+  ai-conversational.ts:247:    ],
+  ai-conversational.ts:248:    BARBERSHOP: [
+  ai-conversational.ts:249:      {
+  ai-conversational.ts:250:        id: 'barbershop_focus',
+  ai-conversational.ts:251:        question: 'O que Ã© mais importante para sua barbearia?',
+  ai-conversational.ts:252:        type: 'multiple_choice',
+  ai-conversational.ts:253:        options: [
+  ai-conversational.ts:254:          { value: 'booking', label: 'Sistema de agendamento', icon: 'calendar-alt' },
+  ai-conversational.ts:255:          { value: 'portfolio', label: 'PortfÃ³lio de cortes', icon: 'images' },
+  ai-conversational.ts:256:          { value: 'team', label: 'Apresentar sua equipe', icon: 'users' },
+  ai-conversational.ts:257:          { value: 'products', label: 'Venda de produtos', icon: 'shopping-bag' },
+  ai-conversational.ts:258:        ],
+  ai-conversational.ts:259:      },
+  ai-conversational.ts:260:    ],
+  ai-conversational.ts:261:    SALON: [
+  ai-conversational.ts:262:      {
+  ai-conversational.ts:263:        id: 'salon_focus',
+  ai-conversational.ts:264:        question: 'Quais serviÃ§os destacar no salÃ£o?',
+  ai-conversational.ts:265:        type: 'multiple_choice',
+  ai-conversational.ts:266:        options: [
+  ai-conversational.ts:267:          { value: 'hair', label: 'Cabelo e penteados', icon: 'cut' },
+  ai-conversational.ts:268:          { value: 'nails', label: 'Manicure e pedicure', icon: 'hand-sparkles' },
+  ai-conversational.ts:269:          { value: 'beauty', label: 'Pacotes de beleza', icon: 'spa' },
+  ai-conversational.ts:270:        ],
+  ai-conversational.ts:271:      },
+  ai-conversational.ts:272:    ],
+  ai-conversational.ts:273:    SPA: [
+  ai-conversational.ts:274:      {
+  ai-conversational.ts:275:        id: 'spa_focus',
+  ai-conversational.ts:276:        question: 'O que promover no seu spa?',
+  ai-conversational.ts:277:        type: 'multiple_choice',
+  ai-conversational.ts:278:        options: [
+  ai-conversational.ts:279:          { value: 'massage', label: 'Massagens relaxantes', icon: 'hands' },
+  ai-conversational.ts:280:          { value: 'treatments', label: 'Tratamentos estÃ©ticos', icon: 'spa' },
+  ai-conversational.ts:281:          { value: 'wellness', label: 'Bem-estar completo', icon: 'heart' },
+  ai-conversational.ts:282:        ],
+  ai-conversational.ts:283:      },
+
+

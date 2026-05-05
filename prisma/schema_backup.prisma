@@ -1,0 +1,80 @@
+﻿// Prisma schema for SaaS Sites Platform
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enum for business types - 30+ types for comprehensive coverage
+enum BusinessType {
+  // Food & Beverage
+  RESTAURANT
+  BAR
+  PIZZERIA
+  SUSHI
+  ROTISSERIE
+  BURGER_JOINT
+  STEAKHOUSE
+  SEAFOOD
+  VEGAN
+  ICE_CREAM
+  BAKERY
+  CONFECTIONERY
+  CAFE
+  BREWERY
+  
+  // Services
+  BARBERSHOP
+  SALON
+  SPA
+  GYM
+  YOGA_STUDIO
+  DANCE_STUDIO
+  
+  // Retail & Shops
+  RETAIL
+  PET_SHOP
+  BOOKSTORE
+  FLORIST
+  TOY_STORE
+  ELECTRONICS
+  CLOTHING
+  JEWELRY
+  ART_GALLERY
+  SPORTS_STORE
+  
+  // Health & Wellness
+  PHARMACY
+  CLINIC
+  DENTIST
+  OPTICS
+  NUTRITIONIST
+  
+  // Home & Services
+  CLEANING_SERVICE
+  PLUMBING
+  ELECTRICIAN
+  LANDSCAPING
+  MOVING
+  
+  // Automotive
+  AUTOMOTIVE
+  CAR_WASH
+  TIRE_SHOP
+  DETAILING
+  
+  // Other
+  TRAVEL_AGENCY
+  REAL_ESTATE
+  EVENT_PLANNER
+  PHOTOGRAPHER
+  HOTEL
+  OTHER
+  
+  // Technology & Professional Services
+  TECH
+  LAWYER
+  CONSULTING

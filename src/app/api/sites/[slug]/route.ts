@@ -3,12 +3,45 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+// In-memory store for generated sites (serverless-friendly)
+const generatedSites = new Map<string, any>();
+
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { slug: string } }
+) {
+  try {
+    const body = await request.json();
+    const { siteData } = body;
+    
+    if (!siteData) {
+      return NextResponse.json({ error: 'Dados do site obrigatórios' }, { status: 400 });
+    }
+    
+    // Store site data
+    generatedSites.set(params.slug, siteData);
+    
+    return NextResponse.json({ success: true, slug: params.slug });
+  } catch (error) {
+    console.error('Error storing site:', error);
+    return NextResponse.json({ error: 'Erro ao salvar site' }, { status: 500 });
+  }
+}
+
 // Get site by business slug
 export async function GET(
   request: NextRequest,
   { params }: { params: { slug: string } }
 ) {
   try {
+    // Check in-memory store first (for generated sites)
+    const generatedSite = generatedSites.get(params.slug);
+    
+    if (generatedSite) {
+      return NextResponse.json(generatedSite);
+    }
+    
+    // Fallback to database
     const business = await prisma.business.findUnique({
       where: { slug: params.slug },
       include: {
@@ -27,12 +60,6 @@ export async function GET(
     }
 
     const site = business.sites[0];
-
-    // If site is not published, only show preview for owner
-    if (!site.published) {
-      // In production, check authentication here
-      // For now, allow preview
-    }
 
     return NextResponse.json({
       business: {

@@ -1,196 +1,222 @@
-// Ultimate Site Creation API v4.0
-// Integrates: objective-driven features + image slots + research-based designs
+// Premium Site Creation API v5.0
+// Integração com templates Dribbble/Landbook $10K+
+// Limite: 1 site grátis, depois pagar
 
 import { NextRequest, NextResponse } from 'next/server';
-import { BusinessType } from '@prisma/client';
-import { generateUltimateTemplate, UltimateTemplateConfig } from '@/lib/templates-v4-ultimate';
-import { enhanceContentWithInsights, BusinessInsight } from '@/lib/ai-conversational';
+import { getServerSession } from 'next-auth/next';
+import { BusinessType, TemplateStyle } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+import { getTemplateByType, getAllTemplates, SiteTemplate } from '@/lib/templates';
+import { generateSiteWithInsights } from '@/lib/ai-generator';
+import { enhanceContentWithInsights } from '@/lib/ai-conversational';
+import { getWorldClassTokens, generateWorldClassCSS, WORLD_CLASS_PALETTES, TYPOGRAPHY_SYSTEMS } from '@/lib/world-class-design';
+
+const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {
+  // Check authentication and plan limits
+  const session = await getServerSession({ req: request, secret: process.env.NEXTAUTH_SECRET! });
+    
+    if (!session || !(session as any).user?.id) {
+      return NextResponse.json(
+        { error: 'Login obrigatório para criar sites' },
+        { status: 401 }
+      );
+    }
+
+    const userId = (session as any).user.id;
+    const user = await prisma.user.findUnique({
+      where: { id: userId }
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Usuário não encontrado' },
+        { status: 404 }
+      );
+    }
+
+    // Check plan limits (1 free site)
+    if (user.plan === 'free' && user.sitesUsed >= 1) {
+      return NextResponse.json(
+        { error: 'Limite do plano grátis atingido. Faça upgrade para criar mais sites.', upgrade: true },
+        { status: 403 }
+      );
+    }
+
     const body = await request.json();
-    const { businessName, businessType, objective, images, templateId } = body;
+    const { businessName, businessType, objective, images, style, diferencial, targetAudience, solutions, painPoints, stitchPrompt, phone, email, address } = body;
 
     // Validate required fields
-    if (!businessName || !businessType || !objective) {
+    if (!businessName || !businessType) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Nome e tipo de negócio são obrigatórios' },
         { status: 400 }
       );
     }
 
-    // Generate template based on type and objective
-    const template = generateUltimateTemplate(
+    // Get premium template v5.0 based on type and style
+    const templateStyle = style as TemplateStyle | undefined;
+    const template = getTemplateByType(
       businessType as BusinessType,
-      objective
-    );
+      templateStyle
+    ) || getTemplateByType(businessType as BusinessType);
 
-    // Replace image placeholders with uploaded images
-    let siteContent = JSON.parse(JSON.stringify(template.defaultContent));
-    
-    // Replace {{image-slots}} with actual uploaded images
-    Object.entries(images || {}).forEach(([slotId, imageUrl]) => {
-      const replaceInObject = (obj: any): any => {
-        if (typeof obj === 'string') {
-          return obj.replace(`{{${slotId}}}`, imageUrl as string);
-        }
-        if (Array.isArray(obj)) {
-          return obj.map(replaceInObject);
-        }
-        if (typeof obj === 'object' && obj !== null) {
-          const newObj: any = {};
-          Object.entries(obj).forEach(([key, value]) => {
-            newObj[key] = replaceInObject(value);
-          });
-          return newObj;
-        }
-        return obj;
-      };
-      
-      siteContent = replaceInObject(siteContent);
-    });
+    if (!template) {
+      return NextResponse.json(
+        { error: 'Nenhum template premium encontrado para este tipo de negócio' },
+        { status: 400 }
+      );
+    }
 
-    // Replace business info placeholders
-    siteContent = JSON.parse(
-      JSON.stringify(siteContent)
-        .replace(/\{\{businessName\}\}/g, businessName)
-        .replace(/\{\{businessType\}\}/g, businessType)
-    );
-
-    // Generate AI insights for further enhancement
-    const mockInsights: BusinessInsight = {
-      problems: [{ category: (objective === 'get_bookings' ? 'booking' : 'visibility') as any, description: 'Need better online presence', urgency: 'high' }],
-      objectives: { primary: objective as any, timeline: '3_months' as any },
-      targetAudience: 'Local customers',
-      diferentiators: ['Quality service', 'Great location'],
+    // Map solutions to features
+    const solutionFeatures: Record<string, string> = {
+      'online_catalog': 'Catálogo Online',
+      'online_booking': 'Agendamento Online',
+      'online_orders': 'Pedidos Online',
+      'delivery_integration': 'Delivery',
+      'reservation_system': 'Reservas',
+      'loyalty_program': 'Programa Fidelidade',
+      'whatsapp_integration': 'WhatsApp Direct',
+      'online_payment': 'Pagamento Online',
+      'blog_content': 'Blog/Conteúdo',
+      'portfolio_gallery': 'Galeria/Portfólio',
+      'customer_area': 'Área do Cliente',
+      'reviews_testimonials': 'Depoimentos',
     };
 
-    // Enhance content with AI insights
-    siteContent = enhanceContentWithInsights(siteContent, mockInsights, businessName);
+    const selectedFeatures = solutions?.map((s: string) => solutionFeatures[s] || s) || [];
 
-    // In production, save to database
-    // For now, return the generated site data
-    const siteId = `site_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    // Create business details object
+    const businessDetails = {
+      name: businessName,
+      type: businessType as BusinessType,
+      style: templateStyle,
+      diferencial,
+      targetAudience,
+      features: selectedFeatures,
+      contact: { phone, email, address },
+    };
 
-    // Generate HTML preview (in production, this would be saved to CDN/Vercel Blob)
-    const htmlPreview = generateSiteHTML(siteContent, template);
+    // Generate site with AI insights (or use template directly)
+    const mockInsights = {
+      objectives: { primary: objective || 'professional_presence' },
+      targetAudience: targetAudience || 'Local customers',
+      problems: painPoints?.length > 0 
+        ? painPoints.map((p: string) => ({ category: 'pain_point', description: p, urgency: 'high' as const }))
+        : [{ category: 'visibility', description: 'Need better online presence', urgency: 'high' as const }],
+      features: selectedFeatures,
+    };
 
+    const generatedSite = await generateSiteWithInsights(businessDetails, mockInsights);
+
+    // Replace image placeholders with uploaded images
+    let siteContent = JSON.parse(JSON.stringify(generatedSite.content));
+    
+    // Replace {{image-slots}} with actual uploaded images
+    if (images && typeof images === 'object') {
+      Object.entries(images).forEach(([slotId, imageUrl]) => {
+        const replaceInObject = (obj: any): any => {
+          if (typeof obj === 'string') {
+            return obj.replace(`{{${slotId}}}`, imageUrl as string);
+          }
+          if (Array.isArray(obj)) {
+            return obj.map(replaceInObject);
+          }
+          if (typeof obj === 'object' && obj !== null) {
+            const newObj: any = {};
+            Object.entries(obj).forEach(([key, value]) => {
+              newObj[key] = replaceInObject(value);
+            });
+            return newObj;
+          }
+          return obj;
+        };
+        
+        siteContent = replaceInObject(siteContent);
+      });
+    }
+
+    // Generate unique site ID
+    const siteId = `site_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+    const slug = businessName.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').substring(0, 50);
+
+    // Update user sites used count
+    await prisma.user.update({
+      where: { id: userId },
+      data: { sitesUsed: { increment: 1 } }
+    });
+
+    // Return generated site data with niche proposal (UNIQUE DIFFERENTIATOR)
     return NextResponse.json({
       success: true,
       siteId,
+      slug,
       site: {
         id: siteId,
         businessName,
         businessType,
-        objective,
         template: template.id,
+        title: generatedSite.title,
+        metaDescription: generatedSite.metaDescription,
         content: siteContent,
-        designTheme: template.designTheme,
-        features: template.features.filter(f => f.enabled),
-        seo: template.seoDefaults,
+        designTokens: generatedSite.designTokens,
+        dribbbleInspiration: template.dribbbleInspiration,
+        landbookStyle: template.landbookStyle,
+        features: selectedFeatures,
+        contact: { phone, email, address },
+        // NEW: Problem-Solution-Result (USP)
+        nicheProposal: generatedSite.nicheProposal,
+        growthModules: generatedSite.nicheProposal?.growthModules || [],
+        seo: {
+          title: generatedSite.title,
+          description: generatedSite.metaDescription,
+        },
       },
-      htmlPreview: htmlPreview, // In production, this would be a URL
-      previewUrl: `/preview/${siteId}`,
+      message: generatedSite.nicheProposal 
+        ? `Site criado para resolver: ${generatedSite.nicheProposal.painPoint}`
+        : 'Site premium criado com sucesso',
+      previewUrl: `/sites/${slug}`,
     });
 
   } catch (error) {
-    console.error('Error creating ultimate site:', error);
+    console.error('Error creating premium site:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Erro interno ao criar site premium' },
       { status: 500 }
     );
   }
 }
 
-// Generate static HTML for the site
-function generateSiteHTML(content: any, template: UltimateTemplateConfig): string {
-  const theme = template.designTheme;
-  
-  return `<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${content.hero.title}</title>
-  <meta name="description" content="${template.seoDefaults.description}">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: ${theme.fonts.body}; color: ${theme.colors.text}; background: ${theme.colors.background}; }
-    h1, h2, h3 { font-family: ${theme.fonts.heading}; }
-    .hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${content.hero.backgroundImage}') center/cover; height: 100vh; display: flex; align-items: center; justify-content: center; color: white; text-align: center; }
-    .hero h1 { font-size: 4rem; margin-bottom: 1rem; }
-    .hero p { font-size: 1.5rem; margin-bottom: 2rem; }
-    .cta-button { background: ${theme.colors.accent}; color: white; padding: 1rem 2rem; border-radius: 0.5rem; text-decoration: none; font-weight: bold; display: inline-block; }
-    .section { padding: 4rem 2rem; max-width: 1200px; margin: 0 auto; }
-    .section h2 { font-size: 2.5rem; margin-bottom: 2rem; text-align: center; color: ${theme.colors.primary}; }
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
-    .feature { text-align: center; }
-    .footer { background: ${theme.colors.primary}; color: white; padding: 2rem; text-align: center; }
-  </style>
-</head>
-<body>
-  <section class="hero">
-    <div>
-      <h1>${content.hero.title}</h1>
-      <p>${content.hero.subtitle}</p>
-      <a href="${content.hero.ctaLink}" class="cta-button">${content.hero.ctaText}</a>
-    </div>
-  </section>
-
-  ${content.sections.map((section: any) => `
-    <section class="section">
-      <h2>${section.title}</h2>
-      ${section.type === 'about' ? `
-        <div style="display: flex; gap: 2rem; align-items: center;">
-          <div style="flex: 1;">
-            <p>${section.content.text}</p>
-          </div>
-          ${section.content.image ? `<div style="flex: 1;"><img src="${section.content.image}" alt="About" style="width: 100%; border-radius: 1rem;"></div>` : ''}
-        </div>
-      ` : ''}
-      ${section.type === 'booking' ? `
-        <div style="text-align: center;">
-          <p>${section.content.message}</p>
-          <a href="https://wa.me/${section.content.whatsapp}" class="cta-button">Agendar via WhatsApp</a>
-        </div>
-      ` : ''}
-      ${section.type === 'contact' ? `
-        <div class="features">
-          <div class="feature">
-            <h3>📍 Endereço</h3>
-            <p>${section.content.address}</p>
-          </div>
-          <div class="feature">
-            <h3>📞 Telefone</h3>
-            <p>${section.content.phone}</p>
-          </div>
-          <div class="feature">
-            <h3>🕐 Horário</h3>
-            <p>${section.content.hours}</p>
-          </div>
-        </div>
-      ` : ''}
-    </section>
-  `).join('')}
-
-  <footer class="footer">
-    <p>${content.footer.copyright}</p>
-    <div style="margin-top: 1rem;">
-      ${content.footer.links.map((link: any) => `<a href="${link.href}" style="color: white; margin: 0 1rem;">${link.label}</a>`).join('')}
-    </div>
-  </footer>
-</body>
-</html>`;
-}
-
+// Get all premium templates
 export async function GET() {
-  return NextResponse.json({
-    message: 'Ultimate Site Creation API v4.0',
-    features: [
-      'Objective-driven functionality (bookings→booking system, sales→e-commerce)',
-      'Customizable image slots per business type',
-      'Research-based design themes per niche',
-      'AI-powered content enhancement',
-    ],
-  });
+  try {
+    const templates = getAllTemplates();
+    
+    return NextResponse.json({
+      message: 'Premium Site Creation API v5.0',
+      version: '5.0',
+      features: [
+        'Templates baseados em Dribbble $10K+ (BotiFly, Design Monks, Pixxen)',
+        'Designs por nicho com cores reais de agências top',
+        'Image slots personalizados por tipo de negócio',
+        'Integração com IA para personalização',
+        'Landbook-inspired layouts',
+      ],
+      templates: templates.map(t => ({
+        id: t.id,
+        name: t.name,
+        businessType: t.businessType,
+        style: t.style,
+        dribbbleInspiration: t.dribbbleInspiration,
+      })),
+      totalTemplates: templates.length,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Erro ao buscar templates' },
+      { status: 500 }
+    );
+  }
 }
