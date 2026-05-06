@@ -5,6 +5,101 @@ import { useState, useEffect, useRef } from 'react';
 import ProblemSolutionSection from '@/components/ProblemSolutionSection';
 import GrowthModulesSection from '@/components/GrowthModulesSection';
 
+// ===== Theme System - Dark/Light Mode =====
+type Theme = 'dark' | 'light';
+
+const COLORS = {
+  dark: {
+    bgPrimary: '#0A0A0F',
+    bgSecondary: '#12121A',
+    bgCard: '#1A1A24',
+    textPrimary: '#F5F5F7',
+    textSecondary: '#94A3B8',
+    textMuted: '#64748B',
+    accent: '#6366F1',
+    accentHover: '#818CF8',
+    border: '#2D2D3A',
+    gradient: 'linear-gradient(135deg, #6366F1, #8B5CF6)',
+  },
+  light: {
+    bgPrimary: '#FAFBFC',
+    bgSecondary: '#F1F5F9',
+    bgCard: '#FFFFFF',
+    textPrimary: '#0F172A',
+    textSecondary: '#475569',
+    textMuted: '#94A3B8',
+    accent: '#4F46E5',
+    accentHover: '#4338CA',
+    border: '#E2E8F0',
+    gradient: 'linear-gradient(135deg, #4F46E5, #7C3AED)',
+  },
+};
+
+function getColors(theme: Theme) {
+  return COLORS[theme];
+}
+
+// ===== Theme Toggle Button =====
+function ThemeToggle({ theme, onClick }: { theme: Theme; onClick: () => void }) {
+  const colors = getColors(theme);
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.5rem',
+        padding: '0.5rem 1rem',
+        borderRadius: '9999px',
+        border: `1px solid ${colors.border}`,
+        background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+        color: colors.textPrimary,
+        cursor: 'pointer',
+        fontSize: '0.875rem',
+        fontWeight: 500,
+        transition: 'all 0.2s ease',
+      }}
+    >
+      <span style={{ fontSize: '1.25rem' }}>{theme === 'dark' ? '🌙' : '☀️'}</span>
+      <span>{theme === 'dark' ? 'Dark' : 'Light'}</span>
+    </button>
+  );
+}
+
+// ===== Bento Grid Metrics with Real Data =====
+function BentoMetrics({ theme }: { theme: Theme }) {
+  const colors = getColors(theme);
+  const metrics = [
+    { icon: '🏢', value: '2.000+', label: 'Sites Entregues' },
+    { icon: '💼', value: '500+', label: 'Agências' },
+    { icon: '⭐', value: '98%', label: 'Satisfação' },
+    { icon: '⚡', value: '2 min', label: 'Tempo Médio' },
+  ];
+
+  return (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+      gap: '1rem',
+      marginTop: '4rem',
+    }}>
+      {metrics.map((m, i) => (
+        <div key={i} style={{
+          background: colors.bgCard,
+          border: `1px solid ${colors.border}`,
+          borderRadius: '1rem',
+          padding: '1.25rem',
+          textAlign: 'center',
+        }}>
+          <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{m.icon}</div>
+          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: colors.textPrimary }}>{m.value}</div>
+          <div style={{ fontSize: '0.75rem', color: colors.textMuted, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{m.label}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // ===== Animações Premium =====
 
 function useAnimation(delay = 0) {
@@ -306,6 +401,12 @@ function PricingCard({ title, price, period, description, features, popular = fa
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
+  const [theme, setTheme] = useState<Theme>('dark');
+  const colors = getColors(theme);
+  
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
   
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -314,11 +415,11 @@ export default function Home() {
   }, []);
 
   return (
-    <main style={{ backgroundColor: '#0a0a1a', minHeight: '100vh', color: '#f8fafc', overflow: 'hidden' }}>
+    <main style={{ backgroundColor: colors.bgPrimary, minHeight: '100vh', color: colors.textPrimary, overflow: 'hidden' }}>
       {/* Background Decorations - Múltiplas camadas */}
-      <div style={{ position: 'fixed', top: '-30%', left: '-20%', width: '800px', height: '800px', background: 'radial-gradient(circle, rgba(129, 140, 248, 0.12), transparent 70%)', borderRadius: '50%', filter: 'blur(120px)', pointerEvents: 'none' as const, animation: 'float 20s ease-in-out infinite' }} />
-      <div style={{ position: 'fixed', top: '20%', right: '-20%', width: '900px', height: '900px', background: 'radial-gradient(circle, rgba(192, 132, 252, 0.08), transparent 70%)', borderRadius: '50%', filter: 'blur(120px)', pointerEvents: 'none' as const }} />
-      <div style={{ position: 'fixed', bottom: '10%', left: '30%', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(251, 146, 60, 0.06), transparent 70%)', borderRadius: '50%', filter: 'blur(120px)', pointerEvents: 'none' as const }} />
+      <div style={{ position: 'fixed', top: '-30%', left: '-20%', width: '800px', height: '800px', background: theme === 'dark' ? 'radial-gradient(circle, rgba(129, 140, 248, 0.12), transparent 70%)' : 'radial-gradient(circle, rgba(99, 102, 241, 0.08), transparent 70%)', borderRadius: '50%', filter: 'blur(120px)', pointerEvents: 'none' as const, animation: 'float 20s ease-in-out infinite' }} />
+      <div style={{ position: 'fixed', top: '20%', right: '-20%', width: '900px', height: '900px', background: theme === 'dark' ? 'radial-gradient(circle, rgba(192, 132, 252, 0.08), transparent 70%)' : 'radial-gradient(circle, rgba(139, 92, 246, 0.06), transparent 70%)', borderRadius: '50%', filter: 'blur(120px)', pointerEvents: 'none' as const }} />
+      <div style={{ position: 'fixed', bottom: '10%', left: '30%', width: '600px', height: '600px', background: theme === 'dark' ? 'radial-gradient(circle, rgba(251, 146, 60, 0.06), transparent 70%)' : 'radial-gradient(circle, rgba(245, 158, 11, 0.04), transparent 70%)', borderRadius: '50%', filter: 'blur(120px)', pointerEvents: 'none' as const }} />
       
       {/* Dynamic Grid Pattern */}
       <div style={{
@@ -327,7 +428,7 @@ export default function Home() {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundImage: `radial-gradient(circle at 1px 1px, rgba(129, 140, 248, 0.05) 1px, transparent 0)`,
+        backgroundImage: theme === 'dark' ? 'radial-gradient(circle at 1px 1px, rgba(129, 140, 248, 0.05) 1px, transparent 0)' : 'radial-gradient(circle at 1px 1px, rgba(99, 102, 241, 0.03) 1px, transparent 0)',
         backgroundSize: '48px 48px',
         pointerEvents: 'none' as const,
         opacity: 0.5,
@@ -338,9 +439,9 @@ export default function Home() {
         position: 'fixed' as const,
         top: 0,
         width: '100%',
-        background: scrollY > 50 ? 'rgba(10, 10, 26, 0.95)' : 'rgba(10, 10, 26, 0.7)',
+        background: scrollY > 50 ? `${colors.bgSecondary}95` : `${colors.bgSecondary}B3`,
         backdropFilter: 'blur(24px)',
-        borderBottom: scrollY > 50 ? '1px solid rgba(51, 65, 85, 0.4)' : '1px solid rgba(51, 65, 85, 0.2)',
+        borderBottom: scrollY > 50 ? `1px solid ${colors.border}` : `1px solid ${colors.border}33`,
         zIndex: 100,
         transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
       }}>
@@ -430,6 +531,7 @@ export default function Home() {
                   🚀 Começar Grátis
                 </button>
               </Link>
+              <ThemeToggle theme={theme} onClick={toggleTheme} />
             </div>
           </div>
         </div>
@@ -444,9 +546,9 @@ export default function Home() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.75rem',
-              background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(192, 132, 252, 0.15))',
-              color: '#c4b5fd',
-              border: '1px solid rgba(139, 92, 246, 0.3)',
+              background: theme === 'dark' ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(192, 132, 252, 0.15))' : 'linear-gradient(135deg, rgba(79, 70, 229, 0.15), rgba(124, 58, 237, 0.1))',
+              color: theme === 'dark' ? '#c4b5fd' : '#6366F1',
+              border: theme === 'dark' ? '1px solid rgba(139, 92, 246, 0.3)' : '1px solid rgba(99, 102, 241, 0.3)',
               padding: '0.75rem 1.5rem',
               borderRadius: '9999px',
               fontSize: '0.875rem',
@@ -460,18 +562,18 @@ export default function Home() {
           
           <AnimatedElement delay={200}>
             <h1 style={{
-              fontSize: '6.5rem',
+              fontSize: 'clamp(2.5rem, 6vw, 6.5rem)',
               fontWeight: 900,
               marginBottom: '2.5rem',
               lineHeight: 1.05,
               letterSpacing: '-0.05em',
-              color: 'white',
+              color: colors.textPrimary,
               maxWidth: '1200px',
               margin: '0 auto 2.5rem',
             }}>
                Crie sites{' '}
                <span style={{
-                 background: 'linear-gradient(135deg, #818cf8, #c084fc, #fb923c)',
+                 background: colors.gradient,
                  WebkitBackgroundClip: 'text',
                  WebkitTextFillColor: 'transparent',
                  backgroundClip: 'text',
@@ -482,7 +584,7 @@ export default function Home() {
                <br />
                para seus clientes em{' '}
                <span style={{
-                 background: 'linear-gradient(135deg, #c084fc, #fb923c)',
+                 background: colors.gradient,
                  WebkitBackgroundClip: 'text',
                  WebkitTextFillColor: 'transparent',
                  backgroundClip: 'text',
@@ -496,7 +598,7 @@ export default function Home() {
           <AnimatedElement delay={400}>
             <p style={{
               fontSize: '1.625rem',
-              color: '#94a3b8',
+              color: colors.textSecondary,
               marginBottom: '4rem',
               maxWidth: '72rem',
               margin: '0 auto 4rem',
@@ -504,7 +606,7 @@ export default function Home() {
               fontWeight: 400,
             }}>
                Plataforma completa para agências criarem sites premium para clientes. IA que entende cada nicho{' '}
-               <span style={{ color: '#c084fc', fontWeight: 600 }}>e designs de nível internacional</span>
+               <span style={{ color: colors.accent, fontWeight: 600 }}>e designs de nível internacional</span>
                {' '}com deploy instantâneo e módulos de crescimento.
             </p>
           </AnimatedElement>
@@ -556,6 +658,8 @@ export default function Home() {
               </div>
             </div>
           </AnimatedElement>
+
+          <BentoMetrics theme={theme} />
 
           {/* Stats Ultra-Premium */}
           <AnimatedElement delay={800}>

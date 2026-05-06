@@ -1,7 +1,7 @@
-﻿/**
- * AI GENERATOR V6.0 - PREMIUM TEMPLATE SYSTEM
- * Integração: Dribbble + Landbook + UXShowcase + GSAP + 21dev
- * Crawler + $10K Designs + Logo Inspiration
+/**
+ * AI GENERATOR V7.0 - PREMIUM TEMPLATE SYSTEM
+ * Integração: Dribbble + Landbook + UXShowcase + GSAP + 21dev + Client Finder
+ * Crawler + $10K Designs + Logo Inspiration + Animations
  */
 
 import { BusinessType, TemplateStyle } from '@prisma/client';
@@ -10,6 +10,10 @@ import { enhanceContentWithInsights, BusinessInsight } from './ai-conversational
 import { analyzeExamplesForAI, getExamplesByNiche, getAllExamples } from './crawler-service';
 import { generateLogoInspiration, extractAllUXShowcaseLogos } from './uxshowcase-logos';
 import { generatePremiumTemplate, buildPremiumAIPrompt } from './premium-generator';
+import { getAnimationsForNiche, generateGSAPCode } from './animations';
+import { getComponentsForNiche, get21DevComponent } from './21dev-components';
+import { findPotentialClients } from './client-finder';
+import { rufloService, RufloSwarm } from './ruflo-service';
 
 export interface BusinessDetails {
   name: string;
@@ -26,6 +30,11 @@ export interface BusinessDetails {
   targetAudience?: string;
   services?: string[];
   toneOfVoice?: 'formal' | 'casual' | 'fun' | 'luxury';
+  brandAssets?: {
+    logoUrl?: string;
+    imageUrls?: string[];
+    primaryColor?: string;
+  };
 }
 
 export interface GeneratedSite {
@@ -47,7 +56,6 @@ export interface GeneratedSite {
     expectedOutcome: string;
     growthModules: string[];
   };
-  // NEW: Premium metadata v6.0
   premium?: {
     priceLevel: string;
     examplesUsed: number;
@@ -56,261 +64,38 @@ export interface GeneratedSite {
     components21Dev: number;
     logoInspiration: string;
     crawlerData: any;
+    assetGenerationPrompt?: string;
+    qualityAssuranceLog?: string;
+    philosophy?: string;
   };
-}
-
-// Generate site with COMPLETE Premium System v6.0
-export async function generateSiteWithInsights(
-  businessDetails: BusinessDetails,
-  insights: any
-): Promise<GeneratedSite> {
-  const apiKey = process.env.OPENAI_API_KEY;
-  
-  // 1. Gerar template premium (Dribbble + Crawler + 21dev + GSAP)
-  const premiumRequest = {
-    businessType: businessDetails.type,
-    businessName: businessDetails.name,
-    style: businessDetails.style,
-    objective: insights?.objectives?.primary,
-    diferencial: businessDetails.diferencial,
-    useCrawler: true,
-    use21Dev: true,
-    useGSAP: true,
+  rufloSwarm?: {
+    id: string;
+    status: string;
+    agents: Array<{
+      id: string;
+      type: string;
+      name: string;
+      status: string;
+      task?: string;
+    }>;
+    dribbbleResearch?: any;
+    componentSuggestions?: string[];
+    animationSuggestions?: string[];
+    codeReview?: string;
   };
-
-  // 1.1 Buscar dores e soluções específicas do nicho
-  const nicheProposal = getNicheProposalLocal(businessDetails.type);
-  
-  const premiumResult = await generatePremiumTemplate(premiumRequest);
-  
-  // 2. Se temos API key, usar AI com TUDO (premium examples + logos + animations)
-  if (apiKey) {
-    try {
-      const premiumData = premiumResult;
-      const prompt = buildPremiumAIPrompt(premiumRequest, premiumData);
-      
-      // Adicionar logo inspiration do UXShowcase
-      const logoInspiration = generateLogoInspiration(businessDetails.type);
-      const fullPrompt = prompt + `\n\n=== LOGO INSPIRATION (UXShowcase) ===\n${logoInspiration}`;
-      
-      // Adicionar dores específicas e solução do nicho
-      const fullPromptWithPainPoints = fullPrompt + `\n\n=== DORES ESPECIFICAS DO NICHO (${businessDetails.type}) ===\n${nicheProposal.painPoint}\n\n=== SOLUÇÃO QUE O SITE PREMIUM TRARÁ ===\n${nicheProposal.solution}`;
-      
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-4o-mini',
-          messages: [
-            { role: 'system', content: `You are a $10K+ web designer specializing in ${businessDetails.type} websites. You UNDERSTAND the specific pain points and create solutions that address them directly. Use ALL examples, animations, and logos provided. Return only valid JSON.` },
-            { role: 'user', content: fullPromptWithPainPoints },
-          ],
-          response_format: { type: 'json_object' },
-          temperature: 0.7,
-        }),
-      });
-      
-      if (!response.ok) throw new Error(`OpenAI API error: ${response.statusText}`);
-      
-      const data = await response.json();
-      const generated = JSON.parse(data.choices[0].message.content);
-      
-      return {
-        title: generated.title || businessDetails.name,
-        slug: createSlug(businessDetails.name),
-        metaDescription: generated.metaDescription || `${businessDetails.name} - Premium site`,
-        content: generated.content || premiumResult.template.content,
-        designTokens: {
-          colors: generated.designTokens?.colors || premiumResult.template.designTokens.colors,
-          fonts: generated.designTokens?.fonts || premiumResult.template.designTokens.fonts,
-          layout: generated.designTokens?.layout || 'premium',
-          dribbbleInspiration: premiumResult.premiumExamples.map(e => e.source).join(', '),
-          landbookStyle: premiumResult.premiumExamples.map(e => e.layout).join(', '),
-        },
-        imageSlots: premiumResult.template.imageSlots || [],
-        nicheProposal: {
-          painPoint: nicheProposal.painPoint,
-          solution: nicheProposal.solution,
-          expectedOutcome: nicheProposal.expectedOutcome,
-          growthModules: nicheProposal.growthModules,
-        },
-        // NEW: Premium metadata
-        premium: {
-          priceLevel: premiumResult.priceLevel,
-          examplesUsed: premiumResult.premiumExamples.length,
-          animations: premiumResult.animations,
-          gsapCode: premiumResult.gsapCode,
-          components21Dev: premiumResult.components21Dev.length,
-          logoInspiration: logoInspiration ? 'UXShowcase included' : 'Not used',
-          crawlerData: premiumResult.crawlerData,
-        },
-      };
-    } catch (error) {
-      console.error('OpenAI generation failed, falling back to premium template:', error);
-    }
-  }
-  
-  // 3. Fallback: usar premium template gerado
-  const template = premiumResult.template;
-  const baseContent = template.content || generateBaseContent(template, businessDetails);
-  const enhancedContent = enhanceContentWithInsights(baseContent, insights, businessDetails.name);
-
-  // Add problem-solution-result section
-  const problemSolutionSection = {
-    type: 'problem_solution_result',
-    title: 'A solução que você procurava',
-    content: {
-      painPoint: nicheProposal.painPoint,
-      solution: nicheProposal.solution,
-      expectedOutcome: nicheProposal.expectedOutcome,
-      icon: getPainPointIcon(businessDetails.type)
-    },
-    order: 1
-  };
-
-  if (!enhancedContent.sections.find((s: any) => s.type === 'problem_solution_result')) {
-    enhancedContent.sections.splice(1, 0, problemSolutionSection);
-  }
-
-  // Add growth modules section
-  const growthSection = {
-    type: 'growth_modules',
-    title: 'O que você ganha além do site',
-    content: {
-      modules: nicheProposal.growthModules,
-      description: 'Ferramentas de crescimento inclusas para fazer seu negócio decolar'
-    },
-    order: enhancedContent.sections.length - 1
-  };
-
-  if (!enhancedContent.sections.find((s: any) => s.type === 'growth_modules')) {
-    enhancedContent.sections.splice(enhancedContent.sections.length - 1, 0, growthSection);
-  }
-
-  // Build result helper
-  function buildResult(content: any, title: string, metaDesc: string) {
-    const t = template!; // Assert: template is defined after error check above
-    return {
-      title: title || businessDetails.name,
-      slug: createSlug(businessDetails.name),
-      metaDescription: metaDesc,
-      content,
-      designTokens: {
-        colors: t.dribbbleInspiration || t.colors,
-        fonts: t.landbookStyle || t.fonts,
-        layout: 'premium',
-        dribbbleInspiration: t.dribbbleInspiration,
-        landbookStyle: t.landbookStyle,
-      },
-      imageSlots: t.imageSlots || [],
-      nicheProposal: {
-        painPoint: nicheProposal.painPoint,
-        solution: nicheProposal.solution,
-        expectedOutcome: nicheProposal.expectedOutcome,
-        growthModules: nicheProposal.growthModules
-      }
-    };
-  }
-
-  // No API key - return template based
-  if (!apiKey) {
-    return buildResult(
-      enhancedContent,
-      businessDetails.name,
-      `Site profissional para ${businessDetails.name} - ${nicheProposal.solution}`
-    );
-  }
-
-  // Try AI enhancement with premium examples
-  try {
-    // Get premium examples for this niche
-    const nicheExamples = analyzeExamplesForAI(businessDetails.type);
-    const examples = getExamplesByNiche(businessDetails.type);
-    
-    const prompt = `You are a PREMIUM web designer ($10K+ level) specialized in ${businessDetails.type}.
-    
-${nicheExamples}
-
-BUSINESS DETAILS:
-- Name: ${businessDetails.name}
-- Type: ${businessDetails.type}
-- Description: ${businessDetails.description || 'Premium business'}
-- Objective: ${businessDetails.diferencial || 'growth'}
-- Target Audience: ${businessDetails.targetAudience || 'local customers'}
-
-Create a JSON with:
-1. title: SEO-optimized title
-2. metaDescription: 155 chars max
-3. content: Object with hero, sections (with GSAP animations like "fade-in-up", "parallax-scroll"), footer
-4. designTokens: colors (use the premium palette above), fonts, layout
-5. animations: Array of GSAP animations to use (from examples above)
-6. growthModules: Array of growth modules for this niche
-
-Return ONLY valid JSON.`;
-    
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        messages: [
-          { role: 'system', content: `You are a premium web designer ($10K+ level) specialized in ${businessDetails.type}. Use the premium examples provided. Return only valid JSON.` },
-          { role: 'user', content: prompt },
-        ],
-        response_format: { type: 'json_object' },
-        temperature: 0.7,
-      }),
-    });
-
-    if (!response.ok) throw new Error(`OpenAI API error: ${response.statusText}`);
-    
-    const data = await response.json();
-    const generated = JSON.parse(data.choices[0].message.content);
-    
-    // Add premium examples reference to content
-    if (generated.content) {
-      generated.content.premiumExamples = examples.map(e => ({
-        source: e.source,
-        url: e.url,
-        layout: e.layout,
-        animations: e.animations
-      }));
-      generated.content.animationLibrary = 'GSAP';
-      generated.content.use21devComponents = true;
-    }
-
-    return buildResult(
-      generated.content || enhancedContent,
-      generated.title || businessDetails.name,
-      generated.metaDescription || `${businessDetails.name} - ${template.description}`
-    );
-  } catch (error) {
-    console.error('OpenAI generation failed, falling back to template:', error);
-    return buildResult(
-      enhancedContent,
-      businessDetails.name,
-      `${businessDetails.name} - ${template.description}. ${insights.objectives?.primary || 'Agende online!'}`
-    );
-  }
 }
 
 // Get niche-specific proposal with expected outcomes
-function getNicheProposalLocal(businessType: string): { 
-  painPoint: string; 
-  solution: string; 
+export function getNicheProposalLocal(businessType: string): {
+  painPoint: string;
+  solution: string;
   expectedOutcome: string;
   features: string[];
   growthModules: string[];
 } {
-  const proposals: Record<string, { 
-    painPoint: string; 
-    solution: string; 
+  const proposals: Record<string, {
+    painPoint: string;
+    solution: string;
     expectedOutcome: string;
     features: string[];
     growthModules: string[];
@@ -392,11 +177,10 @@ function getNicheProposalLocal(businessType: string): {
       features: ['Design Profissional', 'SEO Otimizado', 'WhatsApp Direct', 'Mobile Responsivo'],
       growthModules: ['Google Business Optimization', 'Lead Capture Forms', 'Email Marketing', 'Analytics Dashboard']
     }
-  };  
+  };
   return proposals[businessType] || proposals['OTHER'];
 }
 
-// Helper to get icon for pain point
 function getPainPointIcon(businessType: string): string {
   const icons: Record<string, string> = {
     'BARBERSHOP': '✂️',
@@ -409,12 +193,11 @@ function getPainPointIcon(businessType: string): string {
     'TECH': '💻',
     'PET_SHOP': '🐕',
     'HOTEL': '🏨',
-    'OTHER': '🚀'
+    'OTHER': '🎯'
   };
-  return icons[businessType] || '🚀';
+  return icons[businessType] || '🎯';
 }
 
-// Generate base content from template
 function generateBaseContent(template: SiteTemplate, details: BusinessDetails): any {
   const slots = template.imageSlots.reduce((acc, slot) => {
     acc[slot.id] = slot.defaultUrl;
@@ -452,7 +235,6 @@ function generateBaseContent(template: SiteTemplate, details: BusinessDetails): 
   };
 }
 
-// Helper functions
 export function getBusinessTypeLabel(type: BusinessType): string {
   const labels: Record<string, string> = {
     'RESTAURANT': 'Restaurante',
@@ -505,4 +287,270 @@ function createSlug(name: string): string {
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
+}
+
+// Helper to build result object
+function buildResult(
+  content: any,
+  title: string,
+  metaDesc: string,
+  businessDetails: BusinessDetails,
+  premiumResult: any,
+  nicheProposal: any,
+  rufloSwarmData?: any
+) {
+  const t = premiumResult.template!;
+  return {
+    title: title || businessDetails.name,
+    slug: createSlug(businessDetails.name),
+    metaDescription: metaDesc,
+    content,
+    designTokens: {
+      colors: t.dribbbleInspiration || t.colors,
+      fonts: t.landbookStyle || t.fonts,
+      layout: 'premium',
+      dribbbleInspiration: t.dribbbleInspiration,
+      landbookStyle: t.landbookStyle,
+    },
+    imageSlots: t.imageSlots || [],
+    nicheProposal: {
+      painPoint: nicheProposal.painPoint,
+      solution: nicheProposal.solution,
+      expectedOutcome: nicheProposal.expectedOutcome,
+      growthModules: nicheProposal.growthModules,
+    },
+    premium: {
+      priceLevel: premiumResult.priceLevel,
+      examplesUsed: premiumResult.premiumExamples.length,
+      animations: premiumResult.animations,
+      gsapCode: premiumResult.gsapCode,
+      components21Dev: premiumResult.components21Dev.length,
+      logoInspiration: 'UXShowcase included',
+      crawlerData: premiumResult.crawlerData,
+      qualityAssuranceLog: 'Not provided',
+      assetGenerationPrompt: '',
+      philosophy: 'Viktor Oddy + Satori Graphics + Apple Motion',
+    },
+    rufloSwarm: rufloSwarmData || null,
+  };
+}
+
+// Generate site with COMPLETE Premium System v7.0
+export async function generateSiteWithInsights(
+  businessDetails: BusinessDetails,
+  insights: any
+): Promise<GeneratedSite> {
+  const apiKey = process.env.OPENAI_API_KEY;
+
+  // 1. Generate premium template (Dribbble + Crawler + 21dev + GSAP)
+  const premiumRequest = {
+    businessType: businessDetails.type,
+    businessName: businessDetails.name,
+    style: businessDetails.style,
+    objective: insights?.objectives?.primary,
+    diferencial: businessDetails.diferencial,
+    useCrawler: true,
+    use21Dev: true,
+    useGSAP: true,
+  };
+
+  // 1.1 Get niche-specific pain points and solutions
+  const nicheProposal = getNicheProposalLocal(businessDetails.type);
+
+  // 1.2 Get animations and components for this niche
+  const nicheAnimations = getAnimationsForNiche(businessDetails.type);
+  const nicheComponents = getComponentsForNiche(businessDetails.type);
+  const gsapCode = generateGSAPCode(nicheAnimations.map(a => a.name), businessDetails.type);
+
+  // Generate premium template
+  const premiumResult = await generatePremiumTemplate(premiumRequest);
+
+  // 1.3 Coordinate with Ruflo agents for enhanced suggestions
+  let rufloSwarmData: any = null;
+  try {
+    if (await rufloService.checkAvailability()) {
+      const rufloResult = await rufloService.coordinateAgents(
+        `Generate premium ${businessDetails.type} website with Dribbble examples`,
+        businessDetails.type,
+        businessDetails
+      );
+      rufloSwarmData = {
+        id: rufloService.getSwarmState()?.id || 'unknown',
+        status: rufloService.getSwarmState()?.status || 'completed',
+        agents: rufloService.getSwarmState()?.agents || [],
+        dribbbleResearch: rufloResult.dribbbleResearch,
+        componentSuggestions: rufloResult.componentSuggestions,
+        animationSuggestions: rufloResult.animationSuggestions,
+        codeReview: rufloResult.codeReview,
+      };
+    }
+  } catch (rufloError) {
+    console.error('Ruflo coordination failed:', rufloError);
+  }
+
+  // 2. If we have API key, use AI with EVERYTHING (premium examples + logos + animations + components)
+  if (apiKey) {
+    try {
+      const premiumData = premiumResult;
+      const prompt = buildPremiumAIPrompt(premiumRequest, premiumData);
+
+      // Add logo inspiration from UXShowcase
+      const logoInspiration = generateLogoInspiration(businessDetails.type);
+      const fullPrompt = prompt + `\n\n=== LOGO INSPIRATION (UXShowcase) ===\n${logoInspiration}`;
+      
+      // Add REAL Dribbble examples data (from websearch)
+      const realExamplesData = premiumResult.premiumExamples.map((ex, i) => `
+EXAMPLE ${i+1} (REAL DRIBBBLE - ${ex.priceRange || '$10K+'}):
+- URL: ${ex.url}
+- Layout: ${ex.layout}
+- Colors: ${ex.colorPalette?.join(', ') || 'N/A'}
+- Fonts: ${ex.fonts?.join(', ') || 'N/A'}
+- Animations: ${ex.animations?.join(', ') || 'N/A'}
+- Features: ${ex.features?.join(', ') || 'N/A'}
+- Notes: ${ex.notes || 'Premium design'}
+`).join('\n');
+      
+      const fullPromptWithRealExamples = fullPrompt + `\n\n=== REAL DRIBBLE EXAMPLES (SEARCHED IN REAL-TIME) ===\n${realExamplesData}`;
+      
+      // Add niche-specific pain points and solution
+      const fullPromptWithPainPoints = fullPromptWithRealExamples + `\n\n=== PAIN POINTS SPECIFIC TO NICHE (${businessDetails.type}) ===\n${nicheProposal.painPoint}\n\n=== SOLUTION THAT THE PREMIUM SITE WILL BRING ===\n${nicheProposal.solution}`;
+
+      // Add animations and components info
+      const fullPromptWithAnimations = fullPromptWithPainPoints + `\n\n=== GSAP ANIMATIONS FOR ${businessDetails.type} ===\n${JSON.stringify(nicheAnimations)}\n\n=== 21DEV COMPONENTS ===\n${JSON.stringify(nicheComponents)}\n\n=== GENERATED GSAP CODE ===\n${gsapCode}`;
+
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [
+            {
+              role: 'system',
+              content: `You are an elite $10K+ web designer specialized in ${businessDetails.type} websites.
+              MANDATORY RULE: Your entire creative process, layouts, animations, and color choices MUST be heavily inspired by these exact resources:
+              - Layouts/UI: dribbble.com, land-book.com, mobbin.com/discover/sites/latest, godly.website, nicolaipalmkvist.com
+              - 3D & Interactions: app.spline.design/community
+              - Components: 21st.dev/community/components/week/2026-W18, stitch.withgoogle.com
+              - Animations: motion.dev/examples?platform=react (Framer Motion), GSAP for advanced animations
+              - Typography: fontshare.com
+              Only proceed to generate the "content" after self-critique.
+
+              === ELITE DESIGN DOCTRINES ===
+              1. MARKETING FUNNEL (AIDA model: Attention, Interest, Desire, Action).
+              2. TYPOGRAPHY "WITHOUT BULLSH*T" (Extreme hierarchy, max 2 fonts).
+              3. APPLE-STYLE MOTION (Smooth Bezier, Blur, Fade, Expensive feel).
+              4. BRANDING PSYCHOLOGY (Emotional storytelling, Authentic copy).
+
+              QUALITY ASSURANCE (SELF-CRITIQUE) RULE:
+              Before you output the site content, you MUST generate a "qualityAssuranceLog" field where you explicitly analyze what you are about to build. You must critically ask yourself if the layout is flawless, if images use object-fit: cover, and if the marketing funnel is solid.
+
+              === CUSTOM BRAND ASSETS RULES ===
+              If the user provides a logo URL, YOU MUST include it in the Navigation/Header section.
+              If the user provides custom image URLs, YOU MUST prioritize using them in the Hero, Portfolio, or Gallery sections over generic Lummi images.
+              IMPORTANT: To prevent layout breaks, EVERY image tag or background image MUST have CSS \`object-fit: cover\` (or tailwind \`object-cover\`) and proper aspect ratios.
+              If a primary color is provided, adapt the entire site's palette to match it elegantly.`
+            },
+            {
+              role: 'user',
+              content: fullPromptWithAnimations +
+                (businessDetails.brandAssets ? `\n\n=== BRAND ASSETS ===\nLogo URL: ${businessDetails.brandAssets.logoUrl || 'None'}\nImage URLs: ${businessDetails.brandAssets.imageUrls?.join(', ') || 'None'}\nPrimary Color: ${businessDetails.brandAssets.primaryColor || 'None'}` : '')
+            },
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.7,
+        }),
+      });
+
+      if (!response.ok) throw new Error(`OpenAI API error: ${response.statusText}`);
+
+      const data = await response.json();
+      const generated = JSON.parse(data.choices[0].message.content);
+
+      return {
+        title: generated.title || businessDetails.name,
+        slug: createSlug(businessDetails.name),
+        metaDescription: generated.metaDescription || `${businessDetails.name} - Premium site`,
+        content: generated.content || premiumResult.template?.content,
+        designTokens: {
+          colors: generated.designTokens?.colors || premiumResult.template?.designTokens?.colors,
+          fonts: generated.designTokens?.fonts || premiumResult.template?.designTokens?.fonts,
+          layout: generated.designTokens?.layout || 'premium',
+          dribbbleInspiration: premiumResult.premiumExamples.map((e: any) => e.source).join(', '),
+          landbookStyle: premiumResult.premiumExamples.map((e: any) => e.layout).join(', '),
+        },
+        imageSlots: premiumResult.template?.imageSlots || [],
+        nicheProposal: {
+          painPoint: nicheProposal.painPoint,
+          solution: nicheProposal.solution,
+          expectedOutcome: nicheProposal.expectedOutcome,
+          growthModules: nicheProposal.growthModules,
+        },
+        premium: {
+          priceLevel: premiumResult.priceLevel,
+          examplesUsed: premiumResult.premiumExamples.length,
+          animations: [...premiumResult.animations, ...nicheAnimations.map((a: any) => a.name)],
+          gsapCode: gsapCode.code,
+          components21Dev: premiumResult.components21Dev.length + nicheComponents.length,
+          logoInspiration: logoInspiration ? 'UXShowcase included' : 'Not used',
+          crawlerData: premiumResult.crawlerData,
+          qualityAssuranceLog: generated.qualityAssuranceLog || 'Not provided',
+          assetGenerationPrompt: generated.assetGenerationPrompt || '',
+          philosophy: 'Viktor Oddy + Satori Graphics + Apple Motion + GSAP + 21dev',
+        },
+        rufloSwarm: rufloSwarmData,
+      };
+    } catch (error) {
+      console.error('OpenAI generation failed, falling back to premium template:', error);
+    }
+  }
+
+  // 3. Fallback: use generated premium template
+  const baseContent = premiumResult.template?.content || generateBaseContent(premiumResult.template!, businessDetails);
+  const enhancedContent = enhanceContentWithInsights(baseContent, insights, businessDetails.name);
+
+  // Add problem-solution-result section
+  const problemSolutionSection = {
+    type: 'problem_solution_result',
+    title: 'A solução que você procurava',
+    content: {
+      painPoint: nicheProposal.painPoint,
+      solution: nicheProposal.solution,
+      expectedOutcome: nicheProposal.expectedOutcome,
+      icon: getPainPointIcon(businessDetails.type)
+    },
+    order: 1
+  };
+
+  if (!enhancedContent.sections.find((s: any) => s.type === 'problem_solution_result')) {
+    enhancedContent.sections.splice(1, 0, problemSolutionSection);
+  }
+
+  // Add growth modules section
+  const growthSection = {
+    type: 'growth_modules',
+    title: 'O que você ganha além do site',
+    content: {
+      modules: nicheProposal.growthModules,
+      description: 'Ferramentas de crescimento inclusas para fazer seu negócio decolar'
+    },
+    order: enhancedContent.sections.length - 1
+  };
+
+  if (!enhancedContent.sections.find((s: any) => s.type === 'growth_modules')) {
+    enhancedContent.sections.push(growthSection);
+  }
+
+  // Return template-based result
+  return buildResult(
+    enhancedContent,
+    businessDetails.name,
+    `${businessDetails.name} - ${premiumResult.template?.description || 'Premium Site'}. ${insights?.objectives?.primary || 'Agende online!'}`,
+    businessDetails,
+    premiumResult,
+    nicheProposal,
+    rufloSwarmData
+  );
 }

@@ -1,52 +1,18 @@
 // Premium Site Creation API v5.0
 // Integração com templates Dribbble/Landbook $10K+
-// Limite: 1 site grátis, depois pagar
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth/next';
-import { BusinessType, TemplateStyle } from '@prisma/client';
-import { PrismaClient } from '@prisma/client';
-import { getTemplateByType, getAllTemplates, SiteTemplate } from '@/lib/templates';
+import { BusinessType, TemplateStyle, PrismaClient } from '@prisma/client';
 import { generateSiteWithInsights } from '@/lib/ai-generator';
-import { enhanceContentWithInsights } from '@/lib/ai-conversational';
-import { getWorldClassTokens, generateWorldClassCSS, WORLD_CLASS_PALETTES, TYPOGRAPHY_SYSTEMS } from '@/lib/world-class-design';
+import { generatePremiumTemplate } from '@/lib/premium-generator';
+import { PippitService } from '@/lib/pippit-service';
 
 const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {
-  // Check authentication and plan limits
-  const session = await getServerSession({ req: request, secret: process.env.NEXTAUTH_SECRET! });
-    
-    if (!session || !(session as any).user?.id) {
-      return NextResponse.json(
-        { error: 'Login obrigatório para criar sites' },
-        { status: 401 }
-      );
-    }
-
-    const userId = (session as any).user.id;
-    const user = await prisma.user.findUnique({
-      where: { id: userId }
-    });
-
-    if (!user) {
-      return NextResponse.json(
-        { error: 'Usuário não encontrado' },
-        { status: 404 }
-      );
-    }
-
-    // Check plan limits (1 free site)
-    if (user.plan === 'free' && user.sitesUsed >= 1) {
-      return NextResponse.json(
-        { error: 'Limite do plano grátis atingido. Faça upgrade para criar mais sites.', upgrade: true },
-        { status: 403 }
-      );
-    }
-
     const body = await request.json();
-    const { businessName, businessType, objective, images, style, diferencial, targetAudience, solutions, painPoints, stitchPrompt, phone, email, address } = body;
+    const { businessName, businessType, style, solutions, painPoints, phone, email, address, brandAssets } = body;
 
     // Validate required fields
     if (!businessName || !businessType) {
@@ -56,17 +22,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get premium template v5.0 based on type and style
-    const templateStyle = style as TemplateStyle | undefined;
-    const template = getTemplateByType(
-      businessType as BusinessType,
-      templateStyle
-    ) || getTemplateByType(businessType as BusinessType);
+    // Style will be processed inside generateSiteWithInsights -> generatePremiumTemplate
+    // which fetches from Dribbble + memory (animations.ts, 21dev-components.ts, etc.)
 
-    if (!template) {
+    // Get or create default user
+    let defaultUser = await prisma.user.findFirst();
+    if (!defaultUser) {
+      defaultUser = await prisma.user.create({
+        data: {
+          name: 'Default User',
+          email: 'admin@saas-sites.com',
+          plan: 'free',
+          sitesUsed: 0,
+        },
+      });
+    }
+
+    // Check plan limits
+    if (defaultUser.plan === 'free' && defaultUser.sitesUsed >= 1) {
       return NextResponse.json(
-        { error: 'Nenhum template premium encontrado para este tipo de negócio' },
-        { status: 400 }
+        { error: 'Limite do plano grátis atingido. Faça upgrade para criar mais sites.', upgrade: true },
+        { status: 403 }
       );
     }
 
@@ -88,96 +64,97 @@ export async function POST(request: NextRequest) {
 
     const selectedFeatures = solutions?.map((s: string) => solutionFeatures[s] || s) || [];
 
-    // Create business details object
-    const businessDetails = {
-      name: businessName,
-      type: businessType as BusinessType,
-      style: templateStyle,
-      diferencial,
-      targetAudience,
-      features: selectedFeatures,
-      contact: { phone, email, address },
-    };
-
-    // Generate site with AI insights (or use template directly)
+    // Generate site with mock insights
     const mockInsights = {
-      objectives: { primary: objective || 'professional_presence' },
-      targetAudience: targetAudience || 'Local customers',
+      objectives: { primary: 'professional_presence' },
+      targetAudience: 'Local customers',
       problems: painPoints?.length > 0 
         ? painPoints.map((p: string) => ({ category: 'pain_point', description: p, urgency: 'high' as const }))
         : [{ category: 'visibility', description: 'Need better online presence', urgency: 'high' as const }],
       features: selectedFeatures,
     };
 
+    const businessDetails = {
+      name: businessName,
+      type: businessType as BusinessType,
+      style: style as any, // Will be processed by generatePremiumTemplate
+      diferencial: solutions?.join(', ') || 'premium growth',
+      features: selectedFeatures,
+      contact: { phone, email, address },
+      brandAssets: brandAssets || null,
+    };
+
     const generatedSite = await generateSiteWithInsights(businessDetails, mockInsights);
 
-    // Replace image placeholders with uploaded images
-    let siteContent = JSON.parse(JSON.stringify(generatedSite.content));
-    
-    // Replace {{image-slots}} with actual uploaded images
-    if (images && typeof images === 'object') {
-      Object.entries(images).forEach(([slotId, imageUrl]) => {
-        const replaceInObject = (obj: any): any => {
-          if (typeof obj === 'string') {
-            return obj.replace(`{{${slotId}}}`, imageUrl as string);
-          }
-          if (Array.isArray(obj)) {
-            return obj.map(replaceInObject);
-          }
-          if (typeof obj === 'object' && obj !== null) {
-            const newObj: any = {};
-            Object.entries(obj).forEach(([key, value]) => {
-              newObj[key] = replaceInObject(value);
-            });
-            return newObj;
-          }
-          return obj;
-        };
-        
-        siteContent = replaceInObject(siteContent);
-      });
+    // AI ASSET GENERATION: Se a IA sugeriu um prompt para Pippit, gerar agora
+    if (generatedSite.premium?.assetGenerationPrompt) {
+      console.log('[API] Triggering autonomous Pippit asset generation...');
+      const pippitService = PippitService.getInstance();
+      const generatedAssetUrl = await pippitService.getAssetForNiche(
+        businessName, 
+        generatedSite.premium.assetGenerationPrompt.toLowerCase().includes('video') ? 'video' : 'image'
+      );
+
+      if (generatedAssetUrl) {
+        console.log('[API] Pippit asset acquired, injecting into Hero section.');
+        // Injetar a URL gerada na seção Hero do conteúdo
+        if (generatedSite.content?.hero) {
+          generatedSite.content.hero.imageUrl = generatedAssetUrl;
+        }
+      }
     }
 
-    // Generate unique site ID
-    const siteId = `site_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+    // Generate slug
     const slug = businessName.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').substring(0, 50);
+
+    // Create Business record
+    const business = await prisma.business.create({
+      data: {
+        name: businessName,
+        slug: slug,
+        type: businessType as BusinessType,
+        description: `Site premium para ${businessName}`,
+        phone: phone || null,
+        email: email || null,
+        address: address || null,
+        ownerId: defaultUser.id,
+      },
+    });
+
+    // Create Site record
+    const site = await prisma.site.create({
+      data: {
+        businessId: business.id,
+        templateStyle: TemplateStyle.CATALOG, // fallback, actual style is inside generatedSite.content
+        title: generatedSite.title || businessName,
+        metaDescription: generatedSite.metaDescription || '',
+        content: generatedSite.content as any,
+        published: false,
+      },
+    });
 
     // Update user sites used count
     await prisma.user.update({
-      where: { id: userId },
-      data: { sitesUsed: { increment: 1 } }
+      where: { id: defaultUser.id },
+      data: { sitesUsed: { increment: 1 } },
     });
 
-    // Return generated site data with niche proposal (UNIQUE DIFFERENTIATOR)
     return NextResponse.json({
       success: true,
-      siteId,
-      slug,
       site: {
-        id: siteId,
-        businessName,
-        businessType,
-        template: template.id,
-        title: generatedSite.title,
-        metaDescription: generatedSite.metaDescription,
-        content: siteContent,
-        designTokens: generatedSite.designTokens,
-        dribbbleInspiration: template.dribbbleInspiration,
-        landbookStyle: template.landbookStyle,
+        id: site.id,
+        businessId: business.id,
+        slug: business.slug,
+        title: generatedSite.title || businessName,
+        metaDescription: generatedSite.metaDescription || '',
+        content: generatedSite.content,
         features: selectedFeatures,
         contact: { phone, email, address },
-        // NEW: Problem-Solution-Result (USP)
-        nicheProposal: generatedSite.nicheProposal,
-        growthModules: generatedSite.nicheProposal?.growthModules || [],
-        seo: {
-          title: generatedSite.title,
-          description: generatedSite.metaDescription,
-        },
+        brandAssets: brandAssets || null,
       },
-      message: generatedSite.nicheProposal 
-        ? `Site criado para resolver: ${generatedSite.nicheProposal.painPoint}`
-        : 'Site premium criado com sucesso',
-      previewUrl: `/sites/${slug}`,
+      rufloSwarm: generatedSite.rufloSwarm || null,
+      message: 'Site premium criado com sucesso!',
+      previewUrl: `/sites/${business.slug}`,
     });
 
   } catch (error) {
@@ -186,37 +163,16 @@ export async function POST(request: NextRequest) {
       { error: 'Erro interno ao criar site premium' },
       { status: 500 }
     );
+  } finally {
+    await prisma.$disconnect();
   }
 }
 
-// Get all premium templates
+// Health check
 export async function GET() {
-  try {
-    const templates = getAllTemplates();
-    
-    return NextResponse.json({
-      message: 'Premium Site Creation API v5.0',
-      version: '5.0',
-      features: [
-        'Templates baseados em Dribbble $10K+ (BotiFly, Design Monks, Pixxen)',
-        'Designs por nicho com cores reais de agências top',
-        'Image slots personalizados por tipo de negócio',
-        'Integração com IA para personalização',
-        'Landbook-inspired layouts',
-      ],
-      templates: templates.map(t => ({
-        id: t.id,
-        name: t.name,
-        businessType: t.businessType,
-        style: t.style,
-        dribbbleInspiration: t.dribbbleInspiration,
-      })),
-      totalTemplates: templates.length,
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Erro ao buscar templates' },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json({
+    message: 'Premium Site Creation API v6.0 - Using Dribbble + Memory (animations.ts, 21dev-components.ts, etc.)',
+    version: '6.0',
+    status: 'active',
+  });
 }

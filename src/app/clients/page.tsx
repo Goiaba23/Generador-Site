@@ -22,14 +22,16 @@ interface ClientSearchResult {
   success: boolean;
   count: number;
   clients: Array<{
-    url: string;
-    businessName: string;
-    businessType: string;
-    location?: string;
-    painPoints: string[];
-    opportunity: string;
-    estimatedValue: number;
+    name: string;
+    website: string;
+    niche: string;
+    location: string;
+    issues: string[];
+    opportunities: string[];
     priority: string;
+    contactEmail?: string;
+    contactPhone?: string;
+    competitors?: Array<{ name: string; website: string }>;
   }>;
   message: string;
 }
@@ -229,22 +231,70 @@ export default function ClientsPage() {
 
             {clients && clients.success && (
               <div style={{ color: 'white' }}>
-                <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>{clients.count} Clientes Encontrados</h3>
+                <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>{clients.count} Clientes Encontrados na Região</h3>
                 <div style={{ display: 'grid', gap: '1rem' }}>
                   {clients.clients.map((client, i) => (
-                    <div key={i} style={{ padding: '1.5rem', background: 'rgba(255,255,255,0.05)', borderRadius: '0.5rem' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                        <h4 style={{ fontSize: '1.25rem', margin: 0 }}>{client.businessName}</h4>
+                    <div key={i} style={{ padding: '1.5rem', background: 'rgba(255,255,255,0.05)', borderRadius: '0.5rem', borderLeft: '4px solid #f59e0b' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                        <div>
+                          <h4 style={{ fontSize: '1.25rem', margin: 0, color: 'white' }}>{client.name}</h4>
+                          <a href={client.website} target="_blank" rel="noreferrer" style={{ color: '#667eea', fontSize: '0.9rem', textDecoration: 'none' }}>{client.website}</a>
+                        </div>
                         <span style={{
                           padding: '0.25rem 0.75rem', borderRadius: '1rem',
-                          background: client.priority === 'high' ? '#ef4444' : client.priority === 'medium' ? '#f59e0b' : '#10b981',
-                          fontSize: '0.875rem'
-                        }}>{client.priority} prioridade</span>
+                          background: client.priority === 'high' ? 'rgba(239,68,68,0.2)' : 'rgba(245,158,11,0.2)',
+                          color: client.priority === 'high' ? '#ef4444' : '#f59e0b',
+                          fontSize: '0.875rem', fontWeight: 600
+                        }}>Alvo Perfeito</span>
                       </div>
-                      <p style={{ color: '#a0a0a0', marginBottom: '0.5rem' }}>{client.url}</p>
-                      <p style={{ marginBottom: '1rem' }}>{client.opportunity}</p>
-                      <p style={{ color: '#10b981', fontWeight: 600 }}>Valor Estimado: R$ {client.estimatedValue}</p>
-                    </div>
+                      
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                        <div>
+                          <p style={{ color: '#a0a0a0', fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Contato Extraído (IA)</p>
+                          <p style={{ margin: 0 }}>📞 {client.contactPhone || 'Não encontrado no site'}</p>
+                          <p style={{ margin: 0 }}>✉️ {client.contactEmail || 'Não encontrado no site'}</p>
+                        </div>
+                        <div>
+                          <p style={{ color: '#a0a0a0', fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Dores Atuais</p>
+                          <ul style={{ margin: 0, paddingLeft: '1rem', color: '#fca5a5', fontSize: '0.9rem', marginBottom: '1rem' }}>
+                            {client.issues?.map((issue, idx) => <li key={idx}>{issue}</li>)}
+                          </ul>
+                        </div>
+                        {client.competitors && client.competitors.length > 0 && (
+                          <div style={{ gridColumn: 'span 2' }}>
+                            <p style={{ color: '#a0a0a0', fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Concorrentes Locais (Espião IA)</p>
+                            <ul style={{ margin: 0, paddingLeft: '1rem', color: '#10b981', fontSize: '0.9rem' }}>
+                              {client.competitors.map((comp, idx) => (
+                                <li key={idx}>
+                                  {comp.name} <a href={comp.website} target="_blank" rel="noreferrer" style={{ color: '#667eea', textDecoration: 'none' }}>[Ver Site]</a>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                        {client.contactPhone && (
+                           <a 
+                             href={`https://wa.me/${client.contactPhone.replace(/\\D/g,'')}?text=Olá, somos especialistas em sites para ${client.niche}. Notamos que os seus concorrentes estão roubando seus clientes...`}
+                             target="_blank" rel="noreferrer"
+                             style={{ padding: '0.5rem 1rem', background: '#22c55e', color: 'white', textDecoration: 'none', borderRadius: '4px', fontSize: '0.9rem', fontWeight: 600 }}
+                           >
+                             Chamar no WhatsApp
+                           </a>
+                        )}
+                        <button 
+                          onClick={() => {
+                             const data = btoa(encodeURIComponent(JSON.stringify(client)));
+                             window.open(`/proposal?data=${data}`, '_blank');
+                          }}
+                          style={{ padding: '0.5rem 1rem', background: 'linear-gradient(135deg, #c084fc 0%, #764ba2 100%)', color: 'white', border: 'none', borderRadius: '4px', fontSize: '0.9rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                        >
+                          ✨ Gerar Proposta Mágica
+                        </button>
+                      </div>
+                     </div>
                   ))}
                 </div>
               </div>

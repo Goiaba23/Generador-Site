@@ -1,0 +1,382 @@
+// ============================================
+// REDESIGN PREMIUM - HEADER COM THEME TOGGLE
+// ============================================
+
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+
+interface RedesignHeaderProps {
+  theme: 'dark' | 'light';
+  onToggleTheme: () => void;
+}
+
+export function RedesignHeader({ theme, onToggleTheme }: RedesignHeaderProps) {
+  const colors = theme === 'dark' ? {
+    bg: '#0A0A0F',
+    bgTransparent: 'rgba(10, 10, 15, 0.8)',
+    text: '#F5F5F7',
+    textSecondary: '#94A3B8',
+    accent: '#6366F1',
+    border: '#2D2D3A',
+  } : {
+    bg: '#FAFBFC',
+    bgTransparent: 'rgba(250, 251, 252, 0.8)',
+    text: '#0F172A',
+    textSecondary: '#475569',
+    accent: '#4F46E5',
+    border: '#E2E8F0',
+  };
+
+  return (
+    <nav style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      zIndex: 100,
+      padding: '1rem 2rem',
+      background: colors.bgTransparent,
+      backdropFilter: 'blur(20px)',
+      borderBottom: `1px solid ${colors.border}`,
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    }}>
+      {/* Logo */}
+      <Link href="/" style={{ textDecoration: 'none' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div style={{
+            width: '40px',
+            height: '40px',
+            background: theme === 'dark' ? 'linear-gradient(135deg, #6366F1, #8B5CF6)' : 'linear-gradient(135deg, #4F46E5, #7C3AED)',
+            borderRadius: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '1.25rem',
+          }}>
+            S
+          </div>
+          <span style={{ 
+            color: colors.text, 
+            fontWeight: 700, 
+            fontSize: '1.25rem',
+            letterSpacing: '-0.02em'
+          }}>
+            SitesSaaS
+          </span>
+        </div>
+      </Link>
+
+      {/* Navigation */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+        <NavLink theme={theme} href="#features">Recursos</NavLink>
+        <NavLink theme={theme} href="#pricing">Preços</NavLink>
+        <NavLink theme={theme} href="#testimonials">Depoimentos</NavLink>
+        <NavLink theme={theme} href="#blog">Blog</NavLink>
+      </div>
+
+      {/* Actions */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        {/* Theme Toggle */}
+        <button
+          onClick={onToggleTheme}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '0.5rem 1rem',
+            borderRadius: '9999px',
+            border: `1px solid ${colors.border}`,
+            background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+            color: colors.text,
+            cursor: 'pointer',
+            fontSize: '0.875rem',
+            fontWeight: 500,
+            transition: 'all 0.2s ease',
+          }}
+        >
+          <span style={{ fontSize: '1.25rem' }}>
+            {theme === 'dark' ? '🌙' : '☀️'}
+          </span>
+          <span style={{ display: 'none', '@media (min-width: 640px)': { display: 'inline' } }}>
+            {theme === 'dark' ? 'Dark' : 'Light'}
+          </span>
+        </button>
+
+        {/* Login */}
+        <Link href="/login" style={{ textDecoration: 'none' }}>
+          <button style={{
+            color: colors.textSecondary,
+            background: 'transparent',
+            border: 'none',
+            padding: '0.5rem 1rem',
+            cursor: 'pointer',
+            fontSize: '0.875rem',
+            fontWeight: 500,
+            transition: 'color 0.2s ease',
+          }}>
+            Entrar
+          </button>
+        </Link>
+
+        {/* CTA */}
+        <Link href="/create" style={{ textDecoration: 'none' }}>
+          <button style={{
+            background: theme === 'dark' ? 'linear-gradient(135deg, #6366F1, #8B5CF6)' : 'linear-gradient(135deg, #4F46E5, #7C3AED)',
+            color: 'white',
+            border: 'none',
+            padding: '0.625rem 1.5rem',
+            borderRadius: '0.5rem',
+            cursor: 'pointer',
+            fontSize: '0.875rem',
+            fontWeight: 600,
+            boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)',
+            transition: 'all 0.2s ease',
+          }}>
+            Criar Site ↑
+          </button>
+        </Link>
+      </div>
+    </nav>
+  );
+}
+
+function NavLink({ theme, href, children }: { theme: 'dark' | 'light'; href: string; children: React.ReactNode }) {
+  const colors = theme === 'dark' ? { text: '#94A3B8', hover: '#F5F5F7' } : { text: '#475569', hover: '#0F172A' };
+
+  return (
+    <a 
+      href={href} 
+      style={{ 
+        color: colors.text, 
+        textDecoration: 'none', 
+        fontSize: '0.875rem', 
+        fontWeight: 500,
+        transition: 'color 0.2s ease',
+      }}
+    >
+      {children}
+    </a>
+  );
+}
+
+// ============================================
+// REDESIGN PREMIUM - HERO COM BENTO GRID
+// ============================================
+
+interface RedesignHeroProps {
+  theme: 'dark' | 'light';
+}
+
+export function RedesignHero({ theme }: RedesignHeroProps) {
+  const colors = theme === 'dark' ? {
+    bg: '#0A0A0F',
+    text: '#F5F5F7',
+    textSecondary: '#94A3B8',
+    accent: '#6366F1',
+    card: '#1A1A24',
+    border: '#2D2D3A',
+  } : {
+    bg: '#FAFBFC',
+    text: '#0F172A',
+    textSecondary: '#475569',
+    accent: '#4F46E5',
+    card: '#FFFFFF',
+    border: '#E2E8F0',
+  };
+
+  return (
+    <section style={{
+      position: 'relative',
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingTop: '8rem',
+      paddingBottom: '6rem',
+      background: colors.bg,
+    }}>
+      {/* Background Effects */}
+      <div style={{
+        position: 'absolute',
+        top: '-50%',
+        left: '-50%',
+        width: '200%',
+        height: '200%',
+        background: theme === 'dark' 
+          ? 'radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15), transparent 50%)'
+          : 'radial-gradient(circle at 50% 50%, rgba(79, 70, 229, 0.1), transparent 50%)',
+        pointerEvents: 'none',
+      }} />
+
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem', textAlign: 'center', position: 'relative', zIndex: 10 }}>
+        
+        {/* Badge */}
+        <div style={{
+          marginBottom: '2rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.75rem',
+          background: theme === 'dark' ? 'rgba(99, 102, 241, 0.15)' : 'rgba(79, 70, 229, 0.1)',
+          color: colors.accent,
+          border: `1px solid ${colors.accent}30`,
+          padding: '0.75rem 1.5rem',
+          borderRadius: '9999px',
+          fontSize: '0.875rem',
+          fontWeight: 600,
+        }}>
+          <span>🚀</span>
+          <span>Novo: Crie sites com IA • Taxa de 80% margem</span>
+        </div>
+
+        {/* Headline */}
+        <h1 style={{
+          fontSize: 'clamp(2.5rem, 6vw, 5rem)',
+          fontWeight: 900,
+          marginBottom: '1.5rem',
+          lineHeight: 1.05,
+          letterSpacing: '-0.03em',
+          color: colors.text,
+        }}>
+          Crie sites de{' '}
+          <span style={{
+            background: theme === 'dark' ? 'linear-gradient(135deg, #818CF8, #A78BFA)' : 'linear-gradient(135deg, #4F46E5, #7C3AED)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}>
+            R$ 497
+          </span>
+          <br />em{' '}
+          <span style={{
+            background: theme === 'dark' ? 'linear-gradient(135deg, #A78BFA, #C084FC)' : 'linear-gradient(135deg, #7C3AED, #9333EA)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}>
+            2 minutos
+          </span>
+        </h1>
+
+        {/* Subhead */}
+        <p style={{
+          fontSize: '1.25rem',
+          color: colors.textSecondary,
+          marginBottom: '2.5rem',
+          maxWidth: '600px',
+          margin: '0 auto 2.5rem',
+          lineHeight: 1.6,
+        }}>
+          Plataforma completa com IA + Templates $10K + Deploy instantâneo.
+          <br style={{ display: 'none', '@media (min-width: 640px)': { display: 'block' } }} />
+          <strong style={{ color: colors.accent }}>80% margem de lucro</strong> para sua agência.
+        </p>
+
+        {/* CTAs */}
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Link href="/create" style={{ textDecoration: 'none' }}>
+            <button style={{
+              background: theme === 'dark' ? 'linear-gradient(135deg, #6366F1, #8B5CF6)' : 'linear-gradient(135deg, #4F46E5, #7C3AED)',
+              color: 'white',
+              border: 'none',
+              padding: '1rem 2.5rem',
+              borderRadius: '0.75rem',
+              cursor: 'pointer',
+              fontSize: '1rem',
+              fontWeight: 700,
+              boxShadow: '0 8px 32px rgba(99, 102, 241, 0.4)',
+              transition: 'all 0.3s ease',
+            }}>
+              🚀 Criar Site Agora
+            </button>
+          </Link>
+          
+          <Link href="/login" style={{ textDecoration: 'none' }}>
+            <button style={{
+              background: 'transparent',
+              color: colors.text,
+              border: `1px solid ${colors.border}`,
+              padding: '1rem 2rem',
+              borderRadius: '0.75rem',
+              cursor: 'pointer',
+              fontSize: '1rem',
+              fontWeight: 600,
+              transition: 'all 0.3s ease',
+            }}>
+              Já tengo site →
+            </button>
+          </Link>
+        </div>
+
+        {/* Metrics Bento Grid */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+          gap: '1rem',
+          marginTop: '4rem',
+        }}>
+          <MetricCard theme={theme} icon="🏢" metric="2.000+" label="Sites Entregues" />
+          <MetricCard theme={theme} icon="🏢" metric="500+" label="Agências" />
+          <MetricCard theme={theme} icon="⭐" metric="98%" label="Satisfação" />
+          <MetricCard theme={theme} icon="⚡" metric="2 min" label="Tempo Médio" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MetricCard({ theme, icon, metric, label }: { theme: 'dark' | 'light'; icon: string; metric: string; label: string }) {
+  const colors = theme === 'dark' 
+    ? { bg: '#1A1A24', text: '#F5F5F7', accent: '#6366F1' }
+    : { bg: '#FFFFFF', text: '#0F172A', accent: '#4F46E5' };
+
+  return (
+    <div style={{
+      background: colors.bg,
+      border: `1px solid ${theme === 'dark' ? '#2D2D3A' : '#E2E8F0'}`,
+      borderRadius: '1rem',
+      padding: '1.25rem',
+      textAlign: 'center',
+    }}>
+      <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{icon}</div>
+      <div style={{
+        fontSize: '1.75rem',
+        fontWeight: 800,
+        color: colors.text,
+      }}>{metric}</div>
+      <div style={{
+        fontSize: '0.75rem',
+        color: theme === 'dark' ? '#94A3B8' : '#64748B',
+        textTransform: 'uppercase',
+        letterSpacing: '0.05em',
+      }}>{label}</div>
+    </div>
+  );
+}
+
+// ============================================
+// COMO INTEGRAR NO PROJETO
+// ============================================
+
+/*
+Para integrar o redesign Premium, siga estes passos no arquivo src/app/page.tsx:
+
+1. IMPORTE O TEMA:
+'use client' + usar useState para theme + adicionar ThemeToggle button
+
+2. USE O HEADER:
+Substitua o nav atual pelo novo RedesignHeader com theme prop
+
+3. USE O HERO:
+Substitua a seção hero pelo RedesignHero com theme prop
+
+4. ATUALIZE AS CORES:
+Substitua os backgrounds de #000000 por getColors(theme).bgPrimary
+Substitua os textos de #FFFFFF por getColors(theme).textPrimary
+
+5. TESTE OS DOIS MODOS:
+Verifique se o dark mode e light mode ficam iguais de bonitas
+
+O arquivo theme-system.tsx já foi criado com todas as definições!
+*/

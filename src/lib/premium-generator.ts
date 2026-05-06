@@ -1,11 +1,10 @@
 // Premium Template Generator v6.0
 // Integração completa: Dribbble/Landbook + Crawler + GSAP + 21dev + $10K Designs
 
-import { BusinessType, TemplateStyle } from '@prisma/client';
-import { analyzeExamplesForAI, getExamplesByNiche, getAllExamples } from './crawler-service';
 import { getAnimationsForNiche, generateGSAPCode } from './animations';
-import { get21DevComponent, getComponentsForNiche } from './21dev-components';
+import { getComponentsForNiche, get21DevComponent } from './21dev-components';
 import { generateLogoInspiration, extractAllUXShowcaseLogos } from './uxshowcase-logos';
+import { getExamplesByNiche, getAllExamples, analyzeExamplesForAI } from './crawler-service';
 
 export interface PremiumTemplateRequest {
   businessType: string;
@@ -48,12 +47,14 @@ export async function generatePremiumTemplate(request: PremiumTemplateRequest): 
   
   // 2. Animações específicas do nicho
   const nicheAnimations = getAnimationsForNiche(businessType);
+  const animationNames = nicheAnimations.map(a => a.name);
   
   // 3. Componentes 21dev para o nicho
   const components21Dev = use21Dev ? getComponentsForNiche(businessType) : [];
   
   // 4. Gerar código GSAP (se habilitado)
-  const gsapCode = useGSAP ? generateGSAPCode(nicheAnimations) : '';
+  const gsapResult = useGSAP ? generateGSAPCode(animationNames, businessType) : null;
+  const gsapCode = gsapResult ? gsapResult.code : '';
   
   // 5. Dados do crawler (se habilitado)
   let crawlerData = null;
@@ -72,7 +73,7 @@ export async function generatePremiumTemplate(request: PremiumTemplateRequest): 
         features: e.features,
       })),
       analysis: analyzeExamplesForAI(businessType),
-      uxshowcaseLogos: await extractAllUXShowcaseLogos(),
+      uxshowcaseLogos: extractAllUXShowcaseLogos(),
     };
     
     // Gerar inspiração de logo para o nicho
@@ -112,13 +113,13 @@ export async function generatePremiumTemplate(request: PremiumTemplateRequest): 
       hero: {
         title: businessName,
         subtitle: diferencial || objective,
-        animation: nicheAnimations[0] || 'hero-fade-in-up',
+        animation: nicheAnimations[0]?.name || 'hero-fade-in-up',
         cta: 'Criar Site Agora',
       },
       sections: [
-        { type: 'problem_solution', animation: nicheAnimations[1] || 'scroll-fade-in' },
-        { type: 'features', animation: nicheAnimations[2] || 'scroll-slide-left' },
-        { type: 'growth_modules', animation: nicheAnimations[3] || 'scroll-zoom-in' },
+        { type: 'problem_solution', animation: nicheAnimations[1]?.name || 'scroll-fade-in' },
+        { type: 'features', animation: nicheAnimations[2]?.name || 'scroll-slide-left' },
+        { type: 'growth_modules', animation: nicheAnimations[3]?.name || 'scroll-zoom-in' },
       ],
     },
     premiumMetadata: {
@@ -130,7 +131,7 @@ export async function generatePremiumTemplate(request: PremiumTemplateRequest): 
   
   return {
     template,
-    animations: nicheAnimations,
+    animations: animationNames,
     gsapCode,
     components21Dev,
     premiumExamples,

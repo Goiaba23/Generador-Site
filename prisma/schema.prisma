@@ -159,8 +159,11 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   businesses   Business[]
-  plan          String    @default("free")
+  plan          String    @default("simple")
+  planExpires  DateTime? // When the monthly plan expires
   sitesUsed     Int       @default(0)
+  sitesLimit    Int       @default(5) // Simple = 5, Premium = unlimited(-1)
+  planFeatures  Json?     // Store plan-specific features/methods
   @@index([email])
 }
 
@@ -196,10 +199,10 @@ model Analytics {
   siteId      String
   page       String
   visitors   Int       @default(0)
-  uniqueVisitors @default(0)
+  uniqueVisitors Int    @default(0)
   bounces    Int       @default(0)
-  avgTime    Int       @default(0) // seconds
+  avgTime    Int       @default(0)
   createdAt  DateTime  @default(now())
   date       DateTime  @default(now()) @db.Date
-  @@index([siteId, date])
+  @@unique([siteId, page, date])
 }

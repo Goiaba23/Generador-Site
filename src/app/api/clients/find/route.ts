@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { findPotentialClients, analyzeWebsite } from '@/lib/client-finder';
 
+export const maxDuration = 60; // Allows up to 60 seconds on Vercel Pro (or local) for the AI/Firecrawl tasks
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

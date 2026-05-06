@@ -1,211 +1,183 @@
-// Sistema de Animações Premium - GSAP + 21dev + Framer Motion
-// Baseado em sites $10K do Dribbble/Landbook
+// Animations Library for Premium Sites v6.0
+// GSAP + Framer Motion + CSS Animations based on Dribbble $10K+ designs
 
 export interface AnimationConfig {
-  type: 'gsap' | 'framer' | '21dev';
   name: string;
+  type: 'gsap' | 'framer' | 'css';
+  trigger: 'scroll' | 'hover' | 'load' | 'click';
   duration: number;
-  ease: string;
-  delay?: number;
-  scrollTrigger?: boolean;
+  easing: string;
+  niche: string[];
 }
 
-// Animações GSAP baseadas em sites premium do Dribbble
-export const GSAP_ANIMATIONS: Record<string, AnimationConfig> = {
-  // Hero animations (estilo BotiFly, Design Monks)
-  'hero-fade-in-up': {
-    type: 'gsap' as const,
-    name: 'Hero Fade In Up',
-    duration: 1.2,
-    ease: 'power3.out',
-    scrollTrigger: false,
-  },
-  'hero-parallax': {
-    type: 'gsap' as const,
-    name: 'Hero Parallax',
-    duration: 1.5,
-    ease: 'power2.out',
-    scrollTrigger: false,
-  },
-  'hero-gradient-shift': {
-    type: 'gsap' as const,
-    name: 'Gradient Shift',
-    duration: 2,
-    ease: 'none',
-    scrollTrigger: false,
-  },
-  
-  // Scroll animations (estilo Madhu Miah, Safal Adhikari)
-  'scroll-fade-in': {
-    type: 'gsap' as const,
-    name: 'Scroll Fade In',
-    duration: 0.8,
-    ease: 'power2.out',
-    scrollTrigger: true,
-  },
-  'scroll-slide-left': {
-    type: 'gsap' as const,
-    name: 'Slide In Left',
-    duration: 1,
-    ease: 'power3.out',
-    scrollTrigger: true,
-  },
-  'scroll-slide-right': {
-    type: 'gsap' as const,
-    name: 'Slide In Right',
-    duration: 1,
-    ease: 'power3.out',
-    scrollTrigger: true,
-  },
-  'scroll-zoom-in': {
-    type: 'gsap' as const,
-    name: 'Zoom In',
-    duration: 1.2,
-    ease: 'back.out(1.7)',
-    scrollTrigger: true,
-  },
-  
-  // Hover animations (estilo FleexStudio)
-  'hover-lift': {
-    type: 'gsap' as const,
-    name: 'Hover Lift',
-    duration: 0.3,
-    ease: 'power2.out',
-  },
-  'hover-zoom': {
-    type: 'gsap' as const,
-    name: 'Hover Zoom',
-    duration: 0.5,
-    ease: 'power2.out',
-  },
-  'hover-glow': {
-    type: 'gsap' as const,
-    name: 'Hover Glow',
-    duration: 0.4,
-    ease: 'power2.out',
-  },
-  
-  // Text animations
-  'text-reveal': {
-    type: 'gsap' as const,
-    name: 'Text Reveal',
-    duration: 1,
-    ease: 'power3.out',
-    scrollTrigger: true,
-  },
-  'text-split-words': {
-    type: 'gsap' as const,
-    name: 'Split Words',
-    duration: 0.8,
-    ease: 'power2.out',
-    scrollTrigger: true,
-  },
-  
-  // Counter animations
-  'counter-up': {
-    type: 'gsap' as const,
-    name: 'Counter Up',
-    duration: 2,
-    ease: 'power1.out',
-    scrollTrigger: true,
-  },
-  
-  // Menu/Navigation
-  'menu-slide-down': {
-    type: 'gsap' as const,
-    name: 'Menu Slide Down',
-    duration: 0.5,
-    ease: 'power2.out',
-  },
-  'mobile-menu-toggle': {
-    type: 'gsap' as const,
-    name: 'Mobile Menu Toggle',
-    duration: 0.4,
-    ease: 'power2.out',
-  },
-};
+export interface GSAPCode {
+  imports: string;
+  code: string;
+  scrollTrigger: boolean;
+  stagger: boolean;
+}
 
-// Animações 21dev (componentes premium)
-export const TWODEV_ANIMATIONS = {
-  'bounce-in': 'Animação de entrada com quique',
-  'float-up': 'Flutuar para cima suavemente',
-  'pulse-effect': 'Efeito de pulso para destaque',
-  'rotate-in': 'Rotação na entrada',
-  'wiggle': 'Movimento de balanço divertido',
-  'energy-pulse': 'Pulso de energia (para academias)',
-  'smooth-appear': 'Aparição suave',
-  'parallax-scroll': 'Parallax no scroll',
-  'particle-effect': 'Efeito de partículas (tech)',
-};
-
-// Função para obter animações por nicho (baseado no Dribbble)
-export function getAnimationsForNiche(businessType: string): string[] {
-  const nicheAnimations: Record<string, string[]> = {
-    'BARBERSHOP': ['scroll-fade-in', 'hover-lift', 'text-reveal', 'counter-up'],
-    'BURGER_JOINT': ['hero-fade-in-up', 'scroll-slide-left', 'hover-zoom', 'bounce-in'],
-    'RESTAURANT': ['hero-parallax', 'scroll-zoom-in', 'hover-glow', 'text-split-words'],
-    'SALON': ['scroll-fade-in', 'hover-lift', 'smooth-appear', 'rotate-in'],
-    'CLINIC': ['hero-gradient-shift', 'scroll-slide-right', 'text-reveal', 'smooth-appear'],
-    'GYM': ['energy-pulse', 'scroll-slide-left', 'counter-up', 'bounce-in'],
-    'REAL_ESTATE': ['parallax-scroll', 'scroll-zoom-in', 'hover-lift', 'particle-effect'],
-    'TECH': ['particle-effect', 'hero-gradient-shift', 'text-split-words', 'float-up'],
-    'PET_SHOP': ['wiggle', 'scroll-fade-in', 'bounce-in', 'hover-zoom'],
-    'HOTEL': ['hero-parallax', 'scroll-slide-right', 'hover-glow', 'smooth-appear'],
+// Get animations for specific business niche
+export function getAnimationsForNiche(businessType: string): AnimationConfig[] {
+  const animationMap: Record<string, AnimationConfig[]> = {
+    'RESTAURANT': [
+      { name: 'fade-in-up', type: 'gsap', trigger: 'scroll', duration: 0.8, easing: 'power2.out', niche: ['food'] },
+      { name: 'parallax-scroll', type: 'gsap', trigger: 'scroll', duration: 1.2, easing: 'power3.out', niche: ['food'] },
+      { name: 'hover-zoom', type: 'css', trigger: 'hover', duration: 0.3, easing: 'ease-out', niche: ['food'] },
+      { name: 'menu-item-reveal', type: 'gsap', trigger: 'scroll', duration: 0.6, easing: 'back.out(1.7)', niche: ['food'] },
+    ],
+    'BARBERSHOP': [
+      { name: 'smooth-scroll', type: 'gsap', trigger: 'scroll', duration: 1.0, easing: 'power2.inOut', niche: ['beauty'] },
+      { name: 'hover-lift', type: 'css', trigger: 'hover', duration: 0.3, easing: 'ease-out', niche: ['beauty'] },
+      { name: 'fade-in', type: 'gsap', trigger: 'scroll', duration: 0.6, easing: 'power2.out', niche: ['beauty'] },
+    ],
+    'TECH': [
+      { name: 'slide-up', type: 'gsap', trigger: 'scroll', duration: 0.8, easing: 'power3.out', niche: ['tech'] },
+      { name: 'stagger-children', type: 'gsap', trigger: 'scroll', duration: 0.5, easing: 'power2.out', niche: ['tech'] },
+      { name: 'gradient-shift', type: 'css', trigger: 'load', duration: 3.0, easing: 'ease', niche: ['tech'] },
+    ],
+    'RETAIL': [
+      { name: 'product-card-hover', type: 'css', trigger: 'hover', duration: 0.4, easing: 'ease-out', niche: ['retail'] },
+      { name: 'cart-slide', type: 'framer', trigger: 'click', duration: 0.5, easing: 'easeOut', niche: ['retail'] },
+      { name: 'fade-in-up', type: 'gsap', trigger: 'scroll', duration: 0.7, easing: 'power2.out', niche: ['retail'] },
+    ],
   };
-  
-  return nicheAnimations[businessType] || ['scroll-fade-in', 'hover-lift', 'text-reveal'];
+
+  return animationMap[businessType] || [
+    { name: 'fade-in', type: 'gsap', trigger: 'scroll', duration: 0.6, easing: 'power2.out', niche: ['general'] },
+    { name: 'slide-up', type: 'gsap', trigger: 'scroll', duration: 0.8, easing: 'power3.out', niche: ['general'] },
+    { name: 'hover-lift', type: 'css', trigger: 'hover', duration: 0.3, easing: 'ease-out', niche: ['general'] },
+  ];
 }
 
-// Gerar código GSAP para o site
-export function generateGSAPCode(animations: string[]): string {
-  let code = `// GSAP Animations - Premium $10K Style\n`;
-  code += `import { gsap } from 'gsap';\n`;
-  code += `import { ScrollTrigger } from 'gsap/ScrollTrigger';\n`;
-  code += `gsap.registerPlugin(ScrollTrigger);\n\n`;
+// Generate GSAP code for animations
+export function generateGSAPCode(animations: string[], businessType: string): GSAPCode {
+  const animationConfigs = getAnimationsForNiche(businessType);
+  const selectedAnimations = animationConfigs.filter(a => animations.includes(a.name));
   
-  animations.forEach((anim, i) => {
-    const config = GSAP_ANIMATIONS[anim as keyof typeof GSAP_ANIMATIONS];
-    if (!config) return;
-    
-    if (config.scrollTrigger) {
-      code += `// ${config.name}\n`;
-      code += `gsap.from('.anim-${anim}', {\n`;
-      code += `  scrollTrigger: { trigger: '.anim-${anim}', start: 'top 80%' },\n`;
-      code += `  y: 50, opacity: 0, duration: ${config.duration}, ease: '${config.ease}'\n`;
-      code += `});\n\n`;
-    } else {
-      code += `// ${config.name}\n`;
-      code += `gsap.to('.hero-element', { y: 0, opacity: 1, duration: ${config.duration}, ease: '${config.ease}' });\n\n`;
+  if (selectedAnimations.length === 0) {
+    return {
+      imports: "import gsap from 'gsap';\nimport { ScrollTrigger } from 'gsap/ScrollTrigger';",
+      code: '// No animations selected',
+      scrollTrigger: false,
+      stagger: false,
+    };
+  }
+
+  const hasScrollTrigger = selectedAnimations.some(a => a.trigger === 'scroll');
+  const hasStagger = selectedAnimations.some(a => a.name.includes('stagger'));
+
+  let code = '';
+  
+  if (hasScrollTrigger) {
+    code += "gsap.registerPlugin(ScrollTrigger);\n\n";
+  }
+
+  selectedAnimations.forEach((anim, index) => {
+    const className = anim.name.replace(/-/g, '_');
+    if (anim.trigger === 'scroll') {
+      code += `// ${anim.name}\ngsap.from('.${className}', {\n  scrollTrigger: {\n    trigger: '.${className}',\n    start: 'top 80%',\n    toggleActions: 'play none none reverse'\n  },\n  y: 50,\n  opacity: 0,\n  duration: ${anim.duration},\n  ease: '${anim.easing}',\n});\n\n`;
+    } else if (anim.trigger === 'hover') {
+      code += `// ${anim.name} - CSS handled\n`;
     }
   });
-  
-  return code;
+
+  return {
+    imports: hasScrollTrigger 
+      ? "import gsap from 'gsap';\nimport { ScrollTrigger } from 'gsap/ScrollTrigger';"
+      : "import gsap from 'gsap';",
+    code,
+    scrollTrigger: hasScrollTrigger,
+    stagger: hasStagger,
+  };
 }
 
-// Hook React para usar GSAP
-export const GSAP_HOOK = `
-import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-
-export function useGSAPAnimation(animationType: string) {
-  const elementRef = useRef<HTMLDivElement>(null);
-  
-  useEffect(() => {
-    if (elementRef.current) {
-      gsap.fromTo(elementRef.current, 
-        { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, duration: 1, scrollTrigger: true }
-      );
-    }
-  }, []);
-  
-  return elementRef;
+// Get CSS animations (for simpler effects)
+export function getCSSAnimations(): Record<string, string> {
+  return {
+    'fade-in': `
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .fade-in { animation: fadeIn 0.6s ease-out; }
+    `,
+    'hover-lift': `
+      .hover-lift { transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; }
+      .hover-lift:hover { transform: translateY(-8px); box-shadow: 0 12px 24px rgba(0,0,0,0.15); }
+    `,
+    'hover-zoom': `
+      .hover-zoom { transition: transform 0.3s ease-out; }
+      .hover-zoom:hover { transform: scale(1.05); }
+    `,
+    'slide-up': `
+      @keyframes slideUp {
+        from { transform: translateY(100%); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      .slide-up { animation: slideUp 0.8s ease-out; }
+    `,
+  };
 }
-`;
+
+// Stagger animation for multiple children
+export function generateStaggerCode(containerClass: string, childClass: string): string {
+  return `
+// Stagger animation for ${containerClass}
+gsap.from('${childClass}', {
+  scrollTrigger: {
+    trigger: '${containerClass}',
+    start: 'top 80%',
+  },
+  y: 30,
+  opacity: 0,
+  duration: 0.6,
+  stagger: 0.1,
+  ease: 'power2.out',
+});
+  `.trim();
+}
+
+// Parallax effect
+export function generateParallaxCode(elementClass: string): string {
+  return `
+// Parallax for ${elementClass}
+gsap.to('${elementClass}', {
+  scrollTrigger: {
+    trigger: '${elementClass}',
+    start: 'top bottom',
+    end: 'bottom top',
+    scrub: true,
+  },
+  y: '10%',
+  ease: 'none',
+});
+  `.trim();
+}
+
+// Counter animation (for stats)
+export function generateCounterAnimation(elementClass: string, endValue: number): string {
+  return `
+// Counter animation for ${elementClass}
+const counter = document.querySelector('${elementClass}');
+let current = 0;
+const increment = endValue / 100;
+
+gsap.to({}, {
+  duration: 2,
+  onUpdate: function() {
+    current += increment;
+    if (counter) counter.textContent = Math.floor(current) + '+';
+  }
+});
+  `.trim();
+}
 
 export default {
-  GSAP_ANIMATIONS,
-  TWODEV_ANIMATIONS,
   getAnimationsForNiche,
   generateGSAPCode,
+  getCSSAnimations,
+  generateStaggerCode,
+  generateParallaxCode,
+  generateCounterAnimation,
 };
