@@ -1,2 +1,13 @@
 .vercel
 node_modules
+.next
+*.log
+.env.local
+.ruflo
+ruflo
+scripts
+deploy_log.txt
+build_output.txt
+build-error.log
+*.zip
+.DS_Store
