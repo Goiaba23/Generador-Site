@@ -14,28 +14,36 @@ type Theme = 'dark' | 'light';
 
 const COLORS = {
   dark: {
-    bgPrimary: '#0A0A0F',
-    bgSecondary: '#12121A',
-    bgCard: '#1A1A24',
-    textPrimary: '#F5F5F7',
-    textSecondary: '#94A3B8',
-    textMuted: '#64748B',
-    accent: '#6366F1',
-    accentHover: '#818CF8',
-    border: '#2D2D3A',
-    gradient: 'linear-gradient(135deg, #6366F1, #8B5CF6)',
+    bgPrimary: '#030308',
+    bgSecondary: '#080812',
+    bgCard: 'rgba(20, 20, 35, 0.6)',
+    bgCardHover: 'rgba(30, 30, 50, 0.8)',
+    textPrimary: '#FAFAFA',
+    textSecondary: '#A1A1AA',
+    textMuted: '#52525B',
+    accent: '#A855F7',
+    accentSecondary: '#6366F1',
+    accentGlow: 'rgba(168, 85, 247, 0.4)',
+    border: 'rgba(255, 255, 255, 0.08)',
+    borderHover: 'rgba(168, 85, 247, 0.5)',
+    gradient: 'linear-gradient(135deg, #A855F7, #6366F1, #8B5CF6)',
+    gradientText: 'linear-gradient(135deg, #A855F7, #6366F1)',
   },
   light: {
-    bgPrimary: '#FAFBFC',
-    bgSecondary: '#F1F5F9',
-    bgCard: '#FFFFFF',
-    textPrimary: '#0F172A',
-    textSecondary: '#475569',
-    textMuted: '#94A3B8',
-    accent: '#4F46E5',
-    accentHover: '#4338CA',
-    border: '#E2E8F0',
-    gradient: 'linear-gradient(135deg, #4F46E5, #7C3AED)',
+    bgPrimary: '#FAFAFA',
+    bgSecondary: '#F4F4F5',
+    bgCard: 'rgba(255, 255, 255, 0.8)',
+    bgCardHover: '#FFFFFF',
+    textPrimary: '#18181B',
+    textSecondary: '#52525B',
+    textMuted: '#A1A1AA',
+    accent: '#9333EA',
+    accentSecondary: '#4F46E5',
+    accentGlow: 'rgba(147, 51, 234, 0.2)',
+    border: 'rgba(0, 0, 0, 0.08)',
+    borderHover: 'rgba(147, 51, 234, 0.5)',
+    gradient: 'linear-gradient(135deg, #9333EA, #4F46E5)',
+    gradientText: 'linear-gradient(135deg, #9333EA, #4F46E5)',
   },
 };
 
@@ -181,7 +189,7 @@ function AnimatedElement({ children, delay = 0, direction = 'up' }: { children: 
   );
 }
 
-function FeatureCard({ icon, title, description, features, delay = 0 }: { icon: string; title: string; description: string; features: string[]; delay?: number }) {
+function FeatureCard({ icon, title, description, features, delay = 0 }: { icon: React.ReactNode; title: string; description: string; features: string[]; delay?: number }) {
   const [isHovered, setIsHovered] = useState(false);
   const { ref, isVisible } = useAnimation(delay);
   
@@ -196,14 +204,15 @@ function FeatureCard({ icon, title, description, features, delay = 0 }: { icon: 
           ? (isHovered ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)') 
           : 'translateY(30px)',
         transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-        background: isHovered ? 'linear-gradient(135deg, rgba(79, 70, 229, 0.15), rgba(124, 58, 237, 0.1))' : 'linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9))',
-        border: isHovered ? '1px solid rgba(129, 140, 248, 0.5)' : '1px solid rgba(51, 65, 85, 0.5)',
-        borderRadius: '2rem',
-        padding: '3rem',
+        background: isHovered ? 'rgba(30, 30, 50, 0.8)' : 'rgba(20, 20, 35, 0.6)',
+        border: isHovered ? '1px solid rgba(168, 85, 247, 0.4)' : '1px solid rgba(255, 255, 255, 0.08)',
+        borderRadius: '1.5rem',
+        padding: '2.5rem',
         cursor: 'pointer',
         position: 'relative',
         overflow: 'hidden',
-        boxShadow: isHovered ? '0 30px 60px -15px rgba(129, 140, 248, 0.2)' : 'none',
+        backdropFilter: 'blur(20px)',
+        boxShadow: isHovered ? '0 30px 60px -15px rgba(168, 85, 247, 0.3)' : 'none',
       }}
     >
       {isHovered && (
@@ -213,25 +222,25 @@ function FeatureCard({ icon, title, description, features, delay = 0 }: { icon: 
           right: '-50%',
           width: '200%',
           height: '200%',
-          background: 'radial-gradient(circle, rgba(129, 140, 248, 0.1), transparent 70%)',
+          background: 'radial-gradient(circle, rgba(168, 85, 247, 0.15), transparent 70%)',
           pointerEvents: 'none',
         }} />
       )}
-      <div style={{ fontSize: '3.5rem', marginBottom: '1.5rem', position: 'relative', zIndex: 1 }}>{icon}</div>
-      <h3 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'white', marginBottom: '1rem', position: 'relative', zIndex: 1 }}>{title}</h3>
-      <p style={{ color: '#94a3b8', lineHeight: 1.625, marginBottom: '1.5rem', position: 'relative', zIndex: 1 }}>{description}</p>
+      <div style={{ marginBottom: '1.5rem', position: 'relative', zIndex: 1 }}>{icon}</div>
+      <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#FAFAFA', marginBottom: '0.75rem', position: 'relative', zIndex: 1 }}>{title}</h3>
+      <p style={{ color: '#A1A1AA', lineHeight: 1.625, marginBottom: '1.5rem', position: 'relative', zIndex: 1, fontSize: '0.9375rem' }}>{description}</p>
       <ul style={{ listStyle: 'none', padding: 0, margin: 0, position: 'relative', zIndex: 1 }}>
         {features.map((feature, i) => (
           <li key={i} style={{ 
             display: 'flex', 
             alignItems: 'center', 
             gap: '0.75rem', 
-            marginBottom: '0.75rem', 
-            color: isHovered ? '#cbd5e1' : '#94a3b8',
+            marginBottom: '0.625rem', 
+            color: isHovered ? '#D4D4D8' : '#A1A1AA',
             fontSize: '0.875rem',
             transition: 'color 0.3s ease',
           }}>
-            <span style={{ color: '#818cf8', fontSize: '1.25rem', flexShrink: 0 }}>✓</span>
+            <span style={{ color: '#A855F7', fontSize: '1rem', flexShrink: 0 }}>✓</span>
             {feature}
           </li>
         ))}
@@ -598,9 +607,9 @@ export default function Home() {
     <main ref={mainRef} style={{ backgroundColor: colors.bgPrimary, minHeight: '100vh', color: colors.textPrimary, overflowX: 'hidden' }}>
       <ThreeBackground />
       
-      <div style={{ position: 'fixed', top: '-30%', left: '-20%', width: '800px', height: '800px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', borderRadius: '50%', filter: 'blur(120px)', pointerEvents: 'none', zIndex: 0 }} className="floating-orbs" />
-      <div style={{ position: 'fixed', top: '20%', right: '-20%', width: '900px', height: '900px', background: 'radial-gradient(circle, rgba(192, 132, 252, 0.1), transparent 70%)', borderRadius: '50%', filter: 'blur(120px)', pointerEvents: 'none', zIndex: 0 }} className="floating-orbs" />
-      <div style={{ position: 'fixed', bottom: '10%', left: '30%', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(251, 146, 60, 0.08), transparent 70%)', borderRadius: '50%', filter: 'blur(120px)', pointerEvents: 'none', zIndex: 0 }} className="floating-orbs" />
+      <div style={{ position: 'fixed', top: '-25%', left: '-15%', width: '1000px', height: '1000px', background: 'radial-gradient(circle, rgba(168, 85, 247, 0.12), transparent 60%)', borderRadius: '50%', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }} className="floating-orbs" />
+      <div style={{ position: 'fixed', top: '15%', right: '-20%', width: '1100px', height: '1100px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.1), transparent 60%)', borderRadius: '50%', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }} className="floating-orbs" />
+      <div style={{ position: 'fixed', bottom: '5%', left: '25%', width: '800px', height: '800px', background: 'radial-gradient(circle, rgba(236, 72, 153, 0.06), transparent 60%)', borderRadius: '50%', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }} className="floating-orbs" />
       
       <div style={{
         position: 'fixed',
@@ -708,60 +717,108 @@ export default function Home() {
         </div>
       </nav>
 
-      <section style={{ position: 'relative', zIndex: 1, padding: '12rem 2rem 8rem', textAlign: 'center', maxWidth: '1200px', margin: '0 auto' }}>
+      <section style={{ position: 'relative', zIndex: 1, padding: '14rem 2rem 10rem', textAlign: 'center', maxWidth: '1400px', margin: '0 auto' }}>
         <AnimatedElement delay={100}>
-          <div style={{ fontSize: '1rem', color: '#818cf8', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
-            🚀 Novo: Crie sites para clientes com IA
+          <div style={{ 
+            display: 'inline-flex', 
+            alignItems: 'center', 
+            gap: '0.75rem', 
+            padding: '0.75rem 1.5rem',
+            background: 'rgba(168, 85, 247, 0.1)',
+            border: '1px solid rgba(168, 85, 247, 0.3)',
+            borderRadius: '9999px',
+            color: '#A855F7',
+            fontSize: '0.875rem',
+            fontWeight: 600,
+            letterSpacing: '0.02em',
+            marginBottom: '2rem',
+            backdropFilter: 'blur(10px)',
+          }}>
+            <span style={{ 
+              width: '8px', 
+              height: '8px', 
+              background: '#A855F7', 
+              borderRadius: '50%',
+              boxShadow: '0 0 12px rgba(168, 85, 247, 0.8)',
+              animation: 'pulse 2s ease-in-out infinite',
+            }} />
+            Novo: Crie sites premium com IA generativa
           </div>
         </AnimatedElement>
         
         <AnimatedElement delay={200}>
-          <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', fontWeight: 900, lineHeight: 1.1, marginBottom: '1.5rem', background: 'linear-gradient(to right, #ffffff, #cbd5e1, #818cf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', letterSpacing: '-0.03em' }} className="hero-animate">
-            Sites premium<br/>para seus clientes
+          <h1 style={{ 
+            fontSize: 'clamp(3rem, 8vw, 7rem)', 
+            fontWeight: 900, 
+            lineHeight: 1.05, 
+            marginBottom: '2rem', 
+            letterSpacing: '-0.04em',
+            background: 'linear-gradient(135deg, #FAFAFA 0%, #A1A1AA 50%, #A855F7 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}>
+            Transforme clientes<br/>
+            em ouro<span style={{ color: '#A855F7' }}>.</span>
           </h1>
         </AnimatedElement>
         
         <AnimatedElement delay={300}>
-          <p style={{ fontSize: '1.25rem', color: '#94a3b8', maxWidth: '600px', margin: '0 auto 2rem', lineHeight: 1.7 }} className="hero-animate">
-            Plataforma completa para agências criarem sites premium com IA. Templates de $10K, GSAP animations, 3D interativo e deploy instantâneo.
+          <p style={{ 
+            fontSize: '1.375rem', 
+            color: '#A1A1AA', 
+            maxWidth: '720px', 
+            margin: '0 auto 3rem', 
+            lineHeight: 1.7,
+            fontWeight: 400,
+          }}>
+            A plataforma que cria sites <span style={{ color: '#A855F7', fontWeight: 600 }}>$10K</span> para seus clientes em 2 minutos. 
+            IA alimentada por dados reais do Dribbble, Landbook e UXShowcase.
           </p>
         </AnimatedElement>
         
         <AnimatedElement delay={400}>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }} className="hero-animate">
+          <div style={{ display: 'flex', gap: '1.25rem', justifyContent: 'center', flexWrap: 'wrap' }} className="hero-animate">
             <Link href="/create" style={{ textDecoration: 'none' }}>
               <button style={{
-                background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+                background: 'linear-gradient(135deg, #A855F7, #6366F1)',
                 border: 'none',
                 color: 'white',
-                padding: '1rem 2.5rem',
+                padding: '1.125rem 2.75rem',
                 borderRadius: '1rem',
                 fontSize: '1.125rem',
                 fontWeight: 700,
                 cursor: 'pointer',
-                boxShadow: '0 12px 40px rgba(79, 70, 229, 0.5)',
-                transition: 'all 0.3s ease',
+                boxShadow: '0 16px 48px rgba(168, 85, 247, 0.4), 0 0 0 1px rgba(168, 85, 247, 0.2) inset',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.75rem',
+                position: 'relative',
+                overflow: 'hidden',
               }}>
-                🚀 Criar Site Agora
-                <span>→</span>
+                <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                  </svg>
+                  Criar Site Agora
+                </span>
               </button>
             </Link>
             <a href="#features" style={{ textDecoration: 'none' }}>
               <button style={{
-                background: 'transparent',
-                border: '2px solid rgba(51, 65, 85, 0.8)',
-                color: '#cbd5e1',
-                padding: '1rem 2.5rem',
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                color: '#FAFAFA',
+                padding: '1.125rem 2.75rem',
                 borderRadius: '1rem',
                 fontSize: '1.125rem',
                 fontWeight: 600,
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
+                backdropFilter: 'blur(10px)',
               }}>
-                Ver Demonstração
+                Ver Recursos
               </button>
             </a>
           </div>
@@ -770,41 +827,91 @@ export default function Home() {
         <BentoMetrics theme={theme} />
       </section>
 
-      <section id="features" className="features-section" style={{ position: 'relative', zIndex: 1, padding: '8rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '1rem' }}>Recursos Premium</h2>
-          <p style={{ fontSize: '1.125rem', color: '#94a3b8' }}>Tudo que você precisa para criar sites de nível internacional</p>
+      <section id="features" className="features-section" style={{ position: 'relative', zIndex: 1, padding: '10rem 2rem', maxWidth: '1400px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
+          <div style={{ 
+            display: 'inline-block',
+            padding: '0.5rem 1.25rem',
+            background: 'rgba(168, 85, 247, 0.1)',
+            border: '1px solid rgba(168, 85, 247, 0.2)',
+            borderRadius: '9999px',
+            color: '#A855F7',
+            fontSize: '0.875rem',
+            fontWeight: 600,
+            marginBottom: '1.5rem',
+          }}>
+            ⚡ RECURSOS PREMIUM 2026
+          </div>
+          <h2 style={{ 
+            fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
+            fontWeight: 900, 
+            marginBottom: '1.5rem',
+            letterSpacing: '-0.02em',
+          }}>
+            Tudo para criar <span style={{ background: 'linear-gradient(135deg, #A855F7, #6366F1)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>sites $10K</span>
+          </h2>
+          <p style={{ fontSize: '1.25rem', color: '#A1A1AA', maxWidth: '600px', margin: '0 auto' }}>
+            A ferramenta completa que agências profissionais usam para entregar projetos premium
+          </p>
         </div>
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-          <FeatureCard 
-            icon="🤖"
-            title="IA Generativa"
-            description="AI que entende cada nicho e cria sites personalizados baseados em tendências internacionais."
-            features={['Pesquisa YouTube/Dribbble', 'Análise de concorrência', 'Copywriting automático']}
-            delay={0}
-          />
-          <FeatureCard 
-            icon="✨"
-            title="GSAP Animations"
-            description="Animações premium de $10K: parallax, scroll triggers, hover effects e transições fluidez."
-            features={['GSAP ScrollTrigger', 'Parallax effects', 'Smooth transitions']}
-            delay={100}
-          />
-          <FeatureCard 
-            icon="🎨"
-            title="3D Interativo"
-            description="Elementos 3D com Three.js que respondem ao mouse e scroll do usuário."
-            features={['Three.js scenes', 'Mouse interactions', 'Responsivo']}
-            delay={200}
-          />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
+          <div className="feature-card" style={{ gridColumn: 'span 2' }}>
+            <FeatureCard 
+              icon={<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#A855F7" strokeWidth="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>}
+              title="IA Generativa"
+              description="IA alimentada por dados reais do Dribbble, Landbook e UXShowcase. Cria sites baseados em tendências internacionais."
+              features={['Crawler YouTube/Dribbble', 'Análise de concorrência real', 'Copywriting automático por nicho']}
+              delay={0}
+            />
+          </div>
+          <div className="feature-card">
+            <FeatureCard 
+              icon={<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#A855F7" strokeWidth="1.5"><path d="M12 2v20M2 12h20M3 3l18 18M21 3L3 21"/></svg>}
+              title="GSAP Animations"
+              description="Animações scroll-triggered, parallax e hover effects com GSAP."
+              features={['ScrollTrigger', 'Parallax effects', 'Smooth transitions']}
+              delay={100}
+            />
+          </div>
+          <div className="feature-card">
+            <FeatureCard 
+              icon={<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#A855F7" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10M12 2a15 15 0 0 0 4 10"/></svg>}
+              title="3D Interativo"
+              description="Three.js particles que respondem ao mouse do usuário."
+              features={['Three.js background', 'Mouse parallax', 'Responsivo']}
+              delay={200}
+            />
+          </div>
         </div>
       </section>
 
-      <section id="pricing" className="pricing-section" style={{ position: 'relative', zIndex: 1, padding: '8rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '1rem' }}>Planos para Agências</h2>
-          <p style={{ fontSize: '1.125rem', color: '#94a3b8' }}>Escolha o plano ideal para sua agência. White label disponível.</p>
+      <section id="pricing" className="pricing-section" style={{ position: 'relative', zIndex: 1, padding: '10rem 2rem', maxWidth: '1400px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
+          <div style={{ 
+            display: 'inline-block',
+            padding: '0.5rem 1.25rem',
+            background: 'rgba(168, 85, 247, 0.1)',
+            border: '1px solid rgba(168, 85, 247, 0.2)',
+            borderRadius: '9999px',
+            color: '#A855F7',
+            fontSize: '0.875rem',
+            fontWeight: 600,
+            marginBottom: '1.5rem',
+          }}>
+            💰 PLANOS
+          </div>
+          <h2 style={{ 
+            fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
+            fontWeight: 900, 
+            marginBottom: '1.5rem',
+            letterSpacing: '-0.02em',
+          }}>
+            Escolha seu <span style={{ background: 'linear-gradient(135deg, #A855F7, #6366F1)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>plano</span>
+          </h2>
+          <p style={{ fontSize: '1.25rem', color: '#A1A1AA', maxWidth: '600px', margin: '0 auto' }}>
+            White label completo. Margem de 80% em todos os planos.
+          </p>
         </div>
         
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', alignItems: 'center' }}>
@@ -832,10 +939,32 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="testimonials" className="testimonials-section" style={{ position: 'relative', zIndex: 1, padding: '8rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '1rem' }}>O que dizem</h2>
-          <p style={{ fontSize: '1.125rem', color: '#94a3b8' }}>Depoimentos de agências parceiras</p>
+      <section id="testimonials" className="testimonials-section" style={{ position: 'relative', zIndex: 1, padding: '10rem 2rem', maxWidth: '1400px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
+          <div style={{ 
+            display: 'inline-block',
+            padding: '0.5rem 1.25rem',
+            background: 'rgba(168, 85, 247, 0.1)',
+            border: '1px solid rgba(168, 85, 247, 0.2)',
+            borderRadius: '9999px',
+            color: '#A855F7',
+            fontSize: '0.875rem',
+            fontWeight: 600,
+            marginBottom: '1.5rem',
+          }}>
+            💬 DEPOIMENTOS
+          </div>
+          <h2 style={{ 
+            fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
+            fontWeight: 900, 
+            marginBottom: '1.5rem',
+            letterSpacing: '-0.02em',
+          }}>
+            O que <span style={{ background: 'linear-gradient(135deg, #A855F7, #6366F1)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>dizem</span>
+          </h2>
+          <p style={{ fontSize: '1.25rem', color: '#A1A1AA', maxWidth: '600px', margin: '0 auto' }}>
+            Agências que já tripled their receita com sites premium
+          </p>
         </div>
         
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
