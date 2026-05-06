@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import ProblemSolutionSection from '@/components/ProblemSolutionSection';
 import GrowthModulesSection from '@/components/GrowthModulesSection';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // ===== Theme System - Dark/Light Mode =====
 type Theme = 'dark' | 'light';
@@ -408,6 +410,60 @@ export default function Home() {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
   
+  const mainRef = useRef<HTMLElement>(null);
+  
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    
+    const ctx = gsap.context(() => {
+      gsap.from('.hero-animate', {
+        y: 100,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'power3.out',
+      });
+      
+      gsap.from('.feature-card', {
+        scrollTrigger: {
+          trigger: '.features-section',
+          start: 'top 80%',
+        },
+        y: 60,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: 'power2.out',
+      });
+      
+      gsap.from('.pricing-card', {
+        scrollTrigger: {
+          trigger: '.pricing-section',
+          start: 'top 80%',
+        },
+        y: 40,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: 'back.out(1.7)',
+      });
+      
+      gsap.from('.testimonial-card', {
+        scrollTrigger: {
+          trigger: '.testimonials-section',
+          start: 'top 70%',
+        },
+        x: -30,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'power2.out',
+      });
+    }, mainRef);
+    
+    return () => ctx.revert();
+  }, []);
+  
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
@@ -415,7 +471,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main style={{ backgroundColor: colors.bgPrimary, minHeight: '100vh', color: colors.textPrimary, overflow: 'hidden' }}>
+    <main ref={mainRef} style={{ backgroundColor: colors.bgPrimary, minHeight: '100vh', color: colors.textPrimary, overflow: 'hidden' }}>
       {/* Background Decorations - Múltiplas camadas */}
       <div style={{ position: 'fixed', top: '-30%', left: '-20%', width: '800px', height: '800px', background: theme === 'dark' ? 'radial-gradient(circle, rgba(129, 140, 248, 0.12), transparent 70%)' : 'radial-gradient(circle, rgba(99, 102, 241, 0.08), transparent 70%)', borderRadius: '50%', filter: 'blur(120px)', pointerEvents: 'none' as const, animation: 'float 20s ease-in-out infinite' }} />
       <div style={{ position: 'fixed', top: '20%', right: '-20%', width: '900px', height: '900px', background: theme === 'dark' ? 'radial-gradient(circle, rgba(192, 132, 252, 0.08), transparent 70%)' : 'radial-gradient(circle, rgba(139, 92, 246, 0.06), transparent 70%)', borderRadius: '50%', filter: 'blur(120px)', pointerEvents: 'none' as const }} />
