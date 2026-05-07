@@ -24,6 +24,42 @@ export interface ComponentRequest {
 // Get 21dev components for specific niche
 export function getComponentsForNiche(businessType: string): Component21Dev[] {
   const componentMap: Record<string, Component21Dev[]> = {
+    'VETERINARY': [
+      {
+        id: '21dev-hero-vet',
+        name: 'Hero Veterinária Modern',
+        category: 'hero',
+        businessTypes: ['VETERINARY', 'PET_SHOP', 'CLINIC'],
+        animationType: 'fade-in-up',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-vet">
+  <div className="hero-overlay" />
+  <div className="hero-content">
+    <h1 className="hero-title">Cuidamos do seu Pet</h1>
+    <p className="hero-subtitle">Veterinários especializados 24h</p>
+    <button className="hero-cta">Agendar Consulta</button>
+  </div>
+</section>`,
+      },
+      {
+        id: '21dev-service-card-vet',
+        name: 'Service Card Vet',
+        category: 'card',
+        businessTypes: ['VETERINARY', 'CLINIC', 'SPA'],
+        animationType: 'hover-lift',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<div className="service-card">
+  <div className="service-icon">{{icon}}</div>
+  <h3>{{name}}</h3>
+  <p>{{description}}</p>
+  <span className="price">{{price}}</span>
+</div>`,
+      },
+    ],
     'RESTAURANT': [
       {
         id: '21dev-hero-restaurant',
