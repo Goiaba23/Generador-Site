@@ -132,6 +132,83 @@ export function getComponentsForNiche(businessType: string): Component21Dev[] {
 </div>`,
       },
     ],
+    'CONSULTING': [
+      {
+        id: '21dev-hero-consulting',
+        name: 'Hero Consultoria Profissional',
+        category: 'hero',
+        businessTypes: ['CONSULTING', 'FINANCE', 'LAW'],
+        animationType: 'fade-in-up',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-consulting">
+  <div className="hero-overlay" />
+  <div className="hero-content">
+    <h1 className="hero-title">Resultados que Importam</h1>
+    <p className="hero-subtitle">Consultoria especializada para seu negócio</p>
+    <button className="hero-cta">Agendar Consultoria</button>
+  </div>
+</section>`,
+      },
+    ],
+    'LAW': [
+      {
+        id: '21dev-hero-law',
+        name: 'Hero Escritório de Advocacia',
+        category: 'hero',
+        businessTypes: ['LAW', 'CONSULTING', 'FINANCE'],
+        animationType: 'slide-up',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-law">
+  <div className="hero-gradient" />
+  <h1 className="hero-title">Justiça e Excelência</h1>
+  <p className="hero-subtitle">Defesa jurídica especializada</p>
+  <button className="hero-cta">Consultar Agora</button>
+</section>`,
+      },
+    ],
+    'REAL_ESTATE': [
+      {
+        id: '21dev-property-card',
+        name: 'Property Card Real Estate',
+        category: 'card',
+        businessTypes: ['REAL_ESTATE', 'CONSTRUCTION', 'ARCHITECTURE'],
+        animationType: 'hover-zoom',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<div className="property-card">
+  <img src="{{image}}" alt="{{title}}" />
+  <div className="property-info">
+    <h3>{{title}}</h3>
+    <p>{{address}}</p>
+    <span className="price">R$ {{price}}</span>
+  </div>
+</div>`,
+      },
+    ],
+    'EDUCATION': [
+      {
+        id: '21dev-course-card',
+        name: 'Course Card Education',
+        category: 'card',
+        businessTypes: ['EDUCATION', 'TRAINING', 'COACHING'],
+        animationType: 'hover-lift',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<div className="course-card">
+  <div className="course-image">{{image}}</div>
+  <h3>{{name}}</h3>
+  <p>{{description}}</p>
+  <span className="price">R$ {{price}}</span>
+  <button className="enroll-btn">Matricular-se</button>
+</div>`,
+      },
+    ],
     'AI_AGENCY': [
       {
         id: '21dev-hero-ai-agency',
