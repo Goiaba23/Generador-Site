@@ -379,6 +379,63 @@ export function getComponentsForNiche(businessType: string): Component21Dev[] {
 </section>`,
       },
     ],
+    'SALON': [
+      {
+        id: '21dev-hero-salon',
+        name: 'Hero Salon de Beleza',
+        category: 'hero',
+        businessTypes: ['SALON', 'BEAUTY', 'BARBERSHOP'],
+        animationType: 'fade-in',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-salon">
+  <div className="hero-overlay" />
+  <div className="hero-content">
+    <h1 className="hero-title">Sua Beleza, Nossa Prioridade</h1>
+    <p className="hero-subtitle">Tratamentos estéticos personalizados</p>
+    <button className="hero-cta">Agendar Horário</button>
+  </div>
+</section>`,
+      },
+    ],
+    'GARDENING': [
+      {
+        id: '21dev-hero-gardening',
+        name: 'Hero Jardinagem Profissional',
+        category: 'hero',
+        businessTypes: ['GARDENING', 'LANDSCAPING', 'FLORIST'],
+        animationType: 'slide-up',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-gardening">
+  <div className="hero-video-bg" />
+  <h1 className="hero-title">Transforme seu Jardim</h1>
+  <p className="hero-subtitle">Paisagismo e jardinagem especializada</p>
+  <button className="hero-cta">Solicitar Orçamento</button>
+</section>`,
+      },
+    ],
+    'PHOTOGRAPHY': [
+      {
+        id: '21dev-portfolio-photo',
+        name: 'Portfolio Photography',
+        category: 'card',
+        businessTypes: ['PHOTOGRAPHY', 'VIDEOGRAPHY', 'ART'],
+        animationType: 'hover-zoom',
+        hasGlow: false,
+        hasGlassmorphism: false,
+        code: `
+<div className="portfolio-card">
+  <img src="{{image}}" alt="{{title}}" />
+  <div className="portfolio-overlay">
+    <h3>{{title}}</h3>
+    <p>{{category}}</p>
+  </div>
+</div>`,
+      },
+    ],
     'TRAVEL': [
       {
         id: '21dev-hero-travel',
