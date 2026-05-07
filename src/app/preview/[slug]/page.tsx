@@ -23,27 +23,33 @@ export default function PreviewPage({ params }: { params: { slug: string } }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Try API first, then localStorage as fallback
+    // Check localStorage first, then try API as fallback
+    const stored = localStorage.getItem('preview_site');
+    
+    if (stored) {
+      try {
+        const parsedData = JSON.parse(stored);
+        if (parsedData.slug === params.slug) {
+          setSiteData(parsedData);
+          setLoading(false);
+          console.log('✓ Loaded from localStorage:', parsedData.title);
+          return;
+        }
+      } catch (e) {
+        console.error('Error parsing localStorage:', e);
+      }
+    }
+    
+    // Fallback to API
     fetch(`/api/sites/${params.slug}`)
       .then(res => res.json())
       .then(data => {
         if (data.success && data.site) {
           setSiteData(data.site);
-        } else {
-          // Fallback to localStorage
-          const stored = localStorage.getItem('preview_site');
-          if (stored) {
-            setSiteData(JSON.parse(stored));
-          }
         }
         setLoading(false);
       })
       .catch(() => {
-        // Fallback to localStorage
-        const stored = localStorage.getItem('preview_site');
-        if (stored) {
-          setSiteData(JSON.parse(stored));
-        }
         setLoading(false);
       });
   }, [params.slug]);
