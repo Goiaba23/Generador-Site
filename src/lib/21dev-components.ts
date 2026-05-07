@@ -132,6 +132,44 @@ export function getComponentsForNiche(businessType: string): Component21Dev[] {
 </div>`,
       },
     ],
+    'AI_AGENCY': [
+      {
+        id: '21dev-hero-ai-agency',
+        name: 'Hero AI Agency Futuristic',
+        category: 'hero',
+        businessTypes: ['AI_AGENCY', 'TECH', 'SAAS'],
+        animationType: 'slide-up',
+        hasGlow: true,
+        hasGlassmorphism: false,
+        code: `
+<section className="hero-ai-agency">
+  <div className="hero-gradient" />
+  <div className="hero-content">
+    <h1 className="hero-title">Transforme com IA</h1>
+    <p className="hero-subtitle">Soluções inteligentes para seu negócio</p>
+    <button className="hero-cta">Começar Agora</button>
+  </div>
+</section>`,
+      },
+      {
+        id: '21dev-service-ai',
+        name: 'AI Service Card',
+        category: 'card',
+        businessTypes: ['AI_AGENCY', 'TECH', 'CONSULTING'],
+        animationType: 'hover-lift',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<div className="service-ai-card">
+  <div className="service-icon">{{icon}}</div>
+  <h3>{{name}}</h3>
+  <p>{{description}}</p>
+  <div className="features">
+    {{#each features}}<span>✓ {{this}}</span>{{/each}}
+  </div>
+</div>`,
+      },
+    ],
     'HEALTH': [
       {
         id: '21dev-hero-health',
