@@ -304,6 +304,80 @@ export function getComponentsForNiche(businessType: string): Component21Dev[] {
 </section>`,
       },
     ],
+    'WELLNESS': [
+      {
+        id: '21dev-hero-wellness',
+        name: 'Hero Wellness Completo',
+        category: 'hero',
+        businessTypes: ['WELLNESS', 'SPA', 'YOGA'],
+        animationType: 'fade-in',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-wellness">
+  <div className="hero-overlay" />
+  <div className="hero-content">
+    <h1 className="hero-title">Bem-estar Completo</h1>
+    <p className="hero-subtitle">Sua jornada para uma vida melhor</p>
+    <button className="hero-cta">Começar Agora</button>
+  </div>
+</section>`,
+      },
+    ],
+    'BAKERY': [
+      {
+        id: '21dev-hero-bakery',
+        name: 'Hero Padaria Artesanal',
+        category: 'hero',
+        businessTypes: ['BAKERY', 'COFFEE', 'CAFE_BAKERY'],
+        animationType: 'slide-up',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-bakery">
+  <div className="hero-video-bg" />
+  <h1 className="hero-title">Sabor Artesanal</h1>
+  <p className="hero-subtitle">Pães e doces feitos com amor</p>
+  <button className="hero-cta">Fazer Pedido</button>
+</section>`,
+      },
+    ],
+    'PIZZERIA': [
+      {
+        id: '21dev-hero-pizzeria',
+        name: 'Hero Pizzaria Deliciosa',
+        category: 'hero',
+        businessTypes: ['PIZZERIA', 'RESTAURANT', 'FOOD_TRUCK'],
+        animationType: 'fade-in-up',
+        hasGlow: true,
+        hasGlassmorphism: false,
+        code: `
+<section className="hero-pizzeria">
+  <div className="hero-gradient" />
+  <h1 className="hero-title">Pizza Autêntica</h1>
+  <p className="hero-subtitle">Ingredientes frescos e forno à lenha</p>
+  <button className="hero-cta">Pedir pelo WhatsApp</button>
+</section>`,
+      },
+    ],
+    'DENTIST': [
+      {
+        id: '21dev-hero-dentist',
+        name: 'Hero Consultório Dentário',
+        category: 'hero',
+        businessTypes: ['DENTIST', 'HEALTH', 'CLINIC'],
+        animationType: 'fade-in',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-dentist">
+  <div className="hero-overlay" />
+  <h1 className="hero-title">Seu Sorriso Perfeito</h1>
+  <p className="hero-subtitle">Odontologia estética e reconstrução</p>
+  <button className="hero-cta">Agendar Consulta</button>
+</section>`,
+      },
+    ],
     'STARTUP': [
       {
         id: '21dev-hero-startup',
