@@ -98,6 +98,116 @@ export function getComponentsForNiche(businessType: string): Component21Dev[] {
 </div>`,
       },
     ],
+    'GYM': [
+      {
+        id: '21dev-hero-gym',
+        name: 'Hero Academia/Ginásio',
+        category: 'hero',
+        businessTypes: ['GYM', 'FITNESS', 'PERSONAL_TRAINING'],
+        animationType: 'slide-up',
+        hasGlow: true,
+        hasGlassmorphism: false,
+        code: `
+<section className="hero-gym">
+  <div className="hero-gradient" />
+  <h1 className="hero-title">Forge seu Corpo</h1>
+  <p className="hero-subtitle">Equipamentos de última geração</p>
+  <button className="hero-cta">Começar Agora</button>
+</section>`,
+      },
+    ],
+    'PERSONAL_TRAINING': [
+      {
+        id: '21dev-service-personal',
+        name: 'Personal Training Card',
+        category: 'card',
+        businessTypes: ['PERSONAL_TRAINING', 'FITNESS', 'HEALTH'],
+        animationType: 'hover-lift',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<div className="personal-card">
+  <div className="trainer-photo">{{photo}}</div>
+  <h3>{{name}}</h3>
+  <p>{{specialty}}</p>
+  <span className="rating">★ ★ ★ ★ ★</span>
+</div>`,
+      },
+    ],
+    'HOSTEL': [
+      {
+        id: '21dev-hero-hostel',
+        name: 'Hero Hostel Economico',
+        category: 'hero',
+        businessTypes: ['HOSTEL', 'HOTEL', 'TRAVEL'],
+        animationType: 'fade-in-up',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-hostel">
+  <div className="hero-overlay" />
+  <div className="hero-content">
+    <h1 className="hero-title">Hospedagem Econômica</h1>
+    <p className="hero-subtitle">Conforto e preço justo</p>
+    <button className="hero-cta">Reservar Agora</button>
+  </div>
+</section>`,
+      },
+    ],
+    'RESORT': [
+      {
+        id: '21dev-hero-resort',
+        name: 'Hero Resort Luxuoso',
+        category: 'hero',
+        businessTypes: ['RESORT', 'HOTEL', 'SPA'],
+        animationType: 'fade-in',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-resort">
+  <div className="hero-video-bg" />
+  <h1 className="hero-title">Paraíso Tropical</h1>
+  <p className="hero-subtitle">Experiência all-inclusive</p>
+  <button className="hero-cta">Reservar Suíte</button>
+</section>`,
+      },
+    ],
+    'CAFE_BAKERY': [
+      {
+        id: '21dev-hero-cafe-bakery',
+        name: 'Hero Café e Padaria',
+        category: 'hero',
+        businessTypes: ['CAFE_BAKERY', 'COFFEE', 'BAKERY'],
+        animationType: 'slide-up',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-cafe-bakery">
+  <div className="hero-gradient" />
+  <h1 className="hero-title">Café & Padaria Artesanal</h1>
+  <p className="hero-subtitle">Grãos selecionados e pães artesanais</p>
+  <button className="hero-cta">Fazer Pedido</button>
+</section>`,
+      },
+    ],
+    'FOOD_TRUCK': [
+      {
+        id: '21dev-hero-food-truck',
+        name: 'Hero Food Truck',
+        category: 'hero',
+        businessTypes: ['FOOD_TRUCK', 'RESTAURANT', 'FAST_FOOD'],
+        animationType: 'fade-in-up',
+        hasGlow: true,
+        hasGlassmorphism: false,
+        code: `
+<section className="hero-food-truck">
+  <div className="hero-overlay" />
+  <h1 className="hero-title">Sabor sobre Rodas</h1>
+  <p className="hero-subtitle">Gastronomia móvel de alta qualidade</p>
+  <button className="hero-cta">Ver Localização</button>
+</section>`,
+      },
+    ],
     'NIGHTCLUB': [
       {
         id: '21dev-hero-nightclub',
