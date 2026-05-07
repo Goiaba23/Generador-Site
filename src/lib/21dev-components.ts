@@ -304,6 +304,66 @@ export function getComponentsForNiche(businessType: string): Component21Dev[] {
 </section>`,
       },
     ],
+    'STARTUP': [
+      {
+        id: '21dev-hero-startup',
+        name: 'Hero Startup Inovadora',
+        category: 'hero',
+        businessTypes: ['STARTUP', 'TECH', 'SAAS'],
+        animationType: 'slide-up',
+        hasGlow: true,
+        hasGlassmorphism: false,
+        code: `
+<section className="hero-startup">
+  <div className="hero-gradient" />
+  <h1 className="hero-title">Inove seu Futuro</h1>
+  <p className="hero-subtitle">Soluções tecnológicas disruptivas</p>
+  <button className="hero-cta">Começar Agora</button>
+</section>`,
+      },
+    ],
+    'ECOMMERCE': [
+      {
+        id: '21dev-product-grid',
+        name: 'Product Grid Ecommerce',
+        category: 'card',
+        businessTypes: ['ECOMMERCE', 'RETAIL', 'STORE'],
+        animationType: 'hover-zoom',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<div className="product-grid">
+  {{#each products}}
+  <div className="product-card">
+    <img src="{{image}}" alt="{{name}}" />
+    <h3>{{name}}</h3>
+    <span className="price">R$ {{price}}</span>
+    <button className="buy-btn">Comprar</button>
+  </div>
+  {{/each}}
+</div>`,
+      },
+    ],
+    'FINANCE': [
+      {
+        id: '21dev-hero-finance',
+        name: 'Hero Finanças Corporativas',
+        category: 'hero',
+        businessTypes: ['FINANCE', 'CONSULTING', 'BANKING'],
+        animationType: 'fade-in-up',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-finance">
+  <div className="hero-overlay" />
+  <div className="hero-content">
+    <h1 className="hero-title">Crescimento Financeiro</h1>
+    <p className="hero-subtitle">Consultoria financeira especializada</p>
+    <button className="hero-cta">Consultar Agora</button>
+  </div>
+</section>`,
+      },
+    ],
     'RESTAURANT': [
       {
         id: '21dev-hero-restaurant',
