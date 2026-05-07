@@ -140,6 +140,7 @@ export async function POST(request: NextRequest) {
       const businessDetails = {
         name: businessName,
         type: businessType as BusinessType,
+        plan: (selectedPlan === 'premium' ? 'PREMIUM' : 'COMMON') as any,
         style: inferred.style as any,
         diferencial: inferred.diferencial,
         features: inferred.solutions,

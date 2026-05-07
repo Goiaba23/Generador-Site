@@ -4,7 +4,84 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 // In-memory store for generated sites (serverless-friendly)
-const generatedSites = new Map<string, any>();
+// Using global to persist across hot reloads in development
+declare global {
+  var generatedSites: Map<string, any> | undefined;
+}
+
+if (!global.generatedSites) {
+  global.generatedSites = new Map<string, any>();
+}
+const generatedSites = global.generatedSites;
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { slug: string } }
+) {
+  try {
+    const slug = params.slug;
+    
+    // Check in-memory store first
+    const generatedSite = generatedSites.get(slug);
+    
+    if (generatedSite) {
+      return NextResponse.json({
+        success: true,
+        site: generatedSite,
+        source: 'memory'
+      });
+    }
+    
+    // Fallback to database
+    const business = await prisma.business.findUnique({
+      where: { slug },
+      include: {
+        sites: {
+          orderBy: { createdAt: 'desc' },
+          take: 1,
+        },
+      },
+    });
+
+    if (!business || business.sites.length === 0) {
+      return NextResponse.json(
+        { error: 'Site não encontrado', slug },
+        { status: 404 }
+      );
+    }
+
+    const site = business.sites[0];
+
+    return NextResponse.json({
+      success: true,
+      site: {
+        id: site.id,
+        title: site.title,
+        metaDescription: site.metaDescription,
+        content: site.content,
+        businessName: business.name,
+        businessType: business.type,
+        features: site.content?.features || [],
+        contact: {
+          phone: business.phone,
+          email: business.email,
+        },
+        published: site.published,
+        createdAt: site.createdAt,
+      },
+      source: 'database'
+    });
+
+  } catch (error) {
+    console.error('Error fetching site:', error);
+    return NextResponse.json(
+      { error: 'Erro ao buscar site' },
+      { status: 500 }
+    );
+  } finally {
+    await prisma.$disconnect();
+  }
+}
 
 export async function POST(
   request: NextRequest,
@@ -12,14 +89,9 @@ export async function POST(
 ) {
   try {
     const body = await request.json();
-    const { siteData } = body;
     
-    if (!siteData) {
-      return NextResponse.json({ error: 'Dados do site obrigatórios' }, { status: 400 });
-    }
-    
-    // Store site data
-    generatedSites.set(params.slug, siteData);
+    // Store site data in memory
+    generatedSites.set(params.slug, body);
     
     return NextResponse.json({ success: true, slug: params.slug });
   } catch (error) {

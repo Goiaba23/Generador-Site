@@ -64,6 +64,7 @@ export async function POST(request: NextRequest) {
     const businessDetails = {
       name: businessName,
       type: businessType as BusinessType,
+      plan: 'PREMIUM' as any,
       style: style as any,
       diferencial: solutions?.join(', ') || 'premium growth',
       features: selectedFeatures,
@@ -100,7 +101,7 @@ export async function POST(request: NextRequest) {
     // Generate slug for preview
     const slug = businessName.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').substring(0, 50);
 
-    // Return generated site directly (NO DATABASE)
+    // Return generated site directly (NO DATABASE) - NOW WITH ALL TOOLS DATA
     return NextResponse.json({
       success: true,
       site: {
@@ -116,16 +117,40 @@ export async function POST(request: NextRequest) {
         designTokens: generatedSite.designTokens,
         nicheProposal: generatedSite.nicheProposal,
         premium: generatedSite.premium,
+        // INTEGRATED TOOLS DATA
+        animations: generatedSite.animations || [],
+        components: generatedSite.components || [],
+        logoInspiration: generatedSite.logoInspiration,
+        crawledData: generatedSite.crawledData,
+        youtubeInsights: generatedSite.youtubeInsights || [],
+        trends: generatedSite.trends || [],
       },
       rufloSwarm: generatedSite.rufloSwarm || null,
-      message: 'Site premium criado com sucesso usando IA!',
+      message: 'Site premium criado com sucesso usando IA com todas as ferramentas!',
       previewUrl: `/preview/${slug}`,
+      // TOOLS STATUS
+      toolsIntegrated: {
+        animations: !!generatedSite.animations?.length,
+        components: !!generatedSite.components?.length,
+        logoInspiration: !!generatedSite.logoInspiration,
+        crawledData: !!generatedSite.crawledData,
+        youtubeResearch: !!generatedSite.youtubeInsights?.length,
+      }
     });
 
   } catch (error: any) {
-    console.error('[API] Error creating premium site:', error);
+    const errorDetails = {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+      code: error.code
+    };
+    console.error('[API] Error creating premium site:', JSON.stringify(errorDetails, null, 2));
     return NextResponse.json(
-      { error: `Erro interno ao criar site premium: ${error.message}` },
+      { 
+        error: `Erro interno ao criar site premium: ${error.message}`,
+        details: process.env.NODE_ENV === 'development' ? errorDetails : undefined
+      },
       { status: 500 }
     );
   }

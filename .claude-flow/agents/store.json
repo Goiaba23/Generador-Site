@@ -1,0 +1,61 @@
+{
+  "agents": {
+    "agent-1778120384732-q2n4i8": {
+      "agentId": "agent-1778120384732-q2n4i8",
+      "agentType": "researcher",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "provider": "anthropic",
+        "task": "Search Dribbble for AGENCY website examples 2025"
+      },
+      "createdAt": "2026-05-07T02:19:44.738Z",
+      "model": "haiku",
+      "modelRoutedBy": "router"
+    },
+    "agent-1778120385620-pk5cta": {
+      "agentId": "agent-1778120385620-pk5cta",
+      "agentType": "coder",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "provider": "anthropic",
+        "task": "Generate 21dev components for AGENCY"
+      },
+      "createdAt": "2026-05-07T02:19:45.625Z",
+      "model": "haiku",
+      "modelRoutedBy": "router"
+    },
+    "agent-1778121616829-8r6hb2": {
+      "agentId": "agent-1778121616829-8r6hb2",
+      "agentType": "researcher",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "provider": "anthropic",
+        "task": "Search Dribbble for undefined website examples 2025"
+      },
+      "createdAt": "2026-05-07T02:40:16.839Z",
+      "model": "haiku",
+      "modelRoutedBy": "router"
+    },
+    "agent-1778121617694-lkzot5": {
+      "agentId": "agent-1778121617694-lkzot5",
+      "agentType": "coder",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "provider": "anthropic",
+        "task": "Generate 21dev components for undefined"
+      },
+      "createdAt": "2026-05-07T02:40:17.699Z",
+      "model": "haiku",
+      "modelRoutedBy": "router"
+    }
+  },
+  "version": "3.0.0"
+}

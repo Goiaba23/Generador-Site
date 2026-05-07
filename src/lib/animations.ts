@@ -1,13 +1,14 @@
-// Animations Library for Premium Sites v6.0
-// GSAP + Framer Motion + CSS Animations based on Dribbble $10K+ designs
+// Animations Library for Premium Sites v8.0 - NOW WITH THREE.JS 3D + GSAP
+// GSAP + Three.js + Framer Motion + CSS Animations based on Dribbble $10K+ designs
 
 export interface AnimationConfig {
   name: string;
-  type: 'gsap' | 'framer' | 'css';
+  type: 'gsap' | 'framer' | 'css' | 'threejs';
   trigger: 'scroll' | 'hover' | 'load' | 'click';
   duration: number;
   easing: string;
   niche: string[];
+  threejs?: boolean; // Marks 3D animations
 }
 
 export interface GSAPCode {
@@ -15,9 +16,10 @@ export interface GSAPCode {
   code: string;
   scrollTrigger: boolean;
   stagger: boolean;
+  threejs?: string; // Three.js scene code
 }
 
-// Get animations for specific business niche
+// Get animations for specific business niche (EXPANDED with 3D)
 export function getAnimationsForNiche(businessType: string): AnimationConfig[] {
   const animationMap: Record<string, AnimationConfig[]> = {
     'RESTAURANT': [
@@ -25,21 +27,35 @@ export function getAnimationsForNiche(businessType: string): AnimationConfig[] {
       { name: 'parallax-scroll', type: 'gsap', trigger: 'scroll', duration: 1.2, easing: 'power3.out', niche: ['food'] },
       { name: 'hover-zoom', type: 'css', trigger: 'hover', duration: 0.3, easing: 'ease-out', niche: ['food'] },
       { name: 'menu-item-reveal', type: 'gsap', trigger: 'scroll', duration: 0.6, easing: 'back.out(1.7)', niche: ['food'] },
+      { name: '3d-food-float', type: 'threejs', trigger: 'load', duration: 2.0, easing: 'ease-out', niche: ['food'], threejs: true },
     ],
     'BARBERSHOP': [
       { name: 'smooth-scroll', type: 'gsap', trigger: 'scroll', duration: 1.0, easing: 'power2.inOut', niche: ['beauty'] },
       { name: 'hover-lift', type: 'css', trigger: 'hover', duration: 0.3, easing: 'ease-out', niche: ['beauty'] },
       { name: 'fade-in', type: 'gsap', trigger: 'scroll', duration: 0.6, easing: 'power2.out', niche: ['beauty'] },
+      { name: '3d-razor-spin', type: 'threejs', trigger: 'hover', duration: 1.5, easing: 'power2.out', niche: ['beauty'], threejs: true },
     ],
     'TECH': [
       { name: 'slide-up', type: 'gsap', trigger: 'scroll', duration: 0.8, easing: 'power3.out', niche: ['tech'] },
       { name: 'stagger-children', type: 'gsap', trigger: 'scroll', duration: 0.5, easing: 'power2.out', niche: ['tech'] },
       { name: 'gradient-shift', type: 'css', trigger: 'load', duration: 3.0, easing: 'ease', niche: ['tech'] },
+      { name: '3d-cube-rotate', type: 'threejs', trigger: 'scroll', duration: 2.0, easing: 'linear', niche: ['tech'], threejs: true },
     ],
     'RETAIL': [
       { name: 'product-card-hover', type: 'css', trigger: 'hover', duration: 0.4, easing: 'ease-out', niche: ['retail'] },
       { name: 'cart-slide', type: 'framer', trigger: 'click', duration: 0.5, easing: 'easeOut', niche: ['retail'] },
       { name: 'fade-in-up', type: 'gsap', trigger: 'scroll', duration: 0.7, easing: 'power2.out', niche: ['retail'] },
+      { name: '3d-product-showcase', type: 'threejs', trigger: 'hover', duration: 1.8, easing: 'power2.out', niche: ['retail'], threejs: true },
+    ],
+    'VETERINARY': [
+      { name: 'pet-fade-in', type: 'gsap', trigger: 'scroll', duration: 0.7, easing: 'power2.out', niche: ['pets'] },
+      { name: 'paw-print-float', type: 'css', trigger: 'hover', duration: 0.4, easing: 'bounce', niche: ['pets'] },
+      { name: '3d-pet-model', type: 'threejs', trigger: 'load', duration: 3.0, easing: 'ease-in-out', niche: ['pets'], threejs: true },
+    ],
+    'AI_AGENCY': [
+      { name: 'ai-slide-up', type: 'gsap', trigger: 'scroll', duration: 0.9, easing: 'power3.out', niche: ['tech'] },
+      { name: 'neural-network-pulse', type: 'css', trigger: 'load', duration: 2.0, easing: 'ease', niche: ['tech'] },
+      { name: '3d-ai-brain', type: 'threejs', trigger: 'scroll', duration: 2.5, easing: 'linear', niche: ['tech'], threejs: true },
     ],
   };
 
@@ -47,6 +63,7 @@ export function getAnimationsForNiche(businessType: string): AnimationConfig[] {
     { name: 'fade-in', type: 'gsap', trigger: 'scroll', duration: 0.6, easing: 'power2.out', niche: ['general'] },
     { name: 'slide-up', type: 'gsap', trigger: 'scroll', duration: 0.8, easing: 'power3.out', niche: ['general'] },
     { name: 'hover-lift', type: 'css', trigger: 'hover', duration: 0.3, easing: 'ease-out', niche: ['general'] },
+    { name: '3d-float-element', type: 'threejs', trigger: 'scroll', duration: 1.5, easing: 'ease-out', niche: ['general'], threejs: true },
   ];
 }
 

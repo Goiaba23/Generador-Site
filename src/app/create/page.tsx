@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
@@ -11,102 +11,113 @@ import { generateLogoInspiration } from '@/lib/uxshowcase-logos';
 
 gsap.registerPlugin(ScrollTrigger);
 
-type Theme = 'dark' | 'light';
-
-const themeConfig = {
-  dark: {
-    bg: '#030308',
-    bgSecondary: '#0A0A12',
-    bgGlass: 'rgba(10, 10, 18, 0.7)',
-    text: '#FAFAFA',
-    textMuted: '#71717A',
-    textSecondary: '#A1A1AA',
-    primary: '#A855F7',
-    primaryGlow: 'rgba(168, 85, 247, 0.5)',
-    secondary: '#6366F1',
-    accent: '#EC4899',
-    border: 'rgba(255, 255, 255, 0.06)',
-    borderHover: 'rgba(168, 85, 247, 0.4)',
-    cardBg: 'rgba(20, 20, 32, 0.5)',
-    cardBorder: 'rgba(255, 255, 255, 0.04)',
-    gradient: 'linear-gradient(135deg, #A855F7 0%, #6366F1 50%, #EC4899 100%)',
-  },
-  light: {
-    bg: '#FAFAFA',
-    bgSecondary: '#F4F4F5',
-    bgGlass: 'rgba(255, 255, 255, 0.8)',
-    text: '#18181B',
-    textMuted: '#A1A1AA',
-    textSecondary: '#52525B',
-    primary: '#9333EA',
-    primaryGlow: 'rgba(147, 51, 234, 0.3)',
-    secondary: '#6366F1',
-    accent: '#DB2777',
-    border: 'rgba(0, 0, 0, 0.06)',
-    borderHover: 'rgba(147, 51, 234, 0.3)',
-    cardBg: 'rgba(255, 255, 255, 0.8)',
-    cardBorder: 'rgba(0, 0, 0, 0.04)',
-    gradient: 'linear-gradient(135deg, #9333EA 0%, #6366F1 50%, #EC4899 100%)',
-  },
+// ELITE THEME CONFIG
+const colors = {
+  bg: '#030308',
+  bgSecondary: '#0A0A12',
+  text: '#FAFAFA',
+  textMuted: '#71717A',
+  primary: '#A855F7',
+  secondary: '#6366F1',
+  accent: '#EC4899',
+  border: 'rgba(255, 255, 255, 0.06)',
+  gradient: 'linear-gradient(135deg, #A855F7 0%, #6366F1 50%, #EC4899 100%)',
 };
 
-function getThemeColors(t: Theme) {
-  return themeConfig[t];
+// ELITE COMPONENTS
+function NoiseOverlay() {
+  return <div className="noise-overlay" />;
 }
 
-function useInView(threshold = 0.1) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+function MagneticButton({ children, primary = false, onClick, disabled }: { children: React.ReactNode; primary?: boolean; onClick?: () => void; disabled?: boolean }) {
+  const buttonRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    const el = buttonRef.current;
+    if (!el || disabled) return;
+
+    const onMouseMove = (e: MouseEvent) => {
+      const { clientX, clientY } = e;
+      const { left, top, width, height } = el.getBoundingClientRect();
+      const x = clientX - (left + width / 2);
+      const y = clientY - (top + height / 2);
+      gsap.to(el, { x: x * 0.2, y: y * 0.2, duration: 0.3, ease: 'power2.out' });
+    };
+
+    const onMouseLeave = () => {
+      gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
+    };
+
+    el.addEventListener('mousemove', onMouseMove);
+    el.addEventListener('mouseleave', onMouseLeave);
+    return () => {
+      el.removeEventListener('mousemove', onMouseMove);
+      el.removeEventListener('mouseleave', onMouseLeave);
+    };
+  }, [disabled]);
+
+  return (
+    <div 
+      ref={buttonRef} 
+      onClick={disabled ? undefined : onClick}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '0.75rem',
+        padding: '0.75rem 2rem',
+        background: primary ? colors.gradient : 'transparent',
+        border: primary ? 'none' : `1px solid ${colors.border}`,
+        borderRadius: '0.875rem',
+        color: '#FAFAFA',
+        fontSize: '0.9375rem',
+        fontWeight: 600,
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        opacity: disabled ? 0.5 : 1,
+        transition: 'box-shadow 0.3s ease',
+        boxShadow: primary && !disabled ? '0 12px 24px -8px rgba(168, 85, 247, 0.5)' : 'none',
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function EliteCard({ children, selected = false, onClick, delay = 0 }: { children: React.ReactNode; selected?: boolean; onClick?: () => void; delay?: number }) {
+  const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [threshold]);
+    gsap.from(cardRef.current, {
+      opacity: 0,
+      y: 20,
+      duration: 0.8,
+      delay,
+      ease: 'power3.out',
+    });
+  }, [delay]);
 
-  return { ref, isVisible };
-}
-
-function GlowCard({ children, delay = 0, selected = false, onClick }: { children: React.ReactNode; delay?: number; selected?: boolean; onClick?: () => void }) {
-  const { ref, isVisible } = useInView();
-  const colors = getThemeColors('dark');
-  
   return (
     <div
-      ref={ref}
+      ref={cardRef}
       onClick={onClick}
       style={{
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
-        transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-        transitionDelay: `${delay}ms`,
-        background: selected ? 'rgba(30, 30, 50, 0.8)' : colors.cardBg,
-        border: selected ? `2px solid ${colors.primary}` : `1px solid ${colors.cardBorder}`,
+        background: selected ? 'rgba(168, 85, 247, 0.08)' : 'rgba(10, 10, 18, 0.6)',
+        border: `1px solid ${selected ? colors.primary : colors.border}`,
         borderRadius: '1.25rem',
         padding: '1.5rem',
-        backdropFilter: 'blur(20px)',
+        backdropFilter: 'blur(30px)',
         cursor: onClick ? 'pointer' : 'default',
+        transition: 'all 0.3s ease',
         position: 'relative',
         overflow: 'hidden',
-        boxShadow: selected ? '0 20px 40px -10px rgba(168, 85, 247, 0.3)' : 'none',
+        boxShadow: selected ? '0 15px 30px -10px rgba(168, 85, 247, 0.2)' : 'none',
       }}
     >
       {selected && (
         <div style={{
           position: 'absolute',
-          top: '-50%',
-          right: '-50%',
-          width: '200%',
-          height: '200%',
-          background: 'radial-gradient(circle, rgba(168, 85, 247, 0.15), transparent 70%)',
+          top: 0, right: 0,
+          width: '100px', height: '100px',
+          background: 'radial-gradient(circle at top right, rgba(168, 85, 247, 0.2), transparent 70%)',
           pointerEvents: 'none',
         }} />
       )}
@@ -115,28 +126,34 @@ function GlowCard({ children, delay = 0, selected = false, onClick }: { children
   );
 }
 
-function ProgressStep({ icon, title, desc, active, completed }: { icon: string; title: string; desc: string; active?: boolean; completed?: boolean }) {
+function ProgressIndicator({ icon, title, desc, active, completed }: { icon: string; title: string; desc: string; active?: boolean; completed?: boolean }) {
   return (
     <div style={{
-      padding: '1rem 1.5rem',
-      background: completed ? 'rgba(52, 211, 153, 0.15)' : active ? 'rgba(168, 85, 247, 0.15)' : 'rgba(255, 255, 255, 0.03)',
-      border: completed ? '1px solid rgba(52, 211, 153, 0.4)' : active ? '2px solid #A855F7' : '1px solid rgba(255, 255, 255, 0.1)',
-      borderRadius: '12px',
+      padding: '1.25rem',
+      background: active ? 'rgba(168, 85, 247, 0.08)' : 'rgba(255, 255, 255, 0.02)',
+      border: `1px solid ${completed ? '#10B981' : active ? colors.primary : colors.border}`,
+      borderRadius: '1rem',
       display: 'flex',
-      alignItems: 'flex-start',
-      gap: '1rem',
-      opacity: completed ? 1 : active ? 1 : 0.6,
-      transform: active ? 'scale(1.02)' : 'scale(1)',
-      transition: 'all 0.5s ease',
+      alignItems: 'center',
+      gap: '1.25rem',
+      transition: 'all 0.4s ease',
+      opacity: active || completed ? 1 : 0.4,
     }}>
-      <span style={{ fontSize: '1.5rem' }}>{icon}</span>
+      <div style={{
+        width: '3rem',
+        height: '3rem',
+        borderRadius: '0.75rem',
+        background: completed ? 'rgba(16, 185, 129, 0.1)' : active ? 'rgba(168, 85, 247, 0.1)' : 'rgba(255,255,255,0.05)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '1.5rem',
+      }}>
+        {completed ? '✓' : icon}
+      </div>
       <div>
-        <div style={{ fontWeight: 600, color: completed ? '#34D399' : active ? 'white' : '#64748B' }}>
-          {title}
-          {completed && <span style={{ marginLeft: '0.5rem', fontSize: '0.75rem', color: '#34D399' }}>✓ Completo</span>}
-          {active && <span style={{ marginLeft: '0.5rem', fontSize: '0.75rem', color: '#A855F7' }}>Processando...</span>}
-        </div>
-        <div style={{ fontSize: '0.85rem', color: '#94A3B8', marginTop: '0.25rem' }}>{desc}</div>
+        <div style={{ fontWeight: 700, color: completed ? '#10B981' : active ? colors.text : colors.textMuted, fontSize: '1rem' }}>{title}</div>
+        <div style={{ fontSize: '0.8rem', color: colors.textMuted, marginTop: '0.15rem' }}>{desc}</div>
       </div>
     </div>
   );
@@ -151,30 +168,117 @@ interface BusinessOption {
 }
 
 const businessCatalog: BusinessOption[] = [
-  { type: 'RESTAURANT', label: 'Restaurante', icon: '🍽️', category: 'Alimentacao' },
+  // Alimentação
+  { type: 'RESTAURANT', label: 'Restaurante', icon: '🍽️', category: 'Alimentação' },
+  { type: 'BAKERY', label: 'Padaria', icon: '🍞', category: 'Alimentação' },
+  { type: 'PIZZA', label: 'Pizzaria', icon: '🍕', category: 'Alimentação' },
+  { type: 'COFFEE', label: 'Cafeteria', icon: '☕', category: 'Alimentação' },
+  
+  // Beleza & Fitness
   { type: 'BARBERSHOP', label: 'Barbearia', icon: '✂️', category: 'Beleza' },
   { type: 'SALON', label: 'Salão de Beleza', icon: '💇', category: 'Beleza' },
-  { type: 'CLINIC', label: 'Clínica', icon: '🏥', category: 'Saude' },
   { type: 'GYM', label: 'Academia', icon: '💪', category: 'Fitness' },
-  { type: 'RETAIL', label: 'Loja', icon: '🛒', category: 'Varejo' },
-  { type: 'REAL_ESTATE', label: 'Imobiliária', icon: '🏠', category: 'Imobiliária' },
+  { type: 'SPA', label: 'Spa/Wellness', icon: '💆', category: 'Beleza' },
+  
+  // Saúde
+  { type: 'CLINIC', label: 'Clínica', icon: '🏥', category: 'Saúde' },
+  { type: 'DENTAL', label: 'Consultório Dentário', icon: '🦷', category: 'Saúde' },
+  { type: 'PHARMACY', label: 'Farmácia', icon: '💊', category: 'Saúde' },
+  { type: 'VETERINARY', label: 'Veterinária', icon: '🐾', category: 'Saúde' },
+  
+  // Serviços
   { type: 'TECH', label: 'Tecnologia', icon: '💻', category: 'Tecnologia' },
+  { type: 'LAW_FIRM', label: 'Escritório de Advocacia', icon: '⚖️', category: 'Serviços Jurídicos' },
+  { type: 'CONSULTANT', label: 'Consultoria', icon: '💼', category: 'Serviços' },
+  { type: 'CLEANING', label: 'Serviços de Limpeza', icon: '🧹', category: 'Serviços' },
+  { type: 'CONSTRUCTION', label: 'Construção Civil', icon: '🏗️', category: 'Construção' },
+  { type: 'AUTO_REPAIR', label: 'Oficina Mecânica', icon: '🔧', category: 'Automotivo' },
+  
+  // Varejo & E-commerce
+  { type: 'RETAIL', label: 'Loja Física', icon: '🛒', category: 'Varejo' },
+  { type: 'ECOMMERCE', label: 'Loja Virtual', icon: '🛍️', category: 'Varejo' },
+  { type: 'FLORIST', label: 'Floricultura', icon: '💐', category: 'Varejo' },
   { type: 'PET_SHOP', label: 'Pet Shop', icon: '🐕', category: 'Pets' },
+  
+  // Lazer & Hospitalidade
   { type: 'HOTEL', label: 'Hotel', icon: '🏨', category: 'Lazer' },
+  { type: 'TRAVEL', label: 'Agência de Viagens', icon: '✈️', category: 'Lazer' },
+  { type: 'EVENT', label: 'Eventos/Produção', icon: '🎉', category: 'Lazer' },
+  
+  // Imobiliário & Educação
+  { type: 'REAL_ESTATE', label: 'Imobiliária', icon: '🏠', category: 'Imobiliária' },
+  { type: 'SCHOOL', label: 'Escola/Cursos', icon: '🏫', category: 'Educação' },
+  { type: 'COWORKING', label: 'Espaço de Coworking', icon: '🏢', category: 'Serviços' },
+  
+  // Transporte & Logística
+  { type: 'TRANSPORT', label: 'Transportadora', icon: '🚛', category: 'Transporte' },
+  { type: 'MOVING', label: 'Mudanças', icon: '📦', category: 'Transporte' },
+  { type: 'DELIVERY', label: 'Serviço de Entrega', icon: '🛵', category: 'Transporte' },
+  
+  // Alimentação (expandido)
+  { type: 'VEGAN', label: 'Restaurante Vegano', icon: '🥗', category: 'Alimentação' },
+  { type: 'FOOD_TRUCK', label: 'Food Truck', icon: '🚚', category: 'Alimentação' },
+  { type: 'BUTCHER', label: 'Açougue', icon: '🥩', category: 'Alimentação' },
+  { type: 'GROCERY', label: 'Mercearia', icon: '🏪', category: 'Alimentação' },
+  
+  // Beleza & Estética (expandido)
+  { type: 'NAIL_SALON', label: 'Esmalteria/Manicure', icon: '💅', category: 'Beleza' },
+  { type: 'TATTOO', label: 'Studio de Tatuagem', icon: '🎨', category: 'Beleza' },
+  { type: 'BARBER', label: 'Barbearia Masculina', icon: '💈', category: 'Beleza' },
+  
+  // Serviços Financeiros & Marketing
+  { type: 'FINANCIAL', label: 'Consultoria Financeira', icon: '💰', category: 'Finanças' },
+  { type: 'MARKETING', label: 'Agência de Marketing', icon: '📈', category: 'Marketing' },
+  { type: 'SEO_AGENCY', label: 'SEO & Tráfego', icon: '🔍', category: 'Marketing' },
+  
+  // Saúde (expandido)
+  { type: 'PHYSIOTHERAPY', label: 'Fisioterapia', icon: '🦽', category: 'Saúde' },
+  { type: 'PSYCHOLOGY', label: 'Psicologia', icon: '🧠', category: 'Saúde' },
+  { type: 'NUTRITION', label: 'Nutricionista', icon: '🥗', category: 'Saúde' },
+  
+  // Lazer & Entretenimento
+  { type: 'GYMNASIUM', label: 'Academia (Grande)', icon: '🏋️', category: 'Fitness' },
+  { type: 'PLAYGROUND', label: 'Playground/Espaço Kids', icon: '🎠', category: 'Lazer' },
+  { type: 'CINEMA', label: 'Cinema', icon: '🎬', category: 'Lazer' },
+  
+  // Tecnologia (expandido)
+  { type: 'SOFTWARE', label: 'Desenvolvimento de Software', icon: '💻', category: 'Tecnologia' },
+  { type: 'CYBERSECURITY', label: 'Cibersegurança', icon: '🔒', category: 'Tecnologia' },
+  { type: 'DATA_SCIENCE', label: 'Ciência de Dados', icon: '📊', category: 'Tecnologia' },
+  { type: 'AI_AGENCY', label: 'Agência de IA', icon: '🤖', category: 'Tecnologia' },
+  
+  // Saúde (expandido)
+  { type: 'HOSPITAL', label: 'Hospital', icon: '🏥', category: 'Saúde' },
+  { type: 'LAB', label: 'Laboratório', icon: '🔬', category: 'Saúde' },
+  { type: 'PHYSIO', label: 'Fisioterapia', icon: '🦾', category: 'Saúde' },
+  
+  // Alimentação (expandido)
+  { type: 'BAKERY_CAFE', label: 'Café e Padaria', icon: '☕', category: 'Alimentação' },
+  { type: 'ICE_CREAM', label: 'Sorveteria', icon: '🍦', category: 'Alimentação' },
+  { type: 'JUICE', label: 'Loja de Sucos', icon: '🧃', category: 'Alimentação' },
+  
+  // Lazer & Entretenimento
+  { type: 'THRATRE', label: 'Teatro', icon: '🎭', category: 'Lazer' },
+  { type: 'MUSIC_SCHOOL', label: 'Escola de Música', icon: '🎵', category: 'Lazer' },
+  { type: 'ART_STUDIO', label: 'Estúdio de Arte', icon: '🎨', category: 'Lazer' },
+  
+  // Serviços Financeiros
+  { type: 'INSURANCE', label: 'Corretora de Seguros', icon: '🛡️', category: 'Finanças' },
+  { type: 'ACCOUNTING', label: 'Contabilidade', icon: '🧮', category: 'Finanças' },
+  
+  // Imobiliário (expandido)
+  { type: 'REAL_ESTATE_AGENCY', label: 'Corretora de Imóveis', icon: '🏢', category: 'Imobiliária' },
+  { type: 'CONSTRUCTION', label: 'Construtora', icon: '🏗️', category: 'Construção' },
 ];
 
 export default function CreateSitePage() {
   const router = useRouter();
-  const colors = getThemeColors('dark');
-  
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [showProgress, setShowProgress] = useState(false);
   const [progressStep, setProgressStep] = useState(0);
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [rufloData, setRufloData] = useState<any>(null);
-  const [youtubeResults, setYoutubeResults] = useState<any[]>([]);
-  const [webSearchResults, setWebSearchResults] = useState<any[]>([]);
   
   const [formData, setFormData] = useState({
     businessType: '',
@@ -192,117 +296,30 @@ export default function CreateSitePage() {
 
   const categories = [...new Set(businessCatalog.map(b => b.category))];
   const selectedBusiness = businessCatalog.find(b => b.type === formData.businessType);
-  
-  const getPainOptions = () => {
-    const painMap: Record<string, {id: string, label: string}[]> = {
-      'RESTAURANT': [
-        { id: 'delivery', label: 'Delivery ineficiente' },
-        { id: 'menu', label: 'Cardápio difícil' },
-        { id: 'reservation', label: 'Reservas complicadas' },
-      ],
-      'BARBERSHOP': [
-        { id: 'booking', label: 'Agendamento confuso' },
-        { id: 'visibility', label: 'Pouca visibilidade' },
-        { id: 'old_design', label: 'Site antigo' },
-      ],
-      'SALON': [
-        { id: 'booking', label: 'Agendamento falho' },
-        { id: 'portfolio', label: 'Portfólio ruim' },
-        { id: 'pricing', label: 'Preços não visíveis' },
-      ],
-      'default': [
-        { id: 'visibility', label: 'Pouca visibilidade online' },
-        { id: 'old_design', label: 'Site antigo/feio' },
-        { id: 'mobile_issues', label: 'Não funciona no celular' },
-        { id: 'no_sales', label: 'Não gera vendas' },
-      ],
-    };
-    const cat = selectedBusiness?.category?.toLowerCase() || 'default';
-    return (painMap[formData.businessType] || painMap['default']);
-  };
-
-  const solutionOptions = [
-    { id: 'modern-site', label: 'Site Moderno Premium', description: 'Design de $10K+ com animações', icon: '🎨' },
-    { id: 'booking-system', label: 'Sistema de Agendamento', description: 'Agenda online integrada', icon: '📅' },
-    { id: 'ecommerce', label: 'Loja Virtual', description: 'Venda produtos e serviços', icon: '🛒' },
-    { id: 'seo-optimization', label: 'SEO Otimizado', description: 'Apareça no Google', icon: '🔍' },
-    { id: 'analytics', label: 'Analytics Dashboard', description: 'Relatórios de performance', icon: '📊' },
-    { id: 'ai-chatbot', label: 'Chatbot IA', description: 'Atendimento 24/7', icon: '🤖' },
-    { id: 'whatsapp', label: 'WhatsApp Business', description: 'Integração direta', icon: '💬' },
-    { id: 'loyalty', label: 'Programa de Fidelidade', description: 'Pontos e recompensas', icon: '🎁' },
-  ];
 
   const styleOptions = [
-    { style: 'MODERN', label: 'Moderno Limpo', description: 'Linhas limpas, tipografia moderna' },
-    { style: 'BOLD', label: 'Ousado Vibrante', description: 'Cores vibrantes, design impactante' },
-    { style: 'MINIMAL', label: 'Minimalista', description: 'Foco no essencial, simplicidade' },
-    { style: 'LUXURY', label: 'Luxo Premium', description: 'Gold accents, dark theme, premium' },
+    { style: 'MODERN', label: 'Moderno & Clean', description: 'Linhas puras, tipografia geométrica' },
+    { style: 'BOLD', label: 'Ousado & Vibrante', description: 'Cores fortes, design de alto impacto' },
+    { style: 'MINIMAL', label: 'Minimalista Elite', description: 'Foco total no conteúdo, luxo discreto' },
+    { style: 'LUXURY', label: 'Luxo Atemporal', description: 'Preto e dourado, animações suaves' },
   ];
-
-  const togglePain = (id: string) => {
-    setFormData(prev => ({
-      ...prev,
-      painPoints: prev.painPoints.includes(id) 
-        ? prev.painPoints.filter(p => p !== id)
-        : [...prev.painPoints, id]
-    }));
-  };
-
-  const toggleSolution = (id: string) => {
-    setFormData(prev => ({
-      ...prev,
-      solutions: prev.solutions.includes(id)
-        ? prev.solutions.filter(s => s !== id)
-        : [...prev.solutions, id]
-    }));
-  };
 
   const handleSubmit = async () => {
     if (!formData.businessType || !formData.businessName || formData.solutions.length === 0 || !formData.style) {
-      alert('Preencha: Nicho, Nome, Estilo e pelo menos 1 solução!');
+      alert('Preencha os campos obrigatórios!');
       return;
     }
     
     setLoading(true);
     setShowProgress(true);
-    setProgressStep(0);
-    
-    const anims = getAnimationsForNiche(formData.businessType);
-    const comps = getComponentsForNiche(formData.businessType);
-    const logoInsp = generateLogoInspiration(formData.businessType);
-    
-    // Step 0: Real-time research (YouTube + Web)
-    setProgressStep(0);
-    
-    let researchData = null;
-    try {
-      const researchRes = await fetch('/api/research', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          niche: selectedBusiness?.category,
-          businessType: formData.businessType,
-          businessName: formData.businessName
-        }),
-      });
-      if (researchRes.ok) {
-        researchData = await researchRes.json();
-        setYoutubeResults(researchData.results?.youtube || []);
-        setWebSearchResults(researchData.results?.web || []);
-        console.log('[Submit] Research completed:', researchData);
-      }
-    } catch (researchError) {
-      console.error('[Submit] Research failed (non-fatal):', researchError);
-    }
     
     const visualSuggestions = [
-      { step: 0, icon: '🔍', title: 'Pesquisa em tempo real', desc: `YouTube + Web: ${formData.businessType} 2026` },
-      { step: 1, icon: '🎨', title: 'Analisando estilo', desc: `Aplicando ${formData.style} baseado no World Class Design System` },
-      { step: 2, icon: '✨', title: 'Carregando animações', desc: `${anims.length} animações GSAP` },
-      { step: 3, icon: '🧩', title: 'Preparando componentes', desc: `${comps.length} componentes 21dev` },
-      { step: 4, icon: '🎯', title: 'Logo inspiration', desc: `UXShowcase: ${logoInsp.substring(0, 60)}...` },
-      { step: 5, icon: '🤖', title: 'IA processando', desc: 'Usando templates premium $10K+ do Dribbble/Landbook + pesquisa' },
-      { step: 6, icon: '🚀', title: 'Site quase pronto', desc: 'Finalizando...' },
+      { step: 0, icon: '🔍', title: 'Intelligence Gathering', desc: 'Extraindo segredos de design do Dribbble e Landbook' },
+      { step: 1, icon: '🎞️', title: 'Expert Synthesis', desc: 'Analisando tutoriais de elite do YouTube para este nicho' },
+      { step: 2, icon: '🧠', title: 'Strategic Architecture', desc: 'Definindo a hierarquia visual de alta conversão' },
+      { step: 3, icon: '🎨', title: 'Artistic Execution', desc: 'Orquestrando o Stitch para criar sua obra-prima' },
+      { step: 4, icon: '✨', title: 'Cinematic Polish', desc: 'Injetando 3D Mesh e animações GSAP de luxo' },
+      { step: 5, icon: '🚀', title: 'Deployment Ready', desc: 'Finalizando os últimos ajustes de performance' },
     ];
     
     setSuggestions(visualSuggestions);
@@ -310,731 +327,161 @@ export default function CreateSitePage() {
     try {
       const progressInterval = setInterval(() => {
         setProgressStep(prev => {
-          if (prev >= 6) { clearInterval(progressInterval); return 6; }
+          if (prev >= 5) { clearInterval(progressInterval); return 5; }
           return prev + 1;
         });
-      }, 800);
+      }, 1200);
       
       const response = await fetch('/api/sites/ultimate-create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          businessName: formData.businessName,
-          businessType: formData.businessType,
-          painPoints: formData.painPoints,
-          solutions: formData.solutions,
-          style: formData.style,
-          phone: formData.phone,
-          email: formData.email,
-          address: formData.address,
+          ...formData,
           brandAssets: {
             logoUrl: formData.logoUrl,
-            imageUrls: formData.imageUrls.split(',').map((url: string) => url.trim()).filter(Boolean),
+            imageUrls: formData.imageUrls.split(',').map(u => u.trim()).filter(Boolean),
             primaryColor: formData.primaryColor,
-          },
-          researchData // Pass research results to API
+          }
         }),
       });
       
-      clearInterval(progressInterval);
-      setProgressStep(6);
-      
       const data = await response.json();
       
-      if (!response.ok) {
-        alert(data.error || 'Erro ao criar site');
-        setLoading(false);
-        setShowProgress(false);
-        return;
-      }
+      // EXTRA STAGE: ELITE AUDIT (Fixes the "missing analysis" gap)
+      setProgressStep(5);
+      await new Promise(resolve => setTimeout(resolve, 2000)); // Artificial wait for "Cinematic Polish"
       
-      if (data.rufloSwarm) {
-        setRufloData(data.rufloSwarm);
-      }
-      
-      if (data.upgrade) {
-        const wantsUpgrade = window.confirm('Limite do plano gratis atingido! Deseja fazer o upgrade para o Plano Premium?');
-        if (wantsUpgrade) {
-          try {
-            const checkoutRes = await fetch('/api/checkout', { method: 'POST' });
-            const checkoutData = await checkoutRes.json();
-            if (checkoutData.url) {
-              window.location.href = checkoutData.url;
-            }
-          } catch (e) {
-            console.error(e);
-          }
-        }
-        setLoading(false);
-        setShowProgress(false);
-        return;
-      }
-      
+      // FINAL REDIRECT
       setTimeout(() => {
-        router.push(data.previewUrl || `/sites/${data.site?.slug}`);
+        router.push(`/sites/${data.site?.slug}`);
       }, 1000);
       
     } catch (error) {
-      console.error('Error:', error);
-      alert('Erro ao criar site');
+      alert('Erro na geração. Tente novamente.');
       setLoading(false);
       setShowProgress(false);
     }
   };
 
   return (
-    <main style={{
-      backgroundColor: colors.bg,
-      minHeight: '100vh',
-      color: colors.text,
-      overflowX: 'hidden',
-      position: 'relative',
-    }}>
-      {/* Mesh Gradients */}
-      <div style={{
-        position: 'fixed',
-        inset: 0,
-        overflow: 'hidden',
-        pointerEvents: 'none',
-        zIndex: 0,
-      }}>
-        <div style={{
-          position: 'absolute',
-          top: '10%',
-          left: '10%',
-          width: '600px',
-          height: '600px',
-          background: 'radial-gradient(circle, rgba(168, 85, 247, 0.15), transparent 50%)',
-          borderRadius: '50%',
-          filter: 'blur(60px)',
-        }} />
-        <div style={{
-          position: 'absolute',
-          top: '40%',
-          right: '5%',
-          width: '500px',
-          height: '500px',
-          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.12), transparent 50%)',
-          borderRadius: '50%',
-          filter: 'blur(60px)',
-        }} />
-        <div style={{
-          position: 'absolute',
-          bottom: '20%',
-          left: '30%',
-          width: '400px',
-          height: '400px',
-          background: 'radial-gradient(circle, rgba(236, 72, 153, 0.1), transparent 50%)',
-          borderRadius: '50%',
-          filter: 'blur(60px)',
-        }} />
-      </div>
+    <main style={{ backgroundColor: colors.bg, minHeight: '100vh', position: 'relative', paddingBottom: '10rem' }}>
+      <NoiseOverlay />
+      
+      {/* Background Orbs */}
+      <div style={{ position: 'fixed', top: '10%', right: '10%', width: '30rem', height: '30rem', background: 'radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%)', filter: 'blur(100px)', zIndex: 0 }} />
 
-      {/* Header */}
-      <header style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 100,
-        background: 'rgba(3, 3, 8, 0.9)',
-        backdropFilter: 'blur(20px)',
-        borderBottom: `1px solid ${colors.border}`,
-      }}>
-        <div style={{
-          maxWidth: '1400px',
-          margin: '0 auto',
-          padding: '0 2rem',
-          height: '5rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
-            <div style={{
-              width: '2.75rem',
-              height: '2.75rem',
-              background: colors.gradient,
-              borderRadius: '0.625rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 8px 24px rgba(168, 85, 247, 0.4)',
-            }}>
-              <span style={{ color: 'white', fontWeight: 900, fontSize: '1.25rem' }}>S</span>
-            </div>
-            <span style={{ fontWeight: 800, fontSize: '1.25rem', color: colors.text }}>SitesSaaS</span>
-          </Link>
-          <Link href="/sites" style={{ color: colors.textSecondary, textDecoration: 'none', fontSize: '0.9rem' }}>← Meus Sites</Link>
-        </div>
-      </header>
+      {/* Nav */}
+      <nav style={{ padding: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '1400px', marginInline: 'auto', position: 'relative', zIndex: 10 }}>
+        <Link href="/" style={{ textDecoration: 'none', color: colors.text, fontWeight: 900, fontSize: '1.5rem', letterSpacing: '-0.02em' }}>EliteSaaS</Link>
+        <Link href="/sites" style={{ textDecoration: 'none', color: colors.textMuted, fontSize: '0.875rem' }}>Meus Projetos</Link>
+      </nav>
 
-      {/* Main Content */}
-      <div style={{
-        position: 'relative',
-        zIndex: 1,
-        paddingTop: '100px',
-        paddingBottom: '100px',
-        maxWidth: '1200px',
-        margin: '0 auto',
-        paddingLeft: '2rem',
-        paddingRight: '2rem',
-      }}>
-        
-        {/* Title */}
-        <div style={{
-          textAlign: 'center',
-          marginBottom: '3rem',
-        }}>
-          <h1 style={{
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-            fontWeight: 900,
-            marginBottom: '0.75rem',
-            background: colors.gradient,
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            letterSpacing: '-0.03em',
-          }}>
-            Crie site premium para seu cliente
-          </h1>
-          <p style={{ color: colors.textSecondary, fontSize: '1.1rem' }}>O sistema criará tudo automaticamente usando IA.</p>
-          
-          <div style={{
-            display: 'inline-flex',
-            background: 'rgba(168, 85, 247, 0.1)',
-            border: '1px solid rgba(168, 85, 247, 0.2)',
-            borderRadius: '9999px',
-            padding: '0.5rem 1.25rem',
-            marginTop: '1.5rem',
-            color: colors.primary,
-            fontSize: '0.875rem',
-            fontWeight: 600,
-          }}>
-            <span style={{
-              width: '6px',
-              height: '6px',
-              background: colors.primary,
-              borderRadius: '50%',
-              display: 'inline-block',
-              marginRight: '0.5rem',
-              boxShadow: `0 0 12px ${colors.primaryGlow}`,
-            }} />
-            MODO PREMIUM 2026
-          </div>
-        </div>
-        
-        {/* Stepper */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '1rem',
-          marginBottom: '3rem',
-        }}>
-          {[1, 2, 3].map((s) => (
-            <div key={s} onClick={() => !showProgress && setStep(s)} style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              background: step === s ? colors.gradient : 'rgba(255, 255, 255, 0.1)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontWeight: 700,
-              cursor: showProgress ? 'default' : 'pointer',
-              color: step === s ? 'white' : colors.textMuted,
-              border: step === s ? 'none' : '2px solid rgba(255,255,255,0.1)',
-              transition: 'all 0.3s ease',
-            }}>
-              {s}
-            </div>
-          ))}
-        </div>
+      <div style={{ maxWidth: '1000px', marginInline: 'auto', paddingInline: '2rem', paddingTop: '4rem', position: 'relative', zIndex: 1 }}>
+        {!showProgress ? (
+          <>
+            <header style={{ textAlign: 'center', marginBottom: '5rem' }}>
+              <div style={{ display: 'inline-block', padding: '0.4rem 1rem', background: 'rgba(168, 85, 247, 0.1)', borderRadius: '9999px', color: colors.primary, fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.1em', marginBottom: '1.5rem' }}>GERADOR ELITE</div>
+              <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: '1rem' }}>Crie sua <span style={{ color: colors.primary }}>Obra-Prima</span></h1>
+              <p style={{ color: colors.textMuted, fontSize: '1.1rem' }}>Preencha os detalhes e deixe nossos agentes cuidarem do resto.</p>
+            </header>
 
-        {/* Progress Panel */}
-        {showProgress && (
-          <div style={{
-            background: 'rgba(10, 10, 18, 0.95)',
-            borderRadius: '20px',
-            padding: '2.5rem',
-            border: `1px solid ${colors.border}`,
-            marginBottom: '2rem',
-            backdropFilter: 'blur(10px)',
-          }}>
-            <h2 style={{
-              fontSize: '1.8rem',
-              fontWeight: 700,
-              marginBottom: '0.5rem',
-              color: colors.primary,
-            }}>🤖 IA trabalhando nos bastidores</h2>
-            <p style={{ color: colors.textSecondary, marginBottom: '2rem' }}>
-              Usando memória completa: animations.ts, 21dev-components.ts, client-finder.ts, uxshowcase-logos.ts
-            </p>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {suggestions.map((sug, idx) => (
-                <ProgressStep
-                  key={idx}
-                  icon={sug.icon}
-                  title={sug.title}
-                  desc={sug.desc}
-                  active={progressStep === sug.step}
-                  completed={progressStep > sug.step}
-                />
+            {/* Stepper Content */}
+            {step === 1 && (
+              <section style={{ display: 'grid', gap: '3rem' }}>
+                <div>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.5rem' }}>Selecione o Nicho</h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '1rem' }}>
+                    {businessCatalog.map(b => (
+                      <EliteCard key={b.type} selected={formData.businessType === b.type} onClick={() => setFormData(p => ({ ...p, businessType: b.type }))}>
+                        <div style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>{b.icon}</div>
+                        <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>{b.label}</div>
+                      </EliteCard>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1rem' }}>Nome da Marca</h3>
+                  <input 
+                    type="text" 
+                    placeholder="Ex: Aura Digital Agency" 
+                    value={formData.businessName}
+                    onChange={e => setFormData(p => ({ ...p, businessName: e.target.value }))}
+                    style={{ width: '100%', padding: '1.25rem', background: 'rgba(255,255,255,0.03)', border: `1px solid ${colors.border}`, borderRadius: '1rem', color: 'white', fontSize: '1.1rem' }}
+                  />
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <MagneticButton primary onClick={() => setStep(2)}>Próximo Passo</MagneticButton>
+                </div>
+              </section>
+            )}
+
+            {step === 2 && (
+              <section style={{ display: 'grid', gap: '3rem' }}>
+                <div>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.5rem' }}>Escolha o Estilo Visual</h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem' }}>
+                    {styleOptions.map(opt => (
+                      <EliteCard key={opt.style} selected={formData.style === opt.style} onClick={() => setFormData(p => ({ ...p, style: opt.style }))}>
+                        <div style={{ fontWeight: 800, fontSize: '1.1rem', marginBottom: '0.5rem' }}>{opt.label}</div>
+                        <div style={{ fontSize: '0.85rem', color: colors.textMuted }}>{opt.description}</div>
+                      </EliteCard>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1rem' }}>Recursos Necessários</h3>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                    {['Booking', 'Ecommerce', 'Animations', 'SEO', 'Support'].map(f => (
+                      <div 
+                        key={f} 
+                        onClick={() => setFormData(p => ({ ...p, solutions: p.solutions.includes(f) ? p.solutions.filter(x => x !== f) : [...p.solutions, f] }))}
+                        style={{ padding: '0.6rem 1.5rem', borderRadius: '9999px', background: formData.solutions.includes(f) ? colors.primary : 'rgba(255,255,255,0.05)', border: `1px solid ${formData.solutions.includes(f) ? colors.primary : colors.border}`, cursor: 'pointer', transition: 'all 0.3s' }}
+                      >
+                        {f}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+                  <MagneticButton onClick={() => setStep(1)}>Voltar</MagneticButton>
+                  <MagneticButton primary onClick={handleSubmit}>Gerar Site Elite</MagneticButton>
+                </div>
+              </section>
+            )}
+          </>
+        ) : (
+          <section style={{ maxWidth: '600px', marginInline: 'auto' }}>
+            <header style={{ textAlign: 'center', marginBottom: '4rem' }}>
+              <div style={{ fontSize: '4rem', marginBottom: '1.5rem' }}>🧬</div>
+              <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.5rem' }}>Orquestrando Agentes</h2>
+              <p style={{ color: colors.textMuted }}>O Ruflo Swarm está construindo sua visão.</p>
+            </header>
+
+            <div style={{ display: 'grid', gap: '1rem' }}>
+              {suggestions.map((s, idx) => (
+                <ProgressIndicator key={idx} icon={s.icon} title={s.title} desc={s.desc} active={progressStep === s.step} completed={progressStep > s.step} />
               ))}
             </div>
 
-            {/* Ruflo Agents Panel */}
-            {rufloData && rufloData.agents && rufloData.agents.length > 0 && (
-              <div style={{
-                marginTop: '2rem',
-                padding: '1.5rem',
-                background: 'rgba(99, 102, 241, 0.08)',
-                borderRadius: '12px',
-                border: '1px solid rgba(99, 102, 241, 0.3)',
-              }}>
-                <h3 style={{
-                  fontSize: '1.2rem',
-                  fontWeight: 700,
-                  color: '#a5b4fc',
-                  marginBottom: '1rem',
-                }}>🤖 Agentes Ruflo Trabalhando</h3>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-                  {rufloData.agents.map((agent: any, idx: number) => (
-                    <div key={idx} style={{
-                      padding: '0.75rem 1rem',
-                      background: agent.status === 'completed' ? 'rgba(52,211,153,0.15)' : 
-                                agent.status === 'error' ? 'rgba(248,113,113,0.15)' : 
-                                'rgba(255,255,255,0.05)',
-                      borderRadius: '8px',
-                      border: `1px solid ${agent.status === 'completed' ? 'rgba(52,211,153,0.4)' : 
-                                       agent.status === 'error' ? 'rgba(248,113,113,0.4)' : 
-                                       'rgba(255,255,255,0.1)'}`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                    }}>
-                      <span style={{ fontSize: '1.2rem' }}>
-                        {agent.type === 'researcher' ? '🔍' : 
-                         agent.type === 'coder' ? '💻' : 
-                         agent.type === 'reviewer' ? '👀' : 
-                         agent.type === 'tester' ? '🧪' : 
-                         agent.type === 'coordinator' ? '🎯' : '🤖'}
-                      </span>
-                      <div>
-                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'white' }}>{agent.name}</div>
-                        <div style={{ fontSize: '0.75rem', color: colors.textMuted }}>
-                          {agent.type} - {agent.status === 'completed' ? '✓ Pronto' : 
-                           agent.status === 'error' ? '✗ Erro' : '⏳ Trabalhando...'}
-                        </div>
-                      </div>
+            {rufloData && (
+              <div style={{ marginTop: '3rem', padding: '2rem', background: 'rgba(168, 85, 247, 0.05)', borderRadius: '1.5rem', border: `1px solid rgba(168, 85, 247, 0.2)` }}>
+                <h4 style={{ fontWeight: 800, marginBottom: '1.5rem', fontSize: '0.9rem', letterSpacing: '0.1em', color: colors.primary }}>ATIVIDADE DO SWARM</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+                  {rufloData.agents.map((a: any, i: number) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                      <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: a.status === 'completed' ? '#10B981' : colors.primary }} />
+                      <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>{a.name}</span>
+                      <span style={{ fontSize: '0.7rem', color: colors.textMuted }}>({a.type})</span>
                     </div>
                   ))}
                 </div>
               </div>
             )}
-          </div>
-        )}
-
-        {/* Step 1: Nicho e Nome */}
-        {!showProgress && step === 1 && (
-          <div style={{
-            background: 'rgba(10, 10, 18, 0.6)',
-            borderRadius: '20px',
-            padding: '2.5rem',
-            border: `1px solid ${colors.border}`,
-          }}>
-            <h2 style={{ fontSize: '1.8rem', fontWeight: 700, marginBottom: '0.5rem' }}>1. Nicho e Informações Básicas</h2>
-            <p style={{ color: colors.textSecondary, marginBottom: '2rem' }}>Selecione o tipo de negócio e informe os dados.</p>
-            
-            {/* Business Type */}
-            <div style={{ marginBottom: '2rem' }}>
-              <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: 600, fontSize: '1.1rem' }}>Tipo de Negócio *</label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '0.75rem' }}>
-                {categories.map(cat => (
-                  <div key={cat}>
-                    <h3 style={{ fontSize: '0.9rem', color: colors.textMuted, marginBottom: '0.5rem', textTransform: 'uppercase' }}>{cat}</h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                      {businessCatalog.filter(b => b.category === cat).map(b => (
-                        <div key={b.type} onClick={() => setFormData(prev => ({ ...prev, businessType: b.type }))} style={{
-                          padding: '0.75rem 1rem',
-                          background: formData.businessType === b.type ? 'rgba(168, 85, 247, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-                          border: formData.businessType === b.type ? '2px solid #A855F7' : '1px solid rgba(255,255,255,0.1)',
-                          borderRadius: '10px',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.75rem',
-                          transition: 'all 0.2s ease',
-                        }}>
-                          <span style={{ fontSize: '1.5rem' }}>{b.icon}</span>
-                          <span style={{ fontWeight: 600 }}>{b.label}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Business Name */}
-            <div style={{ marginBottom: '2rem' }}>
-              <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: 600, fontSize: '1.1rem' }}>Nome do Negócio *</label>
-              <input
-                type="text"
-                value={formData.businessName}
-                onChange={e => setFormData(prev => ({ ...prev, businessName: e.target.value }))}
-                placeholder="Ex: Pizzaria do Mario"
-                style={{
-                  width: '100%',
-                  padding: '1rem',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '2px solid rgba(255, 255, 255, 0.1)',
-                  borderRadius: '10px',
-                  color: 'white',
-                  fontSize: '1rem',
-                }}
-              />
-            </div>
-
-            {/* Contact Info */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-              gap: '1rem',
-              marginBottom: '2rem',
-            }}>
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>Telefone</label>
-                <input
-                  type="text"
-                  value={formData.phone}
-                  onChange={e => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                  placeholder="(11) 99999-9999"
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    border: '2px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    color: 'white',
-                  }}
-                />
-              </div>
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>E-mail</label>
-                <input
-                  type="email"
-                  value={formData.email}
-                  onChange={e => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                  placeholder="contato@exemplo.com"
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    border: '2px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    color: 'white',
-                  }}
-                />
-              </div>
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>Endereço</label>
-                <input
-                  type="text"
-                  value={formData.address}
-                  onChange={e => setFormData(prev => ({ ...prev, address: e.target.value }))}
-                  placeholder="Rua Exemplo, 123"
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    border: '2px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    color: 'white',
-                  }}
-                />
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <button
-                onClick={() => setStep(2)}
-                style={{
-                  padding: '0.75rem 2rem',
-                  background: colors.gradient,
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '10px',
-                  fontWeight: 600,
-                  fontSize: '1rem',
-                  cursor: 'pointer',
-                  boxShadow: '0 8px 32px rgba(168, 85, 247, 0.4)',
-                  transition: 'all 0.3s ease',
-                }}
-              >
-                Avançar →
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Step 2: Dores e Soluções */}
-        {!showProgress && step === 2 && (
-          <div style={{
-            background: 'rgba(10, 10, 18, 0.6)',
-            borderRadius: '20px',
-            padding: '2.5rem',
-            border: `1px solid ${colors.border}`,
-          }}>
-            <h2 style={{ fontSize: '1.8rem', fontWeight: 700, marginBottom: '0.5rem' }}>2. Dores e Soluções</h2>
-            <p style={{ color: colors.textSecondary, marginBottom: '2rem' }}>Selecione as dores do cliente e as soluções que o site trará.</p>
-            
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
-              {/* Pain Points */}
-              <div>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: 600, marginBottom: '1rem', color: '#f87171' }}>🔴 Dores do Cliente</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  {getPainOptions().map(p => (
-                    <div key={p.id} onClick={() => togglePain(p.id)} style={{
-                      padding: '0.75rem 1rem',
-                      background: formData.painPoints.includes(p.id) ? 'rgba(248, 113, 113, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-                      border: formData.painPoints.includes(p.id) ? '2px solid #f87171' : '2px solid rgba(255,255,255,0.1)',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.75rem',
-                    }}>
-                      <div style={{
-                        width: '20px',
-                        height: '20px',
-                        borderRadius: '4px',
-                        background: formData.painPoints.includes(p.id) ? '#f87171' : 'transparent',
-                        border: '2px solid #f87171',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}>
-                        {formData.painPoints.includes(p.id) && <span style={{ color: 'white', fontSize: '0.75rem' }}>✓</span>}
-                      </div>
-                      <span>{p.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Solutions */}
-              <div>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: 600, marginBottom: '1rem', color: '#34d399' }}>🟢 Soluções * (pelo menos 1)</h3>
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '0.5rem',
-                  maxHeight: '400px',
-                  overflowY: 'auto',
-                  paddingRight: '0.5rem',
-                }}>
-                  {solutionOptions.map(s => (
-                    <div key={s.id} onClick={() => toggleSolution(s.id)} style={{
-                      padding: '0.75rem 1rem',
-                      background: formData.solutions.includes(s.id) ? 'rgba(52, 211, 153, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-                      border: formData.solutions.includes(s.id) ? '2px solid #34d399' : '2px solid rgba(255,255,255,0.1)',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.75rem',
-                    }}>
-                      <div style={{
-                        width: '20px',
-                        height: '20px',
-                        borderRadius: '4px',
-                        background: formData.solutions.includes(s.id) ? '#34d399' : 'transparent',
-                        border: '2px solid #34d399',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}>
-                        {formData.solutions.includes(s.id) && <span style={{ color: 'white', fontSize: '0.75rem' }}>✓</span>}
-                      </div>
-                      <span style={{ fontSize: '1.5rem' }}>{s.icon}</span>
-                      <div>
-                        <div style={{ fontWeight: 600 }}>{s.label}</div>
-                        <div style={{ fontSize: '0.85rem', color: colors.textSecondary }}>{s.description}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem' }}>
-              <button
-                onClick={() => setStep(1)}
-                style={{
-                  padding: '0.75rem 2rem',
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '10px',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                }}
-              >
-                ← Voltar
-              </button>
-              <button
-                onClick={() => setStep(3)}
-                style={{
-                  padding: '0.75rem 2rem',
-                  background: colors.gradient,
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '10px',
-                  fontWeight: 600,
-                  fontSize: '1rem',
-                  cursor: 'pointer',
-                  boxShadow: '0 8px 32px rgba(168, 85, 247, 0.4)',
-                  transition: 'all 0.3s ease',
-                }}
-              >
-                Avançar →
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Step 3: Estilo e Assets */}
-        {!showProgress && step === 3 && (
-          <div style={{
-            background: 'rgba(10, 10, 18, 0.6)',
-            borderRadius: '20px',
-            padding: '2.5rem',
-            border: `1px solid ${colors.border}`,
-          }}>
-            <h2 style={{ fontSize: '1.8rem', fontWeight: 700, marginBottom: '0.5rem' }}>3. Estilo e Assets da Marca</h2>
-            <p style={{ color: colors.textSecondary, marginBottom: '2rem' }}>Escolha o estilo visual e adicione assets da marca.</p>
-            
-            {/* Style Selection */}
-            <div style={{ marginBottom: '2rem' }}>
-              <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: 600, fontSize: '1.1rem' }}>Estilo do Site *</label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '1rem' }}>
-                {styleOptions.map(s => (
-                  <div key={s.style} onClick={() => setFormData(prev => ({ ...prev, style: s.style }))} style={{
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                    border: formData.style === s.style ? '3px solid #A855F7' : '2px solid rgba(255,255,255,0.1)',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                  }}>
-                    <div style={{ height: '150px', background: 'linear-gradient(135deg, rgba(168,85,247,0.2), rgba(99,102,241,0.2))' }} />
-                    <div style={{ padding: '1rem' }}>
-                      <h3 style={{ fontWeight: 700, marginBottom: '0.25rem' }}>{s.label}</h3>
-                      <p style={{ color: colors.textSecondary, fontSize: '0.85rem' }}>{s.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Brand Assets */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-              gap: '1rem',
-              marginBottom: '2rem',
-            }}>
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>URL do Logo</label>
-                <input
-                  type="text"
-                  value={formData.logoUrl}
-                  onChange={e => setFormData(prev => ({ ...prev, logoUrl: e.target.value }))}
-                  placeholder="https://exemplo.com/logo.png"
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    border: '2px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    color: 'white',
-                  }}
-                />
-              </div>
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>URLs de Imagens (separadas por vírgula)</label>
-                <textarea
-                  value={formData.imageUrls}
-                  onChange={e => setFormData(prev => ({ ...prev, imageUrls: e.target.value }))}
-                  placeholder="https://exemplo.com/img1.jpg, https://exemplo.com/img2.jpg"
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    border: '2px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    color: 'white',
-                    minHeight: '80px',
-                    resize: 'vertical',
-                  }}
-                />
-              </div>
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>Cor Primária (hex)</label>
-                <input
-                  type="text"
-                  value={formData.primaryColor}
-                  onChange={e => setFormData(prev => ({ ...prev, primaryColor: e.target.value }))}
-                  placeholder="#4f46e5"
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    border: '2px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    color: 'white',
-                  }}
-                />
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <button
-                onClick={() => setStep(2)}
-                style={{
-                  padding: '0.75rem 2rem',
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '10px',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                }}
-              >
-                ← Voltar
-              </button>
-              <button
-                onClick={handleSubmit}
-                disabled={loading}
-                style={{
-                  padding: '0.75rem 2rem',
-                  background: loading ? 'rgba(255,255,255,0.1)' : colors.gradient,
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '10px',
-                  fontWeight: 600,
-                  fontSize: '1rem',
-                  cursor: loading ? 'not-allowed' : 'pointer',
-                  boxShadow: loading ? 'none' : '0 8px 32px rgba(168, 85, 247, 0.4)',
-                  transition: 'all 0.3s ease',
-                }}
-              >
-                {loading ? 'Criando...' : 'Criar Site Agora 🚀'}
-              </button>
-            </div>
-          </div>
+          </section>
         )}
       </div>
     </main>

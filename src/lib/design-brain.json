@@ -1,0 +1,62 @@
+{
+  "niches": {
+    "barbershop": {
+      "name": "Barbershop",
+      "style": "Premium Dark / Masculine / Heritage",
+      "colors": ["#000000", "#1a1a1a", "#d4af37", "#ffffff", "#8b4513"],
+      "typography": "Playfair Display, Inter, Montserrat",
+      "references": [
+        {
+          "url": "https://dribbble.com/shots/15628486-The-Cut-Barbershop-Landing-Page",
+          "title": "The Cut - Premium Landing",
+          "tokens": ["Bento Grid", "High Contrast", "Golden Accents"]
+        },
+        {
+          "url": "https://dribbble.com/shots/26842058-Barber-97-Barbershop-Landing-Page",
+          "title": "Barber'97",
+          "tokens": ["Brutalist", "Bold Typography", "Vintage Vibes"]
+        },
+        {
+          "url": "https://dribbble.com/shots/27204489-CUT-EMPYRE-Barbershop-Landing-Page-Design",
+          "title": "CUT EMPYRE",
+          "tokens": ["Luxury UI", "Monochrome", "3D Elements"]
+        }
+      ],
+      "animations": ["GSAP Parallax", "Text Reveal", "Image Masking"]
+    },
+    "clinic": {
+      "name": "Medical Clinic",
+      "style": "Clean / Trustworthy / Minimalist",
+      "colors": ["#ffffff", "#f0f8ff", "#0047ab", "#333333"],
+      "typography": "Plus Jakarta Sans, Roboto",
+      "references": [
+        {
+          "url": "https://dribbble.com/search/medical-clinic-landing-page",
+          "title": "Modern Health Clinic",
+          "tokens": ["Soft Shadows", "Clear CTAs", "High-quality Photography"]
+        }
+      ],
+      "animations": ["Smooth Scroll", "Fade In Up"]
+    },
+    "saas_agency": {
+      "name": "SaaS Marketing Agency",
+      "style": "Modern / Tech-forward / High-conversion",
+      "colors": ["#0a0a0a", "#6366f1", "#ffffff", "#f8fafc"],
+      "typography": "Inter, Montserrat",
+      "references": [
+        {
+          "url": "https://dribbble.com/shots/21158527-Restaurant-Landing-Page",
+          "title": "Elite SaaS Agency Landing",
+          "tokens": ["Glassmorphism", "Animated Gradients", "Bento Grid Layout"]
+        },
+        {
+          "url": "https://land-book.com/gallery/saas",
+          "title": "SaaS Design Gallery",
+          "tokens": ["Clean Typography", "Smooth GSAP transitions", "Interactive Charts"]
+        }
+      ],
+      "animations": ["Floating Elements", "Lottie Animations", "Scroll Reveals"]
+    }
+  },
+  "last_updated": "2026-05-06T22:45:00Z"
+}
