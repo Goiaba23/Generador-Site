@@ -4,23 +4,17 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Sphere, MeshDistort } from '@react-three/drei';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// 3D Background Component
+// Simplified 3D Background using CSS
 function ThreeBackground() {
   return (
-    <Canvas camera={{ position: [0, 0, 5] }}>
-      <ambientLight intensity={0.5} />
-      <pointLight position={[10, 10, 10]} />
-      <OrbitControls enableZoom={false} enablePan={false} />
-      <Sphere args={[1, 100, 200]} scale={2.5}>
-        <MeshDistort factor={0.6} speed={2} />
-        <meshStandardMaterial color="#A855F7" wireframe />
-      </Sphere>
-    </Canvas>
+    <div className="three-background">
+      <div className="floating-orb orb-1"></div>
+      <div className="floating-orb orb-2"></div>
+      <div className="floating-orb orb-3"></div>
+    </div>
   );
 }
 
@@ -29,14 +23,29 @@ export default function PreviewPage({ params }: { params: { slug: string } }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch generated site data
+    // Try API first, then localStorage as fallback
     fetch(`/api/sites/${params.slug}`)
       .then(res => res.json())
       .then(data => {
-        setSiteData(data.site || data);
+        if (data.success && data.site) {
+          setSiteData(data.site);
+        } else {
+          // Fallback to localStorage
+          const stored = localStorage.getItem('preview_site');
+          if (stored) {
+            setSiteData(JSON.parse(stored));
+          }
+        }
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        // Fallback to localStorage
+        const stored = localStorage.getItem('preview_site');
+        if (stored) {
+          setSiteData(JSON.parse(stored));
+        }
+        setLoading(false);
+      });
   }, [params.slug]);
 
   useEffect(() => {
@@ -200,12 +209,12 @@ export default function PreviewPage({ params }: { params: { slug: string } }) {
           }}>
             <h3 style={{ color: '#A855F7', marginBottom: '1rem' }}>Ferramentas Integradas</h3>
             <ul style={{ listStyle: 'none', padding: 0 }}>
-              {(siteData.animations?.length > 0 || []).map((a: any, i: number) => (
+              {(Array.isArray(siteData.animations) ? siteData.animations : []).map((a: any, i: number) => (
                 <li key={i} style={{ padding: '0.5rem 0', color: '#71717A' }}>
                   ✓ {a.name || `Animation ${i + 1}`}
                 </li>
               ))}
-              {(siteData.components?.length > 0 || []).map((c: any, i: number) => (
+              {(Array.isArray(siteData.components) ? siteData.components : []).map((c: any, i: number) => (
                 <li key={`c-${i}`} style={{ padding: '0.5rem 0', color: '#71717A' }}>
                   ✓ Component: {c.name || `Component ${i + 1}`}
                 </li>

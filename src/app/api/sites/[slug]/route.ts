@@ -14,6 +14,7 @@ if (!global.generatedSites) {
 }
 const generatedSites = global.generatedSites;
 
+// Get site by slug
 export async function GET(
   request: NextRequest,
   { params }: { params: { slug: string } }
@@ -61,7 +62,7 @@ export async function GET(
         content: site.content,
         businessName: business.name,
         businessType: business.type,
-        features: site.content?.features || [],
+        features: (site.content as any)?.features || [],
         contact: {
           phone: business.phone,
           email: business.email,
@@ -83,84 +84,26 @@ export async function GET(
   }
 }
 
+// Store site data
 export async function POST(
   request: NextRequest,
   { params }: { params: { slug: string } }
 ) {
   try {
     const body = await request.json();
+    const siteData = body.siteData || body;
+    
+    if (!siteData) {
+      return NextResponse.json({ error: 'Dados do site obrigatórios' }, { status: 400 });
+    }
     
     // Store site data in memory
-    generatedSites.set(params.slug, body);
+    generatedSites.set(params.slug, siteData);
     
     return NextResponse.json({ success: true, slug: params.slug });
   } catch (error) {
     console.error('Error storing site:', error);
     return NextResponse.json({ error: 'Erro ao salvar site' }, { status: 500 });
-  }
-}
-
-// Get site by business slug
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { slug: string } }
-) {
-  try {
-    // Check in-memory store first (for generated sites)
-    const generatedSite = generatedSites.get(params.slug);
-    
-    if (generatedSite) {
-      return NextResponse.json(generatedSite);
-    }
-    
-    // Fallback to database
-    const business = await prisma.business.findUnique({
-      where: { slug: params.slug },
-      include: {
-        sites: {
-          orderBy: { createdAt: 'desc' },
-          take: 1,
-        },
-      },
-    });
-
-    if (!business || business.sites.length === 0) {
-      return NextResponse.json(
-        { error: 'Site não encontrado' },
-        { status: 404 }
-      );
-    }
-
-    const site = business.sites[0];
-
-    return NextResponse.json({
-      business: {
-        name: business.name,
-        type: business.type,
-        description: business.description,
-        address: business.address,
-        phone: business.phone,
-        email: business.email,
-        logo: business.logo,
-      },
-      site: {
-        id: site.id,
-        title: site.title,
-        metaDescription: site.metaDescription,
-        content: site.content,
-        published: site.published,
-        createdAt: site.createdAt,
-      },
-    });
-
-  } catch (error) {
-    console.error('Error fetching site:', error);
-    return NextResponse.json(
-      { error: 'Erro ao buscar site' },
-      { status: 500 }
-    );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
