@@ -379,6 +379,80 @@ export function getComponentsForNiche(businessType: string): Component21Dev[] {
 </section>`,
       },
     ],
+    'TRAVEL': [
+      {
+        id: '21dev-hero-travel',
+        name: 'Hero Agência de Viagens',
+        category: 'hero',
+        businessTypes: ['TRAVEL', 'TOURISM', 'HOTEL'],
+        animationType: 'fade-in-up',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-travel">
+  <div className="hero-overlay" />
+  <div className="hero-content">
+    <h1 className="hero-title">Destinos Inesquecíveis</h1>
+    <p className="hero-subtitle">Pacotes turísticos exclusivos</p>
+    <button className="hero-cta">Reservar Agora</button>
+  </div>
+</section>`,
+      },
+    ],
+    'EVENTS': [
+      {
+        id: '21dev-hero-events',
+        name: 'Hero Eventos Impactantes',
+        category: 'hero',
+        businessTypes: ['EVENTS', 'WEDDING', 'PARTY'],
+        animationType: 'slide-up',
+        hasGlow: true,
+        hasGlassmorphism: false,
+        code: `
+<section className="hero-events">
+  <div className="hero-gradient" />
+  <h1 className="hero-title">Momentos Especiais</h1>
+  <p className="hero-subtitle">Produção de eventos completa</p>
+  <button className="hero-cta">Solicitar Orçamento</button>
+</section>`,
+      },
+    ],
+    'CONSTRUCTION': [
+      {
+        id: '21dev-hero-construction',
+        name: 'Hero Construção Profissional',
+        category: 'hero',
+        businessTypes: ['CONSTRUCTION', 'ARCHITECTURE', 'REAL_ESTATE'],
+        animationType: 'fade-in',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-construction">
+  <div className="hero-overlay" />
+  <h1 className="hero-title">Construindo seu Futuro</h1>
+  <p className="hero-subtitle">Obras residenciais e comerciais</p>
+  <button className="hero-cta">Solicitar Orçamento</button>
+</section>`,
+      },
+    ],
+    'AUTOMOTIVE': [
+      {
+        id: '21dev-service-card-auto',
+        name: 'Service Card Automotive',
+        category: 'card',
+        businessTypes: ['AUTOMOTIVE', 'MECHANIC', 'CAR_WASH'],
+        animationType: 'hover-lift',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<div className="service-card-auto">
+  <div className="service-icon">{{icon}}</div>
+  <h3>{{name}}</h3>
+  <p>{{description}}</p>
+  <span className="price">A partir de R$ {{price}}</span>
+</div>`,
+      },
+    ],
     'PET_SHOP': [
       {
         id: '21dev-hero-pet-shop',
