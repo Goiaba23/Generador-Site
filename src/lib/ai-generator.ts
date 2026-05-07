@@ -389,7 +389,10 @@ export async function generateSiteWithInsights(
   }
 
   // 2. If we have API key, use AI with EVERYTHING (premium examples + logos + animations + components)
-  if (apiKey) {
+  const openaiKey = process.env.OPENAI_API_KEY;
+  const geminiKey = process.env.GEMINI_API_KEY;
+
+  if (openaiKey || geminiKey) {
     try {
       const premiumData = premiumResult;
       const prompt = buildPremiumAIPrompt(premiumRequest, premiumData);
@@ -400,7 +403,7 @@ export async function generateSiteWithInsights(
       
       // Add REAL Dribbble examples data (from websearch)
       const realExamplesData = premiumResult.premiumExamples.map((ex, i) => `
-EXAMPLE ${i+1} (REAL DRIBBBLE - ${ex.priceRange || '$10K+'}):
+EXAMPLE ${i+1} (REAL DRIBBLE - ${ex.priceRange || '$10K+'}):
 - URL: ${ex.url}
 - Layout: ${ex.layout}
 - Colors: ${ex.colorPalette?.join(', ') || 'N/A'}
@@ -418,56 +421,102 @@ EXAMPLE ${i+1} (REAL DRIBBBLE - ${ex.priceRange || '$10K+'}):
       // Add animations and components info
       const fullPromptWithAnimations = fullPromptWithPainPoints + `\n\n=== GSAP ANIMATIONS FOR ${businessDetails.type} ===\n${JSON.stringify(nicheAnimations)}\n\n=== 21DEV COMPONENTS ===\n${JSON.stringify(nicheComponents)}\n\n=== GENERATED GSAP CODE ===\n${gsapCode}`;
 
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-4o-mini',
-          messages: [
-            {
-              role: 'system',
-              content: `You are an elite $10K+ web designer specialized in ${businessDetails.type} websites.
-              MANDATORY RULE: Your entire creative process, layouts, animations, and color choices MUST be heavily inspired by these exact resources:
-              - Layouts/UI: dribbble.com, land-book.com, mobbin.com/discover/sites/latest, godly.website, nicolaipalmkvist.com
-              - 3D & Interactions: app.spline.design/community
-              - Components: 21st.dev/community/components/week/2026-W18, stitch.withgoogle.com
-              - Animations: motion.dev/examples?platform=react (Framer Motion), GSAP for advanced animations
-              - Typography: fontshare.com
-              Only proceed to generate the "content" after self-critique.
+      // Add research data if available
+      const researchData = (businessDetails as any).researchData;
+      const fullPromptFinal = researchData?.results?.promptAdditions 
+        ? fullPromptWithAnimations + '\n\n' + researchData.results.promptAdditions
+        : fullPromptWithAnimations;
 
-              === ELITE DESIGN DOCTRINES ===
-              1. MARKETING FUNNEL (AIDA model: Attention, Interest, Desire, Action).
-              2. TYPOGRAPHY "WITHOUT BULLSH*T" (Extreme hierarchy, max 2 fonts).
-              3. APPLE-STYLE MOTION (Smooth Bezier, Blur, Fade, Expensive feel).
-              4. BRANDING PSYCHOLOGY (Emotional storytelling, Authentic copy).
+      let generated = null;
+      let usedAI = 'none';
 
-              QUALITY ASSURANCE (SELF-CRITIQUE) RULE:
-              Before you output the site content, you MUST generate a "qualityAssuranceLog" field where you explicitly analyze what you are about to build. You must critically ask yourself if the layout is flawless, if images use object-fit: cover, and if the marketing funnel is solid.
-
-              === CUSTOM BRAND ASSETS RULES ===
-              If the user provides a logo URL, YOU MUST include it in the Navigation/Header section.
-              If the user provides custom image URLs, YOU MUST prioritize using them in the Hero, Portfolio, or Gallery sections over generic Lummi images.
-              IMPORTANT: To prevent layout breaks, EVERY image tag or background image MUST have CSS \`object-fit: cover\` (or tailwind \`object-cover\`) and proper aspect ratios.
-              If a primary color is provided, adapt the entire site's palette to match it elegantly.`
+      // Try OpenAI first
+      if (openaiKey) {
+        try {
+          console.log('[AI Generator] Trying OpenAI GPT-4o-mini...');
+          const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${openaiKey}`,
             },
-            {
-              role: 'user',
-              content: fullPromptWithAnimations +
-                (businessDetails.brandAssets ? `\n\n=== BRAND ASSETS ===\nLogo URL: ${businessDetails.brandAssets.logoUrl || 'None'}\nImage URLs: ${businessDetails.brandAssets.imageUrls?.join(', ') || 'None'}\nPrimary Color: ${businessDetails.brandAssets.primaryColor || 'None'}` : '')
-            },
-          ],
-          response_format: { type: 'json_object' },
-          temperature: 0.7,
-        }),
-      });
+            body: JSON.stringify({
+              model: 'gpt-4o-mini',
+              messages: [
+                {
+                  role: 'system',
+                  content: `You are an elite $10K+ web designer specialized in ${businessDetails.type} websites.
+You MUST use real-time research, Dribbble examples, and 2026 trends in your design.
 
-      if (!response.ok) throw new Error(`OpenAI API error: ${response.statusText}`);
+=== MANDATORY DESIGN INSPIRATION ===
+- Dribbble: ${premiumResult.premiumExamples.map(e => e.url).join(', ')}
+- 2026 Trends: Mesh gradients, Glassmorphism 2.0, GSAP ScrollTrigger, Bento grids
+- Colors: ${premiumResult.premiumExamples[0]?.colorPalette?.join(', ') || 'Modern palette'}
+- Fonts: ${premiumResult.premiumExamples[0]?.fonts?.join(', ') || 'Inter, Montserrat'}
 
-      const data = await response.json();
-      const generated = JSON.parse(data.choices[0].message.content);
+=== ELITE DESIGN DOCTRINES ===
+1. MARKETING FUNNEL (AIDA: Attention → Interest → Desire → Action)
+2. TYPOGRAPHY: Max 2 fonts, extreme hierarchy (clamp(2.5rem, 7vw, 5.5rem))
+3. APPLE-STYLE MOTION: Smooth Bezier curves, blur effects, fade transitions
+4. GSAP ANIMATIONS: ScrollTrigger, stagger, parallax (code provided)
+5. 21DEV COMPONENTS: Use provided component library
+6. OBJECT-FIT: EVERY image MUST have object-fit: cover to prevent layout breaks
+
+=== QUALITY ASSURANCE ===
+Before output, analyze: Is layout flawless? Are images object-fit: cover? Is marketing funnel solid?`
+                },
+                {
+                  role: 'user',
+                  content: fullPromptFinal +
+                    (businessDetails.brandAssets ? `\n\n=== BRAND ASSETS ===\nLogo URL: ${businessDetails.brandAssets.logoUrl || 'None'}\nImage URLs: ${businessDetails.brandAssets.imageUrls?.join(', ') || 'None'}\nPrimary Color: ${businessDetails.brandAssets.primaryColor || 'None'}` : '')
+                },
+              ],
+              response_format: { type: 'json_object' },
+              temperature: 0.7,
+            }),
+          });
+
+          if (!response.ok) throw new Error(`OpenAI API error: ${response.statusText}`);
+          
+          const data = await response.json();
+          generated = JSON.parse(data.choices[0].message.content);
+          usedAI = 'openai';
+          console.log('[AI Generator] OpenAI generation successful!');
+        } catch (openaiError) {
+          console.error('[AI Generator] OpenAI failed:', openaiError);
+        }
+      }
+
+      // Try Gemini as backup
+      if (!generated && geminiKey) {
+        try {
+          console.log('[AI Generator] Trying Gemini API...');
+          const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{
+                parts: [{ text: `You are a $10K+ web designer. Generate a JSON response for a ${businessDetails.type} website.\n\n${fullPromptFinal}` }]
+              }],
+              generationConfig: { responseMimeType: "application/json" }
+            }),
+          });
+
+          if (!geminiResponse.ok) throw new Error(`Gemini API error: ${geminiResponse.statusText}`);
+          
+          const geminiData = await geminiResponse.json();
+          const text = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+          generated = JSON.parse(text);
+          usedAI = 'gemini';
+          console.log('[AI Generator] Gemini generation successful!');
+        } catch (geminiError) {
+          console.error('[AI Generator] Gemini failed:', geminiError);
+        }
+      }
+
+      if (!generated) {
+        throw new Error('Both OpenAI and Gemini failed');
+      }
 
       return {
         title: generated.title || businessDetails.name,
@@ -498,13 +547,14 @@ EXAMPLE ${i+1} (REAL DRIBBBLE - ${ex.priceRange || '$10K+'}):
           crawlerData: premiumResult.crawlerData,
           qualityAssuranceLog: generated.qualityAssuranceLog || 'Not provided',
           assetGenerationPrompt: generated.assetGenerationPrompt || '',
-          philosophy: 'Viktor Oddy + Satori Graphics + Apple Motion + GSAP + 21dev',
+          philosophy: `Viktor Oddy + Satori Graphics + Apple Motion + GSAP + 21dev (used ${usedAI})`,
         },
         rufloSwarm: rufloSwarmData,
       };
     } catch (error) {
-      console.error('OpenAI generation failed, falling back to premium template:', error);
+      console.error('AI generation failed, falling back to premium template:', error);
     }
+  }
   }
 
   // 3. Fallback: use generated premium template
