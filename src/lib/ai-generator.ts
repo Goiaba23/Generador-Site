@@ -391,6 +391,7 @@ export async function generateSiteWithInsights(
   // 2. If we have API key, use AI with EVERYTHING (premium examples + logos + animations + components)
   const openaiKey = process.env.OPENAI_API_KEY;
   const geminiKey = process.env.GEMINI_API_KEY;
+  let logoInspiration: string | null = null;
 
   if (openaiKey || geminiKey) {
     try {
@@ -398,7 +399,7 @@ export async function generateSiteWithInsights(
       const prompt = buildPremiumAIPrompt(premiumRequest, premiumData);
 
       // Add logo inspiration from UXShowcase
-      const logoInspiration = generateLogoInspiration(businessDetails.type);
+      logoInspiration = generateLogoInspiration(businessDetails.type);
       const fullPrompt = prompt + `\n\n=== LOGO INSPIRATION (UXShowcase) ===\n${logoInspiration}`;
       
       // Add REAL Dribbble examples data (from websearch)
@@ -555,7 +556,6 @@ Before output, analyze: Is layout flawless? Are images object-fit: cover? Is mar
       console.error('AI generation failed, falling back to premium template:', error);
     }
   }
-  }
 
   // 3. Fallback: use generated premium template
   const baseContent = premiumResult.template?.content || generateBaseContent(premiumResult.template!, businessDetails);
@@ -594,13 +594,37 @@ Before output, analyze: Is layout flawless? Are images object-fit: cover? Is mar
   }
 
   // Return template-based result
-  return buildResult(
-    enhancedContent,
-    businessDetails.name,
-    `${businessDetails.name} - ${premiumResult.template?.description || 'Premium Site'}. ${insights?.objectives?.primary || 'Agende online!'}`,
-    businessDetails,
-    premiumResult,
-    nicheProposal,
-    rufloSwarmData
-  );
+  return {
+    title: businessDetails.name,
+    slug: createSlug(businessDetails.name),
+    metaDescription: `${businessDetails.name} - ${premiumResult.template?.description || 'Premium Site'}. ${insights?.objectives?.primary || 'Agende online!'}`,
+    content: enhancedContent,
+    designTokens: {
+      colors: premiumResult.template?.designTokens?.colors,
+      fonts: premiumResult.template?.designTokens?.fonts,
+      layout: 'premium',
+      dribbbleInspiration: premiumResult.premiumExamples.map((e: any) => e.source).join(', '),
+      landbookStyle: premiumResult.premiumExamples.map((e: any) => e.layout).join(', '),
+    },
+    imageSlots: premiumResult.template?.imageSlots || [],
+    nicheProposal: {
+      painPoint: nicheProposal.painPoint,
+      solution: nicheProposal.solution,
+      expectedOutcome: nicheProposal.expectedOutcome,
+      growthModules: nicheProposal.growthModules,
+    },
+    premium: {
+      priceLevel: premiumResult.priceLevel,
+      examplesUsed: premiumResult.premiumExamples.length,
+      animations: [...premiumResult.animations, ...nicheAnimations.map((a: any) => a.name)],
+      gsapCode: gsapCode.code,
+      components21Dev: premiumResult.components21Dev.length + nicheComponents.length,
+      logoInspiration: logoInspiration ? 'UXShowcase included' : 'Not used',
+      crawlerData: premiumResult.crawlerData,
+      qualityAssuranceLog: 'Not provided (template fallback)',
+      assetGenerationPrompt: '',
+      philosophy: 'Viktor Oddy + Satori Graphics + Apple Motion + GSAP + 21dev (template)',
+    },
+    rufloSwarm: rufloSwarmData,
+  };
 }
