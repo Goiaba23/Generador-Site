@@ -60,6 +60,78 @@ export function getComponentsForNiche(businessType: string): Component21Dev[] {
 </div>`,
       },
     ],
+    'HOTEL': [
+      {
+        id: '21dev-hero-hotel',
+        name: 'Hero Hotel Luxury',
+        category: 'hero',
+        businessTypes: ['HOTEL', 'RESORT', 'SPA'],
+        animationType: 'fade-in-up',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-hotel">
+  <div className="hero-overlay" />
+  <div className="hero-content">
+    <h1 className="hero-title">Bem-vindo ao Paraíso</h1>
+    <p className="hero-subtitle">Hospedagem de luxo com vista para o mar</p>
+    <button className="hero-cta">Reservar Agora</button>
+  </div>
+</section>`,
+      },
+      {
+        id: '21dev-room-card',
+        name: 'Room Card Premium',
+        category: 'card',
+        businessTypes: ['HOTEL', 'RESORT', 'HOSTEL'],
+        animationType: 'hover-lift',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<div className="room-card">
+  <img src="{{image}}" alt="{{name}}" />
+  <div className="room-info">
+    <h3>{{name}}</h3>
+    <p>{{description}}</p>
+    <span className="price">R$ {{price}}/noite</span>
+  </div>
+</div>`,
+      },
+    ],
+    'FITNESS': [
+      {
+        id: '21dev-hero-fitness',
+        name: 'Hero Academia Motivacional',
+        category: 'hero',
+        businessTypes: ['FITNESS', 'GYM', 'PERSONAL_TRAINING'],
+        animationType: 'slide-up',
+        hasGlow: true,
+        hasGlassmorphism: false,
+        code: `
+<section className="hero-fitness">
+  <div className="hero-gradient" />
+  <h1 className="hero-title">Transforme seu Corpo</h1>
+  <p className="hero-subtitle">Treinos personalizados para seus objetivos</p>
+  <button className="hero-cta">Começar Agora</button>
+</section>`,
+      },
+      {
+        id: '21dev-pricing-card',
+        name: 'Pricing Card Fitness',
+        category: 'card',
+        businessTypes: ['FITNESS', 'GYM', 'CONSULTING'],
+        animationType: 'hover-zoom',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<div className="pricing-card">
+  <h3>{{plan}}</h3>
+  <div className="price">R$ {{price}}<span>/mês</span></div>
+  <ul className="features">{{#each features}}<li>✓ {{this}}</li>{{/each}}</ul>
+  <button className="select-plan">Escolher Plano</button>
+</div>`,
+      },
+    ],
     'RESTAURANT': [
       {
         id: '21dev-hero-restaurant',
