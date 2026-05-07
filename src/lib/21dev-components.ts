@@ -379,6 +379,62 @@ export function getComponentsForNiche(businessType: string): Component21Dev[] {
 </section>`,
       },
     ],
+    'PET_SHOP': [
+      {
+        id: '21dev-hero-pet-shop',
+        name: 'Hero Pet Shop Colorful',
+        category: 'hero',
+        businessTypes: ['PET_SHOP', 'VETERINARY', 'PET_GROOMING'],
+        animationType: 'fade-in-up',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-pet-shop">
+  <div className="hero-overlay" />
+  <div className="hero-content">
+    <h1 className="hero-title">Tudo para seu Pet</h1>
+    <p className="hero-subtitle">Produtos e serviços de qualidade</p>
+    <button className="hero-cta">Comprar Agora</button>
+  </div>
+</section>`,
+      },
+    ],
+    'SPA': [
+      {
+        id: '21dev-hero-spa',
+        name: 'Hero Spa Relaxing',
+        category: 'hero',
+        businessTypes: ['SPA', 'WELLNESS', 'MASSAGE'],
+        animationType: 'fade-in',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-spa">
+  <div className="hero-video-bg" />
+  <h1 className="hero-title">Relaxe e Renove-se</h1>
+  <p className="hero-subtitle">Experiência única de bem-estar</p>
+  <button className="hero-cta">Agendar Tratamento</button>
+</section>`,
+      },
+    ],
+    'COFFEE': [
+      {
+        id: '21dev-hero-coffee',
+        name: 'Hero Café Aromático',
+        category: 'hero',
+        businessTypes: ['COFFEE', 'BAKERY', 'CAFE_BAKERY'],
+        animationType: 'slide-up',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-coffee">
+  <div className="hero-gradient" />
+  <h1 className="hero-title">O Melhor Café da Cidade</h1>
+  <p className="hero-subtitle">Grãos selecionados e torra artesanal</p>
+  <button className="hero-cta">Pedir pelo WhatsApp</button>
+</section>`,
+      },
+    ],
     'RETAIL': [
       {
         id: '21dev-product-card',
