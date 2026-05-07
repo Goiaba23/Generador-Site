@@ -98,6 +98,26 @@ export function getComponentsForNiche(businessType: string): Component21Dev[] {
 </div>`,
       },
     ],
+    'FARM': [
+      {
+        id: '21dev-hero-farm',
+        name: 'Hero Farmácia Moderna',
+        category: 'hero',
+        businessTypes: ['FARM', 'DRUGSTORE', 'HEALTH'],
+        animationType: 'fade-in-up',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-farm">
+  <div className="hero-overlay" />
+  <div className="hero-content">
+    <h1 className="hero-title">Saúde ao seu Alcance</h1>
+    <p className="hero-subtitle">Medicamentos e produtos de beleza</p>
+    <button className="hero-cta">Comprar Agora</button>
+  </div>
+</section>`,
+      },
+    ],
     'FITNESS': [
       {
         id: '21dev-hero-fitness',
