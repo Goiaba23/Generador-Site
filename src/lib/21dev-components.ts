@@ -132,6 +132,63 @@ export function getComponentsForNiche(businessType: string): Component21Dev[] {
 </div>`,
       },
     ],
+    'HEALTH': [
+      {
+        id: '21dev-hero-health',
+        name: 'Hero Clínica Moderna',
+        category: 'hero',
+        businessTypes: ['HEALTH', 'CLINIC', 'HOSPITAL'],
+        animationType: 'fade-in-up',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-health">
+  <div className="hero-overlay" />
+  <div className="hero-content">
+    <h1 className="hero-title">Sua Saúde em Primeiro Lugar</h1>
+    <p className="hero-subtitle">Atendimento médico especializado</p>
+    <button className="hero-cta">Agendar Consulta</button>
+  </div>
+</section>`,
+      },
+      {
+        id: '21dev-service-list-health',
+        name: 'Service List Health',
+        category: 'features',
+        businessTypes: ['HEALTH', 'CLINIC', 'DENTIST'],
+        animationType: 'stagger-fade',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<div className="service-list">
+  {{#each services}}
+  <div className="service-item">
+    <div className="service-icon">{{icon}}</div>
+    <h3>{{name}}</h3>
+    <p>{{description}}</p>
+  </div>
+  {{/each}}
+</div>`,
+      },
+    ],
+    'BARBERSHOP': [
+      {
+        id: '21dev-hero-barber',
+        name: 'Hero Barbearia Premium',
+        category: 'hero',
+        businessTypes: ['BARBERSHOP', 'SALON', 'BEAUTY'],
+        animationType: 'slide-up',
+        hasGlow: true,
+        hasGlassmorphism: false,
+        code: `
+<section className="hero-barber">
+  <div className="hero-video-bg" />
+  <h1 className="hero-title">Estilo e Tradição</h1>
+  <p className="hero-subtitle">A verdadeira experiência masculina</p>
+  <button className="hero-cta">Agendar Horário</button>
+</section>`,
+      },
+    ],
     'RESTAURANT': [
       {
         id: '21dev-hero-restaurant',
