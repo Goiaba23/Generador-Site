@@ -98,6 +98,100 @@ export function getComponentsForNiche(businessType: string): Component21Dev[] {
 </div>`,
       },
     ],
+    'NIGHTCLUB': [
+      {
+        id: '21dev-hero-nightclub',
+        name: 'Hero Nightclub Vibrante',
+        category: 'hero',
+        businessTypes: ['NIGHTCLUB', 'BAR', 'ENTERTAINMENT'],
+        animationType: 'slide-up',
+        hasGlow: true,
+        hasGlassmorphism: false,
+        code: `
+<section className="hero-nightclub">
+  <div className="hero-gradient" />
+  <h1 className="hero-title">Noite Inesquecível</h1>
+  <p className="hero-subtitle">A melhor experiência noturna da cidade</p>
+  <button className="hero-cta">Reservar Mesa</button>
+</section>`,
+      },
+    ],
+    'THEATER': [
+      {
+        id: '21dev-hero-theater',
+        name: 'Hero Teatro Cultural',
+        category: 'hero',
+        businessTypes: ['THEATER', 'ART', 'CULTURE'],
+        animationType: 'fade-in',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-theater">
+  <div className="hero-overlay" />
+  <div className="hero-content">
+    <h1 className="hero-title">Arte e Cultura</h1>
+    <p className="hero-subtitle">Espetáculos únicos para toda família</p>
+    <button className="hero-cta">Comprar Ingressos</button>
+  </div>
+</section>`,
+      },
+    ],
+    'MUSIC_SCHOOL': [
+      {
+        id: '21dev-hero-music',
+        name: 'Hero Escola de Música',
+        category: 'hero',
+        businessTypes: ['MUSIC_SCHOOL', 'ART', 'EDUCATION'],
+        animationType: 'fade-in-up',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-music">
+  <div className="hero-video-bg" />
+  <h1 className="hero-title">Aprenda Música</h1>
+  <p className="hero-subtitle">Aulas particulares e em grupo</p>
+  <button className="hero-cta">Agendar Aula</button>
+</section>`,
+      },
+    ],
+    'INSURANCE': [
+      {
+        id: '21dev-hero-insurance',
+        name: 'Hero Corretora de Seguros',
+        category: 'hero',
+        businessTypes: ['INSURANCE', 'FINANCE', 'CONSULTING'],
+        animationType: 'slide-up',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-insurance">
+  <div className="hero-overlay" />
+  <div className="hero-content">
+    <h1 className="hero-title">Proteção que você Precisa</h1>
+    <p className="hero-subtitle">Seguros personalizados para você</p>
+    <button className="hero-cta">Cotar Seguro</button>
+  </div>
+</section>`,
+      },
+    ],
+    'ACCOUNTING': [
+      {
+        id: '21dev-hero-accounting',
+        name: 'Hero Contabilidade',
+        category: 'hero',
+        businessTypes: ['ACCOUNTING', 'FINANCE', 'CONSULTING'],
+        animationType: 'fade-in-up',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-accounting">
+  <div className="hero-gradient" />
+  <h1 className="hero-title">Contabilidade Profissional</h1>
+  <p className="hero-subtitle">Gestão financeira completa</p>
+  <button className="hero-cta">Consultar Agora</button>
+</section>`,
+      },
+    ],
     'FARM': [
       {
         id: '21dev-hero-farm',
