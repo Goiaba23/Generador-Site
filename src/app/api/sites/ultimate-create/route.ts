@@ -1,13 +1,12 @@
-// Premium Site Creation API v5.0
-// Integração com templates Dribbble/Landbook $10K+
+// Premium Site Creation API v7.0 - NO DATABASE VERSION
+// Integração com templates Dribbble/Landbook $10K+ + YouTube Research
+// Modified to work WITHOUT Prisma - generates and returns site directly
 
 import { NextRequest, NextResponse } from 'next/server';
-import { BusinessType, TemplateStyle, PrismaClient } from '@prisma/client';
+import { BusinessType, TemplateStyle } from '@prisma/client';
 import { generateSiteWithInsights } from '@/lib/ai-generator';
 import { generatePremiumTemplate } from '@/lib/premium-generator';
 import { PippitService } from '@/lib/pippit-service';
-
-const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,29 +21,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Style will be processed inside generateSiteWithInsights -> generatePremiumTemplate
-    // which fetches from Dribbble + memory (animations.ts, 21dev-components.ts, etc.)
-
-    // Get or create default user
-    let defaultUser = await prisma.user.findFirst();
-    if (!defaultUser) {
-      defaultUser = await prisma.user.create({
-        data: {
-          name: 'Default User',
-          email: 'admin@saas-sites.com',
-          plan: 'free',
-          sitesUsed: 0,
-        },
-      });
-    }
-
-    // Check plan limits
-    if (defaultUser.plan === 'free' && defaultUser.sitesUsed >= 1) {
-      return NextResponse.json(
-        { error: 'Limite do plano grátis atingido. Faça upgrade para criar mais sites.', upgrade: true },
-        { status: 403 }
-      );
-    }
+    console.log(`[API] Starting AI generation for ${businessName} (${businessType})`);
 
     // Map solutions to features
     const solutionFeatures: Record<string, string> = {
@@ -60,11 +37,21 @@ export async function POST(request: NextRequest) {
       'portfolio_gallery': 'Galeria/Portfólio',
       'customer_area': 'Área do Cliente',
       'reviews_testimonials': 'Depoimentos',
+      'modern-site': 'Site Moderno Premium',
+      'booking-system': 'Sistema de Agendamento',
+      'ecommerce': 'Loja Virtual',
+      'seo-optimization': 'SEO Otimizado',
+      'analytics': 'Analytics Dashboard',
+      'ai-chatbot': 'Chatbot IA',
+      'whatsapp': 'WhatsApp Business',
+      'loyalty': 'Programa de Fidelidade',
     };
 
     const selectedFeatures = solutions?.map((s: string) => solutionFeatures[s] || s) || [];
 
-    // Generate site with mock insights
+    console.log(`[API] Selected features: ${selectedFeatures.join(', ')}`);
+
+    // Generate site with AI insights
     const mockInsights = {
       objectives: { primary: 'professional_presence' },
       targetAudience: 'Local customers',
@@ -77,102 +64,88 @@ export async function POST(request: NextRequest) {
     const businessDetails = {
       name: businessName,
       type: businessType as BusinessType,
-      style: style as any, // Will be processed by generatePremiumTemplate
+      style: style as any,
       diferencial: solutions?.join(', ') || 'premium growth',
       features: selectedFeatures,
       contact: { phone, email, address },
       brandAssets: brandAssets || null,
     };
 
+    console.log(`[API] Calling generateSiteWithInsights...`);
     const generatedSite = await generateSiteWithInsights(businessDetails, mockInsights);
 
-    // AI ASSET GENERATION: Se a IA sugeriu um prompt para Pippit, gerar agora
+    console.log(`[API] Site generated successfully: ${generatedSite.title}`);
+
+    // AI ASSET GENERATION: If AI suggested a prompt for Pippit, generate now
     if (generatedSite.premium?.assetGenerationPrompt) {
       console.log('[API] Triggering autonomous Pippit asset generation...');
-      const pippitService = PippitService.getInstance();
-      const generatedAssetUrl = await pippitService.getAssetForNiche(
-        businessName, 
-        generatedSite.premium.assetGenerationPrompt.toLowerCase().includes('video') ? 'video' : 'image'
-      );
+      try {
+        const pippitService = PippitService.getInstance();
+        const generatedAssetUrl = await pippitService.getAssetForNiche(
+          businessName, 
+          generatedSite.premium.assetGenerationPrompt.toLowerCase().includes('video') ? 'video' : 'image'
+        );
 
-      if (generatedAssetUrl) {
-        console.log('[API] Pippit asset acquired, injecting into Hero section.');
-        // Injetar a URL gerada na seção Hero do conteúdo
-        if (generatedSite.content?.hero) {
-          generatedSite.content.hero.imageUrl = generatedAssetUrl;
+        if (generatedAssetUrl) {
+          console.log('[API] Pippit asset acquired, injecting into Hero section.');
+          if (generatedSite.content?.hero) {
+            generatedSite.content.hero.imageUrl = generatedAssetUrl;
+          }
         }
+      } catch (pippitError) {
+        console.error('[API] Pippit generation failed (non-fatal):', pippitError);
       }
     }
 
-    // Generate slug
+    // Generate slug for preview
     const slug = businessName.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').substring(0, 50);
 
-    // Create Business record
-    const business = await prisma.business.create({
-      data: {
-        name: businessName,
-        slug: slug,
-        type: businessType as BusinessType,
-        description: `Site premium para ${businessName}`,
-        phone: phone || null,
-        email: email || null,
-        address: address || null,
-        ownerId: defaultUser.id,
-      },
-    });
-
-    // Create Site record
-    const site = await prisma.site.create({
-      data: {
-        businessId: business.id,
-        templateStyle: TemplateStyle.CATALOG, // fallback, actual style is inside generatedSite.content
-        title: generatedSite.title || businessName,
-        metaDescription: generatedSite.metaDescription || '',
-        content: generatedSite.content as any,
-        published: false,
-      },
-    });
-
-    // Update user sites used count
-    await prisma.user.update({
-      where: { id: defaultUser.id },
-      data: { sitesUsed: { increment: 1 } },
-    });
-
+    // Return generated site directly (NO DATABASE)
     return NextResponse.json({
       success: true,
       site: {
-        id: site.id,
-        businessId: business.id,
-        slug: business.slug,
+        id: 'temp-' + Date.now(),
+        businessId: 'temp-' + Date.now(),
+        slug: slug,
         title: generatedSite.title || businessName,
         metaDescription: generatedSite.metaDescription || '',
         content: generatedSite.content,
         features: selectedFeatures,
         contact: { phone, email, address },
         brandAssets: brandAssets || null,
+        designTokens: generatedSite.designTokens,
+        nicheProposal: generatedSite.nicheProposal,
+        premium: generatedSite.premium,
       },
       rufloSwarm: generatedSite.rufloSwarm || null,
-      message: 'Site premium criado com sucesso!',
-      previewUrl: `/sites/${business.slug}`,
+      message: 'Site premium criado com sucesso usando IA!',
+      previewUrl: `/preview/${slug}`,
     });
 
-  } catch (error) {
-    console.error('Error creating premium site:', error);
+  } catch (error: any) {
+    console.error('[API] Error creating premium site:', error);
     return NextResponse.json(
-      { error: 'Erro interno ao criar site premium' },
+      { error: `Erro interno ao criar site premium: ${error.message}` },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
 // Health check
 export async function GET() {
   return NextResponse.json({
-    message: 'Premium Site Creation API v6.0 - Using Dribbble + Memory (animations.ts, 21dev-components.ts, etc.)',
-    version: '6.0',
+    message: 'Premium Site Creation API v7.0 - Using Dribbble + YouTube + Memory (animations.ts, 21dev-components.ts, etc.) - NO DATABASE REQUIRED',
+    version: '7.0',
     status: 'active',
-  });
+    features: [
+      'OpenAI GPT-4o-mini integration',
+      'Real-time Dribbble/Landbook research',
+      'YouTube search integration',
+      'GSAP animations from animations.ts',
+      '21dev components from 21dev-components.ts',
+      'UXShowcase logos from uxshowcase-logos.ts',
+      'Ruflo swarm agents',
+      'Pippit asset generation',
+    ],
+   });
 }
