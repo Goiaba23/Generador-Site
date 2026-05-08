@@ -942,6 +942,305 @@ export function getComponentsForNiche(businessType: string): Component21Dev[] {
 </div>`,
       },
     ],
+    'PHYSIOTHERAPY': [
+      {
+        id: '21dev-hero-physio',
+        name: 'Hero Fisioterapia',
+        category: 'hero',
+        businessTypes: ['PHYSIOTHERAPY', 'PHYSIO', 'HEALTH', 'SPORTS'],
+        animationType: 'fade-in',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-physio"><div className="hero-overlay" /><h1 className="hero-title">Recupere seu Movimento</h1><p className="hero-subtitle">Fisioterapia especializada</p><button className="hero-cta">Agendar Sessão</button></section>`,
+      },
+    ],
+    'PSYCHOLOGY': [
+      {
+        id: '21dev-hero-psycho',
+        name: 'Hero Psicologia',
+        category: 'hero',
+        businessTypes: ['PSYCHOLOGY', 'HEALTH', 'WELLNESS'],
+        animationType: 'fade-in-up',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-psycho"><div className="hero-gradient" /><h1 className="hero-title">Saúde Mental é Prioridade</h1><p className="hero-subtitle">Atendimento online e presencial</p><button className="hero-cta">Agendar Consulta</button></section>`,
+      },
+    ],
+    'CLEANING': [
+      {
+        id: '21dev-hero-cleaning',
+        name: 'Hero Serviços de Limpeza',
+        category: 'hero',
+        businessTypes: ['CLEANING', 'HOUSEKEEPING'],
+        animationType: 'slide-up',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-cleaning"><div className="hero-video-bg" /><h1 className="hero-title">Limpeza Profissional</h1><p className="hero-subtitle">Sua casa e escritório impecáveis</p><button className="hero-cta">Solicitar Orçamento</button></section>`,
+      },
+    ],
+    'TRANSPORT': [
+      {
+        id: '21dev-hero-transport',
+        name: 'Hero Transportadora',
+        category: 'hero',
+        businessTypes: ['TRANSPORT', 'LOGISTICS', 'DELIVERY', 'MOVING'],
+        animationType: 'fade-in-up',
+        hasGlow: true,
+        hasGlassmorphism: false,
+        code: `
+<section className="hero-transport"><div className="hero-overlay" /><h1 className="hero-title">Sua Carga, Nosso Compromisso</h1><p className="hero-subtitle">Logística eficiente</p><button className="hero-cta">Solicitar Cotação</button></section>`,
+      },
+    ],
+    'HOSPITAL': [
+      {
+        id: '21dev-hero-hospital',
+        name: 'Hero Hospital Completo',
+        category: 'hero',
+        businessTypes: ['HOSPITAL', 'CLINIC', 'HEALTH', 'EMERGENCY'],
+        animationType: 'fade-in',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-hospital"><div className="hero-overlay" /><h1 className="hero-title">Cuidando de Você 24h</h1><p className="hero-subtitle">Atendimento médico hospitalar</p><button className="hero-cta">Consultas Online</button></section>`,
+      },
+    ],
+    'LAB': [
+      {
+        id: '21dev-hero-lab',
+        name: 'Hero Laboratório Clínico',
+        category: 'hero',
+        businessTypes: ['LAB', 'HEALTH', 'DIAGNOSTIC'],
+        animationType: 'slide-up',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-lab"><div className="hero-gradient" /><h1 className="hero-title">Diagnóstico Preciso</h1><p className="hero-subtitle">Exames laboratoriais de confiança</p><button className="hero-cta">Agendar Exames</button></section>`,
+      },
+    ],
+    'ART_STUDIO': [
+      {
+        id: '21dev-hero-artstudio',
+        name: 'Hero Ateliê de Arte',
+        category: 'hero',
+        businessTypes: ['ART_STUDIO', 'GALLERY', 'CULTURE'],
+        animationType: 'fade-in-up',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-artstudio"><div className="hero-gradient" /><h1 className="hero-title">Arte que Inspira</h1><p className="hero-subtitle">Galeria e ateliê</p><button className="hero-cta">Agendar Visita</button></section>`,
+      },
+    ],
+    'TATTOO': [
+      {
+        id: '21dev-hero-tattoo',
+        name: 'Hero Estúdio Tattoo',
+        category: 'hero',
+        businessTypes: ['TATTOO', 'PIERCING', 'BODY_ART'],
+        animationType: 'fade-in',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-tattoo"><div className="hero-overlay" /><h1 className="hero-title">Sua Arte na Pele</h1><p className="hero-subtitle">Tatuagem profissional</p><button className="hero-cta">Agendar Sessão</button></section>`,
+      },
+    ],
+    'CYBERSECURITY': [
+      {
+        id: '21dev-hero-cyber',
+        name: 'Hero Cibersegurança',
+        category: 'hero',
+        businessTypes: ['CYBERSECURITY', 'SECURITY', 'TECH'],
+        animationType: 'slide-up',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-cyber"><div className="hero-matrix-bg" /><h1 className="hero-title">Proteção Digital Total</h1><p className="hero-subtitle">Segurança cibernética</p><button className="hero-cta">Solicitar Auditoria</button></section>`,
+      },
+    ],
+    'DATA_SCIENCE': [
+      {
+        id: '21dev-hero-datascience',
+        name: 'Hero Ciência de Dados',
+        category: 'hero',
+        businessTypes: ['DATA_SCIENCE', 'ANALYTICS', 'BI'],
+        animationType: 'fade-in-up',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-datascience"><div className="hero-gradient" /><h1 className="hero-title">Dados que Transformam</h1><p className="hero-subtitle">Ciência de dados aplicada</p><button className="hero-cta">Solicitar Análise</button></section>`,
+      },
+    ],
+    'SEO_AGENCY': [
+      {
+        id: '21dev-hero-seo',
+        name: 'Hero Agência SEO',
+        category: 'hero',
+        businessTypes: ['SEO_AGENCY', 'MARKETING', 'DIGITAL'],
+        animationType: 'fade-in',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-seo"><div className="hero-overlay" /><h1 className="hero-title">Primeiro no Google</h1><p className="hero-subtitle">SEO que gera resultados</p><button className="hero-cta">Solicitar Análise</button></section>`,
+      },
+    ],
+    'MARKETING': [
+      {
+        id: '21dev-hero-marketing',
+        name: 'Hero Agência Marketing',
+        category: 'hero',
+        businessTypes: ['MARKETING', 'DIGITAL', 'ADVERTISING'],
+        animationType: 'fade-in-up',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-marketing"><div className="hero-gradient" /><h1 className="hero-title">Estratégia que Vende</h1><p className="hero-subtitle">Marketing digital</p><button className="hero-cta">Solicitar Proposta</button></section>`,
+      },
+    ],
+    'NUTRITION': [
+      {
+        id: '21dev-hero-nutri',
+        name: 'Hero Nutricionista',
+        category: 'hero',
+        businessTypes: ['NUTRITION', 'NUTRITIONIST', 'HEALTH'],
+        animationType: 'fade-in',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-nutri"><div className="hero-overlay" /><h1 className="hero-title">Transforme sua Alimentação</h1><p className="hero-subtitle">Nutrição personalizada</p><button className="hero-cta">Agendar Consulta</button></section>`,
+      },
+    ],
+    'PHARMACY': [
+      {
+        id: '21dev-hero-pharmacy',
+        name: 'Hero Farmácia',
+        category: 'hero',
+        businessTypes: ['PHARMACY', 'HEALTH', 'DRUGSTORE'],
+        animationType: 'slide-up',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-pharmacy"><div className="hero-gradient" /><h1 className="hero-title">Sua Saúde em Primeiro Lugar</h1><p className="hero-subtitle">Farmácia de confiança</p><button className="hero-cta">Consultar Preços</button></section>`,
+      },
+    ],
+    'VEGAN': [
+      {
+        id: '21dev-hero-vegan',
+        name: 'Hero Restaurante Vegano',
+        category: 'hero',
+        businessTypes: ['VEGAN', 'VEGETARIAN', 'HEALTHY'],
+        animationType: 'fade-in-up',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-vegan"><div className="hero-overlay" /><h1 className="hero-title">Comida que Faz Bem</h1><p className="hero-subtitle">100% vegetal</p><button className="hero-cta">Ver Cardápio</button></section>`,
+      },
+    ],
+    'FLORIST': [
+      {
+        id: '21dev-hero-florist',
+        name: 'Hero Floricultura',
+        category: 'hero',
+        businessTypes: ['FLORIST', 'GARDENING', 'DECORATION'],
+        animationType: 'fade-in',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-florist"><div className="hero-gradient" /><h1 className="hero-title">Flores que Encantam</h1><p className="hero-subtitle">Arranjos para todos os momentos</p><button className="hero-cta">Comprar Flores</button></section>`,
+      },
+    ],
+    'ICE_CREAM': [
+      {
+        id: '21dev-hero-icecream',
+        name: 'Hero Sorveteria',
+        category: 'hero',
+        businessTypes: ['ICE_CREAM', 'JUICE', 'DESSERT'],
+        animationType: 'fade-in-up',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-icecream"><div className="hero-overlay" /><h1 className="hero-title">O Sabor do Verão</h1><p className="hero-subtitle">Sorvetes artesanais</p><button className="hero-cta">Ver Sabores</button></section>`,
+      },
+    ],
+    'BUTCHER': [
+      {
+        id: '21dev-hero-butcher',
+        name: 'Hero Açougue Premium',
+        category: 'hero',
+        businessTypes: ['BUTCHER', 'GROCERY', 'MEAT'],
+        animationType: 'slide-up',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-butcher"><div className="hero-gradient" /><h1 className="hero-title">Qualidade que Você Merece</h1><p className="hero-subtitle">Carnes selecionadas</p><button className="hero-cta">Comprar Online</button></section>`,
+      },
+    ],
+    'COWORKING': [
+      {
+        id: '21dev-hero-coworking',
+        name: 'Hero Coworking',
+        category: 'hero',
+        businessTypes: ['COWORKING', 'OFFICE', 'STARTUP'],
+        animationType: 'fade-in',
+        hasGlow: true,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-coworking"><div className="hero-overlay" /><h1 className="hero-title">Trabalhe com Propósito</h1><p className="hero-subtitle">Coworking inspirador</p><button className="hero-cta">Agendar Visita</button></section>`,
+      },
+    ],
+    'PLAYGROUND': [
+      {
+        id: '21dev-hero-playground',
+        name: 'Hero Parque Infantil',
+        category: 'hero',
+        businessTypes: ['PLAYGROUND', 'KIDS', 'ENTERTAINMENT'],
+        animationType: 'fade-in-up',
+        hasGlow: false,
+        hasGlassmorphism: false,
+        code: `
+<section className="hero-playground"><div className="hero-gradient" /><h1 className="hero-title">Diversão Garantida</h1><p className="hero-subtitle">Parque infantil</p><button className="hero-cta">Agendar Festa</button></section>`,
+      },
+    ],
+    'NAIL_SALON': [
+      {
+        id: '21dev-hero-nails',
+        name: 'Hero Nail Studio',
+        category: 'hero',
+        businessTypes: ['NAIL_SALON', 'SALON', 'BEAUTY'],
+        animationType: 'slide-up',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-nails"><div className="hero-overlay" /><h1 className="hero-title">Suas Unhas dos Sonhos</h1><p className="hero-subtitle">Nail design</p><button className="hero-cta">Agendar Horário</button></section>`,
+      },
+    ],
+    'AUTO_REPAIR': [
+      {
+        id: '21dev-hero-autorepair',
+        name: 'Hero Oficina Mecânica',
+        category: 'hero',
+        businessTypes: ['AUTO_REPAIR', 'AUTOMOTIVE', 'GARAGE'],
+        animationType: 'fade-in',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-autorepair"><div className="hero-overlay" /><h1 className="hero-title">Seu Carro em Boas Mãos</h1><p className="hero-subtitle">Mecânica especializada</p><button className="hero-cta">Solicitar Orçamento</button></section>`,
+      },
+    ],
+    'GROCERY': [
+      {
+        id: '21dev-hero-grocery',
+        name: 'Hero Mercado',
+        category: 'hero',
+        businessTypes: ['GROCERY', 'BUTCHER', 'RETAIL'],
+        animationType: 'fade-in-up',
+        hasGlow: false,
+        hasGlassmorphism: true,
+        code: `
+<section className="hero-grocery"><div className="hero-gradient" /><h1 className="hero-title">O Melhor do Bairro</h1><p className="hero-subtitle">Mercado completo</p><button className="hero-cta">Comprar Online</button></section>`,
+      },
+    ],
   };
 
   return componentMap[businessType] || [];
