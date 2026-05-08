@@ -1,489 +1,533 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { getAnimationsForNiche } from '@/lib/animations';
-import { getComponentsForNiche } from '@/lib/21dev-components';
-import { generateLogoInspiration } from '@/lib/uxshowcase-logos';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ELITE THEME CONFIG
-const colors = {
-  bg: '#030308',
-  bgSecondary: '#0A0A12',
-  text: '#FAFAFA',
-  textMuted: '#71717A',
-  primary: '#A855F7',
-  secondary: '#6366F1',
-  accent: '#EC4899',
-  border: 'rgba(255, 255, 255, 0.06)',
-  gradient: 'linear-gradient(135deg, #A855F7 0%, #6366F1 50%, #EC4899 100%)',
+const palette = {
+  bg: '#08080F',
+  surface: '#0C0C1A',
+  text: '#F0F0F5',
+  muted: '#686880',
+  primary: '#7C5CFC',
+  primarySoft: 'rgba(124, 92, 252, 0.12)',
+  accent: '#F25C9E',
+  accentSoft: 'rgba(242, 92, 158, 0.15)',
+  gold: '#D4A853',
+  border: 'rgba(255, 255, 255, 0.05)',
+  glass: 'rgba(255, 255, 255, 0.03)',
+  glow: 'rgba(124, 92, 252, 0.25)',
 };
 
-// ELITE COMPONENTS
-function NoiseOverlay() {
-  return <div className="noise-overlay" />;
-}
+const niches = [
+  { type: 'RESTAURANT', label: 'Restaurante', cat: 'Food' },
+  { type: 'BAKERY', label: 'Padaria', cat: 'Food' },
+  { type: 'PIZZA', label: 'Pizzaria', cat: 'Food' },
+  { type: 'COFFEE', label: 'Cafeteria', cat: 'Food' },
+  { type: 'VEGAN', label: 'Vegano', cat: 'Food' },
+  { type: 'FOOD_TRUCK', label: 'Food Truck', cat: 'Food' },
+  { type: 'BUTCHER', label: 'Açougue', cat: 'Food' },
+  { type: 'GROCERY', label: 'Mercearia', cat: 'Food' },
+  { type: 'ICE_CREAM', label: 'Sorveteria', cat: 'Food' },
+  { type: 'JUICE', label: 'Sucos', cat: 'Food' },
+  { type: 'BAKERY_CAFE', label: 'Café & Padaria', cat: 'Food' },
+  { type: 'BARBERSHOP', label: 'Barbearia', cat: 'Beauty' },
+  { type: 'SALON', label: 'Salão', cat: 'Beauty' },
+  { type: 'SPA', label: 'Spa', cat: 'Beauty' },
+  { type: 'NAIL_SALON', label: 'Manicure', cat: 'Beauty' },
+  { type: 'TATTOO', label: 'Tatuagem', cat: 'Beauty' },
+  { type: 'BARBER', label: 'Barbearia', cat: 'Beauty' },
+  { type: 'CLINIC', label: 'Clínica', cat: 'Health' },
+  { type: 'DENTAL', label: 'Dentista', cat: 'Health' },
+  { type: 'PHARMACY', label: 'Farmácia', cat: 'Health' },
+  { type: 'VETERINARY', label: 'Veterinária', cat: 'Health' },
+  { type: 'PHYSIOTHERAPY', label: 'Fisioterapia', cat: 'Health' },
+  { type: 'PSYCHOLOGY', label: 'Psicologia', cat: 'Health' },
+  { type: 'NUTRITION', label: 'Nutrição', cat: 'Health' },
+  { type: 'HOSPITAL', label: 'Hospital', cat: 'Health' },
+  { type: 'LAB', label: 'Laboratório', cat: 'Health' },
+  { type: 'GYM', label: 'Academia', cat: 'Fitness' },
+  { type: 'GYMNASIUM', label: 'Academia', cat: 'Fitness' },
+  { type: 'PERSONAL_TRAINING', label: 'Personal', cat: 'Fitness' },
+  { type: 'TECH', label: 'Tecnologia', cat: 'Tech' },
+  { type: 'SOFTWARE', label: 'Software', cat: 'Tech' },
+  { type: 'CYBERSECURITY', label: 'Segurança', cat: 'Tech' },
+  { type: 'DATA_SCIENCE', label: 'Dados', cat: 'Tech' },
+  { type: 'AI_AGENCY', label: 'Agência IA', cat: 'Tech' },
+  { type: 'LAW_FIRM', label: 'Advocacia', cat: 'Service' },
+  { type: 'CONSULTANT', label: 'Consultoria', cat: 'Service' },
+  { type: 'CLEANING', label: 'Limpeza', cat: 'Service' },
+  { type: 'COWORKING', label: 'Coworking', cat: 'Service' },
+  { type: 'CONSTRUCTION', label: 'Construção', cat: 'Service' },
+  { type: 'AUTO_REPAIR', label: 'Mecânica', cat: 'Service' },
+  { type: 'EVENT', label: 'Eventos', cat: 'Service' },
+  { type: 'TRANSPORT', label: 'Transporte', cat: 'Service' },
+  { type: 'MOVING', label: 'Mudanças', cat: 'Service' },
+  { type: 'DELIVERY', label: 'Entrega', cat: 'Service' },
+  { type: 'RETAIL', label: 'Loja', cat: 'Retail' },
+  { type: 'ECOMMERCE', label: 'Ecommerce', cat: 'Retail' },
+  { type: 'FLORIST', label: 'Floricultura', cat: 'Retail' },
+  { type: 'PET_SHOP', label: 'Pet Shop', cat: 'Retail' },
+  { type: 'HOTEL', label: 'Hotel', cat: 'Travel' },
+  { type: 'TRAVEL', label: 'Viagens', cat: 'Travel' },
+  { type: 'HOSTEL', label: 'Hostel', cat: 'Travel' },
+  { type: 'RESORT', label: 'Resort', cat: 'Travel' },
+  { type: 'REAL_ESTATE', label: 'Imobiliária', cat: 'Realty' },
+  { type: 'REAL_ESTATE_AGENCY', label: 'Corretora', cat: 'Realty' },
+  { type: 'FINANCIAL', label: 'Finanças', cat: 'Finance' },
+  { type: 'INSURANCE', label: 'Seguros', cat: 'Finance' },
+  { type: 'ACCOUNTING', label: 'Contabilidade', cat: 'Finance' },
+  { type: 'MARKETING', label: 'Marketing', cat: 'Marketing' },
+  { type: 'SEO_AGENCY', label: 'SEO', cat: 'Marketing' },
+  { type: 'SCHOOL', label: 'Escola', cat: 'Education' },
+  { type: 'EDUCATION', label: 'Educação', cat: 'Education' },
+  { type: 'MUSIC_SCHOOL', label: 'Música', cat: 'Education' },
+  { type: 'ART_STUDIO', label: 'Arte', cat: 'Culture' },
+  { type: 'CINEMA', label: 'Cinema', cat: 'Culture' },
+  { type: 'THRATRE', label: 'Teatro', cat: 'Culture' },
+  { type: 'PLAYGROUND', label: 'Parque', cat: 'Culture' },
+  { type: 'NIGHTCLUB', label: 'Balada', cat: 'Culture' },
+];
 
-function MagneticButton({ children, primary = false, onClick, disabled }: { children: React.ReactNode; primary?: boolean; onClick?: () => void; disabled?: boolean }) {
-  const buttonRef = useRef<HTMLDivElement>(null);
-  
+const categories = [...new Set(niches.map(n => n.cat))];
+
+function FloatingOrbs() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    const el = buttonRef.current;
-    if (!el || disabled) return;
+    const container = containerRef.current;
+    if (!container) return;
 
-    const onMouseMove = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-      const { left, top, width, height } = el.getBoundingClientRect();
-      const x = clientX - (left + width / 2);
-      const y = clientY - (top + height / 2);
-      gsap.to(el, { x: x * 0.2, y: y * 0.2, duration: 0.3, ease: 'power2.out' });
+    const orbs = container.querySelectorAll('.orb');
+    let mouseX = 0, mouseY = 0;
+
+    const onMouse = (e: MouseEvent) => {
+      const rect = container.getBoundingClientRect();
+      mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      gsap.to(orbs, {
+        x: mouseX * 25,
+        y: mouseY * 25,
+        duration: 1.5,
+        ease: 'power2.out',
+        overwrite: 'auto',
+      });
     };
 
-    const onMouseLeave = () => {
-      gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
-    };
+    container.addEventListener('mousemove', onMouse);
 
-    el.addEventListener('mousemove', onMouseMove);
-    el.addEventListener('mouseleave', onMouseLeave);
-    return () => {
-      el.removeEventListener('mousemove', onMouseMove);
-      el.removeEventListener('mouseleave', onMouseLeave);
-    };
-  }, [disabled]);
+    orbs.forEach((orb, i) => {
+      gsap.to(orb, {
+        y: (i % 2 === 0 ? -20 : 20),
+        x: (i % 3 === 0 ? 15 : -15),
+        rotation: (i % 2 === 0 ? 5 : -5),
+        duration: 4 + i * 0.5,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
+    });
+
+    return () => container.removeEventListener('mousemove', onMouse);
+  }, []);
 
   return (
-    <div 
-      ref={buttonRef} 
-      onClick={disabled ? undefined : onClick}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '0.75rem',
-        padding: '0.75rem 2rem',
-        background: primary ? colors.gradient : 'transparent',
-        border: primary ? 'none' : `1px solid ${colors.border}`,
-        borderRadius: '0.875rem',
-        color: '#FAFAFA',
-        fontSize: '0.9375rem',
-        fontWeight: 600,
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        opacity: disabled ? 0.5 : 1,
-        transition: 'box-shadow 0.3s ease',
-        boxShadow: primary && !disabled ? '0 12px 24px -8px rgba(168, 85, 247, 0.5)' : 'none',
-      }}
-    >
-      {children}
+    <div ref={containerRef} style={{ position: 'fixed', inset: 0, perspective: '1200px', pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
+      <div className="orb" data-depth="25" style={{ position: 'absolute', top: '12%', left: '8%', width: '420px', height: '420px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(124,92,252,0.12) 0%, transparent 70%)', filter: 'blur(80px)', transformStyle: 'preserve-3d', willChange: 'transform' }} />
+      <div className="orb" data-depth="-20" style={{ position: 'absolute', bottom: '5%', right: '12%', width: '350px', height: '350px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(242,92,158,0.1) 0%, transparent 70%)', filter: 'blur(90px)', transformStyle: 'preserve-3d', willChange: 'transform' }} />
+      <div className="orb" data-depth="30" style={{ position: 'absolute', top: '40%', right: '25%', width: '250px', height: '250px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(212,168,83,0.08) 0%, transparent 70%)', filter: 'blur(70px)', transformStyle: 'preserve-3d', willChange: 'transform' }} />
+      <div className="orb" data-depth="-15" style={{ position: 'absolute', bottom: '30%', left: '20%', width: '300px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(124,92,252,0.06) 0%, transparent 70%)', filter: 'blur(100px)', transformStyle: 'preserve-3d', willChange: 'transform' }} />
+      <div className="orb" data-depth="18" style={{ position: 'absolute', top: '60%', left: '60%', width: '200px', height: '200px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(242,92,158,0.08) 0%, transparent 70%)', filter: 'blur(60px)', transformStyle: 'preserve-3d', willChange: 'transform' }} />
     </div>
   );
 }
 
-function EliteCard({ children, selected = false, onClick, delay = 0 }: { children: React.ReactNode; selected?: boolean; onClick?: () => void; delay?: number }) {
-  const cardRef = useRef<HTMLDivElement>(null);
+function ParticleField() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    gsap.from(cardRef.current, {
-      opacity: 0,
-      y: 20,
-      duration: 0.8,
-      delay,
-      ease: 'power3.out',
-    });
-  }, [delay]);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let w = canvas.width = window.innerWidth;
+    let h = canvas.height = window.innerHeight;
+    const particles: { x: number; y: number; vx: number; vy: number; r: number; a: number }[] = [];
+
+    for (let i = 0; i < 60; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 1.5 + 0.5,
+        a: Math.random() * 0.4 + 0.1,
+      });
+    }
+
+    const resize = () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; };
+    window.addEventListener('resize', resize);
+
+    let anim: number;
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(124, 92, 252, ${p.a})`;
+        ctx.fill();
+      });
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 150) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(124, 92, 252, ${0.05 * (1 - dist / 150)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+
+      anim = requestAnimationFrame(draw);
+    };
+    draw();
+
+    return () => { cancelAnimationFrame(anim); window.removeEventListener('resize', resize); };
+  }, []);
+
+  return <canvas ref={canvasRef} style={{ position: 'fixed', inset: 0, zIndex: 1, pointerEvents: 'none' }} />;
+}
+
+function NoiseTexture() {
+  return <div style={{ position: 'fixed', inset: 0, zIndex: 2, opacity: 0.03, backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")', backgroundSize: '256px 256px', pointerEvents: 'none' }} />;
+}
+
+function GlassCard({ children, selected, onClick, style }: { children: React.ReactNode; selected?: boolean; onClick?: () => void; style?: React.CSSProperties }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    gsap.from(ref.current, { opacity: 0, y: 20, scale: 0.95, duration: 0.6, ease: 'power3.out', scrollTrigger: { trigger: ref.current, start: 'top 85%' } });
+  }, []);
 
   return (
     <div
-      ref={cardRef}
+      ref={ref}
       onClick={onClick}
       style={{
-        background: selected ? 'rgba(168, 85, 247, 0.08)' : 'rgba(10, 10, 18, 0.6)',
-        border: `1px solid ${selected ? colors.primary : colors.border}`,
-        borderRadius: '1.25rem',
-        padding: '1.5rem',
-        backdropFilter: 'blur(30px)',
+        background: selected ? `linear-gradient(135deg, ${palette.primarySoft}, ${palette.accentSoft})` : palette.glass,
+        border: `1px solid ${selected ? palette.primary : palette.border}`,
+        borderRadius: '1rem',
+        padding: '1.25rem',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
         cursor: onClick ? 'pointer' : 'default',
-        transition: 'all 0.3s ease',
+        transition: 'all 0.35s cubic-bezier(0.22, 1, 0.36, 1)',
         position: 'relative',
         overflow: 'hidden',
-        boxShadow: selected ? '0 15px 30px -10px rgba(168, 85, 247, 0.2)' : 'none',
+        ...style,
       }}
+      onMouseEnter={e => { if (!selected) gsap.to(e.currentTarget, { scale: 1.02, borderColor: 'rgba(255,255,255,0.15)', duration: 0.3 }); }}
+      onMouseLeave={e => { if (!selected) gsap.to(e.currentTarget, { scale: 1, borderColor: palette.border, duration: 0.3 }); }}
     >
-      {selected && (
-        <div style={{
-          position: 'absolute',
-          top: 0, right: 0,
-          width: '100px', height: '100px',
-          background: 'radial-gradient(circle at top right, rgba(168, 85, 247, 0.2), transparent 70%)',
-          pointerEvents: 'none',
-        }} />
-      )}
+      {selected && <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(circle at 50% 0%, ${palette.glow}, transparent 70%)`, opacity: 0.3, pointerEvents: 'none' }} />}
       {children}
     </div>
   );
 }
 
-function ProgressIndicator({ icon, title, desc, active, completed }: { icon: string; title: string; desc: string; active?: boolean; completed?: boolean }) {
+function StepIndicator({ num, label, active }: { num: number; label: string; active: boolean }) {
   return (
-    <div style={{
-      padding: '1.25rem',
-      background: active ? 'rgba(168, 85, 247, 0.08)' : 'rgba(255, 255, 255, 0.02)',
-      border: `1px solid ${completed ? '#10B981' : active ? colors.primary : colors.border}`,
-      borderRadius: '1rem',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '1.25rem',
-      transition: 'all 0.4s ease',
-      opacity: active || completed ? 1 : 0.4,
-    }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', opacity: active ? 1 : 0.3, transition: 'opacity 0.5s ease' }}>
       <div style={{
-        width: '3rem',
-        height: '3rem',
-        borderRadius: '0.75rem',
-        background: completed ? 'rgba(16, 185, 129, 0.1)' : active ? 'rgba(168, 85, 247, 0.1)' : 'rgba(255,255,255,0.05)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: '1.5rem',
-      }}>
-        {completed ? '✓' : icon}
-      </div>
-      <div>
-        <div style={{ fontWeight: 700, color: completed ? '#10B981' : active ? colors.text : colors.textMuted, fontSize: '1rem' }}>{title}</div>
-        <div style={{ fontSize: '0.8rem', color: colors.textMuted, marginTop: '0.15rem' }}>{desc}</div>
-      </div>
+        width: '2rem', height: '2rem', borderRadius: '50%',
+        background: active ? `linear-gradient(135deg, ${palette.primary}, ${palette.accent})` : palette.border,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: '0.7rem', fontWeight: 800, color: active ? '#fff' : palette.muted,
+        transition: 'all 0.4s ease',
+      }}>{num}</div>
+      <span style={{ fontSize: '0.85rem', fontWeight: 600, color: active ? palette.text : palette.muted }}>{label}</span>
     </div>
   );
 }
 
-// ===== CATALOG DATA =====
-interface BusinessOption {
-  type: string;
-  label: string;
-  icon: string;
-  category: string;
+function ProgressDots({ total, current }: { total: number; current: number }) {
+  return (
+    <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', marginTop: '2rem' }}>
+      {Array.from({ length: total }).map((_, i) => (
+        <div key={i} style={{
+          width: i === current ? '2rem' : '0.5rem', height: '0.5rem', borderRadius: '999px',
+          background: i <= current ? `linear-gradient(90deg, ${palette.primary}, ${palette.accent})` : palette.border,
+          transition: 'all 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
+        }} />
+      ))}
+    </div>
+  );
 }
 
-const businessCatalog: BusinessOption[] = [
-  // Alimentação
-  { type: 'RESTAURANT', label: 'Restaurante', icon: '🍽️', category: 'Alimentação' },
-  { type: 'BAKERY', label: 'Padaria', icon: '🍞', category: 'Alimentação' },
-  { type: 'PIZZA', label: 'Pizzaria', icon: '🍕', category: 'Alimentação' },
-  { type: 'COFFEE', label: 'Cafeteria', icon: '☕', category: 'Alimentação' },
-  
-  // Beleza & Fitness
-  { type: 'BARBERSHOP', label: 'Barbearia', icon: '✂️', category: 'Beleza' },
-  { type: 'SALON', label: 'Salão de Beleza', icon: '💇', category: 'Beleza' },
-  { type: 'GYM', label: 'Academia', icon: '💪', category: 'Fitness' },
-  { type: 'SPA', label: 'Spa/Wellness', icon: '💆', category: 'Beleza' },
-  
-  // Saúde
-  { type: 'CLINIC', label: 'Clínica', icon: '🏥', category: 'Saúde' },
-  { type: 'DENTAL', label: 'Consultório Dentário', icon: '🦷', category: 'Saúde' },
-  { type: 'PHARMACY', label: 'Farmácia', icon: '💊', category: 'Saúde' },
-  { type: 'VETERINARY', label: 'Veterinária', icon: '🐾', category: 'Saúde' },
-  
-  // Serviços
-  { type: 'TECH', label: 'Tecnologia', icon: '💻', category: 'Tecnologia' },
-  { type: 'LAW_FIRM', label: 'Escritório de Advocacia', icon: '⚖️', category: 'Serviços Jurídicos' },
-  { type: 'CONSULTANT', label: 'Consultoria', icon: '💼', category: 'Serviços' },
-  { type: 'CLEANING', label: 'Serviços de Limpeza', icon: '🧹', category: 'Serviços' },
-  { type: 'CONSTRUCTION', label: 'Construção Civil', icon: '🏗️', category: 'Construção' },
-  { type: 'AUTO_REPAIR', label: 'Oficina Mecânica', icon: '🔧', category: 'Automotivo' },
-  
-  // Varejo & E-commerce
-  { type: 'RETAIL', label: 'Loja Física', icon: '🛒', category: 'Varejo' },
-  { type: 'ECOMMERCE', label: 'Loja Virtual', icon: '🛍️', category: 'Varejo' },
-  { type: 'FLORIST', label: 'Floricultura', icon: '💐', category: 'Varejo' },
-  { type: 'PET_SHOP', label: 'Pet Shop', icon: '🐕', category: 'Pets' },
-  
-  // Lazer & Hospitalidade
-  { type: 'HOTEL', label: 'Hotel', icon: '🏨', category: 'Lazer' },
-  { type: 'TRAVEL', label: 'Agência de Viagens', icon: '✈️', category: 'Lazer' },
-  { type: 'EVENT', label: 'Eventos/Produção', icon: '🎉', category: 'Lazer' },
-  
-  // Imobiliário & Educação
-  { type: 'REAL_ESTATE', label: 'Imobiliária', icon: '🏠', category: 'Imobiliária' },
-  { type: 'SCHOOL', label: 'Escola/Cursos', icon: '🏫', category: 'Educação' },
-  { type: 'COWORKING', label: 'Espaço de Coworking', icon: '🏢', category: 'Serviços' },
-  
-  // Transporte & Logística
-  { type: 'TRANSPORT', label: 'Transportadora', icon: '🚛', category: 'Transporte' },
-  { type: 'MOVING', label: 'Mudanças', icon: '📦', category: 'Transporte' },
-  { type: 'DELIVERY', label: 'Serviço de Entrega', icon: '🛵', category: 'Transporte' },
-  
-  // Alimentação (expandido)
-  { type: 'VEGAN', label: 'Restaurante Vegano', icon: '🥗', category: 'Alimentação' },
-  { type: 'FOOD_TRUCK', label: 'Food Truck', icon: '🚚', category: 'Alimentação' },
-  { type: 'BUTCHER', label: 'Açougue', icon: '🥩', category: 'Alimentação' },
-  { type: 'GROCERY', label: 'Mercearia', icon: '🏪', category: 'Alimentação' },
-  
-  // Beleza & Estética (expandido)
-  { type: 'NAIL_SALON', label: 'Esmalteria/Manicure', icon: '💅', category: 'Beleza' },
-  { type: 'TATTOO', label: 'Studio de Tatuagem', icon: '🎨', category: 'Beleza' },
-  { type: 'BARBER', label: 'Barbearia Masculina', icon: '💈', category: 'Beleza' },
-  
-  // Serviços Financeiros & Marketing
-  { type: 'FINANCIAL', label: 'Consultoria Financeira', icon: '💰', category: 'Finanças' },
-  { type: 'MARKETING', label: 'Agência de Marketing', icon: '📈', category: 'Marketing' },
-  { type: 'SEO_AGENCY', label: 'SEO & Tráfego', icon: '🔍', category: 'Marketing' },
-  
-  // Saúde (expandido)
-  { type: 'PHYSIOTHERAPY', label: 'Fisioterapia', icon: '🦽', category: 'Saúde' },
-  { type: 'PSYCHOLOGY', label: 'Psicologia', icon: '🧠', category: 'Saúde' },
-  { type: 'NUTRITION', label: 'Nutricionista', icon: '🥗', category: 'Saúde' },
-  
-  // Lazer & Entretenimento
-  { type: 'GYMNASIUM', label: 'Academia (Grande)', icon: '🏋️', category: 'Fitness' },
-  { type: 'PLAYGROUND', label: 'Playground/Espaço Kids', icon: '🎠', category: 'Lazer' },
-  { type: 'CINEMA', label: 'Cinema', icon: '🎬', category: 'Lazer' },
-  
-  // Tecnologia (expandido)
-  { type: 'SOFTWARE', label: 'Desenvolvimento de Software', icon: '💻', category: 'Tecnologia' },
-  { type: 'CYBERSECURITY', label: 'Cibersegurança', icon: '🔒', category: 'Tecnologia' },
-  { type: 'DATA_SCIENCE', label: 'Ciência de Dados', icon: '📊', category: 'Tecnologia' },
-  { type: 'AI_AGENCY', label: 'Agência de IA', icon: '🤖', category: 'Tecnologia' },
-  
-  // Saúde (expandido)
-  { type: 'HOSPITAL', label: 'Hospital', icon: '🏥', category: 'Saúde' },
-  { type: 'LAB', label: 'Laboratório', icon: '🔬', category: 'Saúde' },
-  { type: 'PHYSIO', label: 'Fisioterapia', icon: '🦾', category: 'Saúde' },
-  
-  // Alimentação (expandido)
-  { type: 'BAKERY_CAFE', label: 'Café e Padaria', icon: '☕', category: 'Alimentação' },
-  { type: 'ICE_CREAM', label: 'Sorveteria', icon: '🍦', category: 'Alimentação' },
-  { type: 'JUICE', label: 'Loja de Sucos', icon: '🧃', category: 'Alimentação' },
-  
-  // Lazer & Entretenimento
-  { type: 'THRATRE', label: 'Teatro', icon: '🎭', category: 'Lazer' },
-  { type: 'MUSIC_SCHOOL', label: 'Escola de Música', icon: '🎵', category: 'Lazer' },
-  { type: 'ART_STUDIO', label: 'Estúdio de Arte', icon: '🎨', category: 'Lazer' },
-  
-  // Serviços Financeiros
-  { type: 'INSURANCE', label: 'Corretora de Seguros', icon: '🛡️', category: 'Finanças' },
-  { type: 'ACCOUNTING', label: 'Contabilidade', icon: '🧮', category: 'Finanças' },
-  
-  // Imobiliário (expandido)
-  { type: 'REAL_ESTATE_AGENCY', label: 'Corretora de Imóveis', icon: '🏢', category: 'Imobiliária' },
-  { type: 'CONSTRUCTION', label: 'Construtora', icon: '🏗️', category: 'Construção' },
-];
-
-export default function CreateSitePage() {
+export default function CreatePage() {
   const router = useRouter();
-  const [step, setStep] = useState(1);
+  const mainRef = useRef<HTMLDivElement>(null);
+  const [step, setStep] = useState(0);
+  const [catFilter, setCatFilter] = useState('All');
   const [loading, setLoading] = useState(false);
-  const [showProgress, setShowProgress] = useState(false);
   const [progressStep, setProgressStep] = useState(0);
-  const [suggestions, setSuggestions] = useState<any[]>([]);
-  const [rufloData, setRufloData] = useState<any>(null);
-  
-  const [formData, setFormData] = useState({
-    businessType: '',
-    businessName: '',
-    painPoints: [] as string[],
-    solutions: [] as string[],
-    style: '',
-    phone: '',
-    email: '',
-    address: '',
-    logoUrl: '',
-    imageUrls: '',
-    primaryColor: '',
-  });
 
-  const categories = [...new Set(businessCatalog.map(b => b.category))];
-  const selectedBusiness = businessCatalog.find(b => b.type === formData.businessType);
+  const [form, setForm] = useState({ businessType: '', businessName: '', style: '', solutions: [] as string[] });
 
-  const styleOptions = [
-    { style: 'MODERN', label: 'Moderno & Clean', description: 'Linhas puras, tipografia geométrica' },
-    { style: 'BOLD', label: 'Ousado & Vibrante', description: 'Cores fortes, design de alto impacto' },
-    { style: 'MINIMAL', label: 'Minimalista Elite', description: 'Foco total no conteúdo, luxo discreto' },
-    { style: 'LUXURY', label: 'Luxo Atemporal', description: 'Preto e dourado, animações suaves' },
+  const filteredNiches = catFilter === 'All' ? niches : niches.filter(n => n.cat === catFilter);
+  const selected = niches.find(n => n.type === form.businessType);
+
+  const styleOpts = [
+    { id: 'MODERN', label: 'Modern', desc: 'Clean & minimal' },
+    { id: 'BOLD', label: 'Bold', desc: 'High impact' },
+    { id: 'MINIMAL', label: 'Minimal', desc: 'Refined luxury' },
+    { id: 'LUXURY', label: 'Luxury', desc: 'Timeless elegance' },
   ];
 
-  const handleSubmit = async () => {
-    if (!formData.businessType || !formData.businessName || formData.solutions.length === 0 || !formData.style) {
-      alert('Preencha os campos obrigatórios!');
-      return;
-    }
-    
+  const features = ['Booking', 'Ecommerce', 'Animations', 'SEO', 'Chat', 'WhatsApp', 'Gallery', 'Blog'];
+
+  const progressSteps = [
+    { icon: '◈', title: 'Research', desc: 'Analyzing niche trends' },
+    { icon: '◈', title: 'Design', desc: 'Crafting layout' },
+    { icon: '◈', title: 'Develop', desc: 'Building components' },
+    { icon: '◈', title: 'Animate', desc: 'Adding motion' },
+    { icon: '◈', title: 'Launch', desc: 'Final polish' },
+  ];
+
+  useEffect(() => {
+    gsap.from(mainRef.current, { opacity: 0, duration: 0.6, ease: 'power2.out' });
+  }, []);
+
+  const handleGenerate = async () => {
+    if (!form.businessType || !form.businessName || !form.style) return;
     setLoading(true);
-    setShowProgress(true);
-    
-    const visualSuggestions = [
-      { step: 0, icon: '🔍', title: 'Intelligence Gathering', desc: 'Extraindo segredos de design do Dribbble e Landbook' },
-      { step: 1, icon: '🎞️', title: 'Expert Synthesis', desc: 'Analisando tutoriais de elite do YouTube para este nicho' },
-      { step: 2, icon: '🧠', title: 'Strategic Architecture', desc: 'Definindo a hierarquia visual de alta conversão' },
-      { step: 3, icon: '🎨', title: 'Artistic Execution', desc: 'Orquestrando o Stitch para criar sua obra-prima' },
-      { step: 4, icon: '✨', title: 'Cinematic Polish', desc: 'Injetando 3D Mesh e animações GSAP de luxo' },
-      { step: 5, icon: '🚀', title: 'Deployment Ready', desc: 'Finalizando os últimos ajustes de performance' },
-    ];
-    
-    setSuggestions(visualSuggestions);
-    
+    setProgressStep(0);
+
+    const pi = setInterval(() => setProgressStep(p => p < 4 ? p + 1 : p), 1500);
+
     try {
-      const progressInterval = setInterval(() => {
-        setProgressStep(prev => {
-          if (prev >= 5) { clearInterval(progressInterval); return 5; }
-          return prev + 1;
-        });
-      }, 1200);
-      
-      const response = await fetch('/api/sites/ultimate-create', {
+      const res = await fetch('/api/sites/ultimate-create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...formData,
-          brandAssets: {
-            logoUrl: formData.logoUrl,
-            imageUrls: formData.imageUrls.split(',').map(u => u.trim()).filter(Boolean),
-            primaryColor: formData.primaryColor,
-          }
+          businessName: form.businessName,
+          businessType: form.businessType,
+          style: form.style,
+          plan: 'premium',
+          solutions: form.solutions,
         }),
       });
-      
-      const data = await response.json();
-      
-      // EXTRA STAGE: ELITE AUDIT (Fixes the "missing analysis" gap)
-      setProgressStep(5);
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Artificial wait for "Cinematic Polish"
-      
-      // FINAL REDIRECT
-      setTimeout(() => {
-        router.push(`/sites/${data.site?.slug}`);
-      }, 1000);
-      
-    } catch (error) {
-      alert('Erro na geração. Tente novamente.');
+      const data = await res.json();
+      clearInterval(pi);
+      setProgressStep(4);
+      setTimeout(() => data.site?.slug && router.push(`/sites/${data.site.slug}`), 1500);
+    } catch {
+      clearInterval(pi);
       setLoading(false);
-      setShowProgress(false);
     }
   };
 
   return (
-    <main style={{ backgroundColor: colors.bg, minHeight: '100vh', position: 'relative', paddingBottom: '10rem' }}>
-      <NoiseOverlay />
-      
-      {/* Background Orbs */}
-      <div style={{ position: 'fixed', top: '10%', right: '10%', width: '30rem', height: '30rem', background: 'radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%)', filter: 'blur(100px)', zIndex: 0 }} />
+    <main ref={mainRef} style={{ background: palette.bg, minHeight: '100vh', position: 'relative', color: palette.text, fontFamily: "'Inter', system-ui, sans-serif" }}>
+      <FloatingOrbs />
+      <ParticleField />
+      <NoiseTexture />
 
-      {/* Nav */}
-      <nav style={{ padding: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '1400px', marginInline: 'auto', position: 'relative', zIndex: 10 }}>
-        <Link href="/" style={{ textDecoration: 'none', color: colors.text, fontWeight: 900, fontSize: '1.5rem', letterSpacing: '-0.02em' }}>EliteSaaS</Link>
-        <Link href="/sites" style={{ textDecoration: 'none', color: colors.textMuted, fontSize: '0.875rem' }}>Meus Projetos</Link>
+      <nav style={{ position: 'relative', zIndex: 10, padding: '1.5rem 2rem', maxWidth: '1280px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Link href="/" style={{ textDecoration: 'none', color: palette.text, fontSize: '1.25rem', fontWeight: 800, letterSpacing: '-0.03em' }}>
+          <span style={{ background: `linear-gradient(135deg, ${palette.primary}, ${palette.accent})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Studio</span>
+        </Link>
+        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+          <Link href="/sites" style={{ textDecoration: 'none', color: palette.muted, fontSize: '0.85rem', fontWeight: 500 }}>Projects</Link>
+          <div style={{ width: '1.5rem', height: '1.5rem', borderRadius: '50%', background: `linear-gradient(135deg, ${palette.primary}, ${palette.accent})` }} />
+        </div>
       </nav>
 
-      <div style={{ maxWidth: '1000px', marginInline: 'auto', paddingInline: '2rem', paddingTop: '4rem', position: 'relative', zIndex: 1 }}>
-        {!showProgress ? (
+      <div style={{ position: 'relative', zIndex: 5, maxWidth: '1100px', margin: '0 auto', padding: '3rem 2rem 8rem' }}>
+        {!loading ? (
           <>
-            <header style={{ textAlign: 'center', marginBottom: '5rem' }}>
-              <div style={{ display: 'inline-block', padding: '0.4rem 1rem', background: 'rgba(168, 85, 247, 0.1)', borderRadius: '9999px', color: colors.primary, fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.1em', marginBottom: '1.5rem' }}>GERADOR ELITE</div>
-              <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: '1rem' }}>Crie sua <span style={{ color: colors.primary }}>Obra-Prima</span></h1>
-              <p style={{ color: colors.textMuted, fontSize: '1.1rem' }}>Preencha os detalhes e deixe nossos agentes cuidarem do resto.</p>
+            <header style={{ textAlign: 'center', marginBottom: '4rem' }}>
+              <div style={{ display: 'inline-flex', gap: '0.5rem', marginBottom: '1.5rem' }}>
+                <StepIndicator num={1} label="Niche" active={step >= 0} />
+                <span style={{ color: palette.muted, padding: '0.5rem 0.5rem 0' }}>→</span>
+                <StepIndicator num={2} label="Style" active={step >= 1} />
+                <span style={{ color: palette.muted, padding: '0.5rem 0.5rem 0' }}>→</span>
+                <StepIndicator num={3} label="Review" active={step >= 2} />
+              </div>
+              <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', fontWeight: 800, letterSpacing: '-0.04em', marginBottom: '0.75rem', lineHeight: 1.1 }}>
+                {step === 0 ? 'Choose your path' : step === 1 ? 'Define your style' : 'Almost there'}
+              </h1>
+              <p style={{ color: palette.muted, fontSize: '1.05rem', maxWidth: '500px', margin: '0 auto' }}>
+                {step === 0 ? 'Select your business niche to begin' : step === 1 ? 'Pick the visual direction' : 'Review your choices'}
+              </p>
             </header>
 
-            {/* Stepper Content */}
+            {step === 0 && (
+              <section>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '2.5rem' }}>
+                  {['All', ...categories].map(c => (
+                    <button key={c} onClick={() => setCatFilter(c)} style={{
+                      padding: '0.4rem 1.2rem', borderRadius: '999px', border: `1px solid ${catFilter === c ? palette.primary : palette.border}`,
+                      background: catFilter === c ? palette.primarySoft : 'transparent', color: catFilter === c ? palette.primary : palette.muted,
+                      fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', transition: 'all 0.3s ease',
+                    }}>{c}</button>
+                  ))}
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '0.75rem' }}>
+                  {filteredNiches.map(n => (
+                    <GlassCard key={n.type} selected={form.businessType === n.type} onClick={() => setForm(p => ({ ...p, businessType: n.type }))}>
+                      <div style={{ fontSize: '0.8rem', fontWeight: 700, textAlign: 'center' }}>{n.label}</div>
+                    </GlassCard>
+                  ))}
+                </div>
+
+                <div style={{ marginTop: '3rem', display: 'flex', flexDirection: 'column', gap: '1.25rem', maxWidth: '480px', marginInline: 'auto' }}>
+                  <div>
+                    <label style={{ fontSize: '0.8rem', color: palette.muted, fontWeight: 600, marginBottom: '0.5rem', display: 'block' }}>Brand name</label>
+                    <input value={form.businessName} onChange={e => setForm(p => ({ ...p, businessName: e.target.value }))} placeholder="e.g. Aurora Studio" style={{
+                      width: '100%', padding: '1rem 1.25rem', background: palette.glass, border: `1px solid ${palette.border}`, borderRadius: '0.875rem',
+                      color: palette.text, fontSize: '1rem', outline: 'none',
+                    }} onFocus={e => gsap.to(e.target, { borderColor: palette.primary, duration: 0.3 })} onBlur={e => gsap.to(e.target, { borderColor: palette.border, duration: 0.3 })} />
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0.5rem' }}>
+                    <button onClick={() => setStep(1)} disabled={!form.businessType || !form.businessName} style={{
+                      padding: '0.85rem 2.5rem', borderRadius: '999px', border: 'none',
+                      background: `linear-gradient(135deg, ${palette.primary}, ${palette.accent})`,
+                      color: '#fff', fontWeight: 700, fontSize: '0.9rem', cursor: form.businessType && form.businessName ? 'pointer' : 'not-allowed',
+                      opacity: form.businessType && form.businessName ? 1 : 0.3, transition: 'all 0.3s ease',
+                    }}>Continue →</button>
+                  </div>
+                </div>
+              </section>
+            )}
+
             {step === 1 && (
-              <section style={{ display: 'grid', gap: '3rem' }}>
-                <div>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.5rem' }}>Selecione o Nicho</h3>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '1rem' }}>
-                    {businessCatalog.map(b => (
-                      <EliteCard key={b.type} selected={formData.businessType === b.type} onClick={() => setFormData(p => ({ ...p, businessType: b.type }))}>
-                        <div style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>{b.icon}</div>
-                        <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>{b.label}</div>
-                      </EliteCard>
+              <section style={{ maxWidth: '600px', margin: '0 auto' }}>
+                <div style={{ display: 'grid', gap: '1rem', marginBottom: '2.5rem' }}>
+                  {styleOpts.map(o => (
+                    <GlassCard key={o.id} selected={form.style === o.id} onClick={() => setForm(p => ({ ...p, style: o.id }))} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.25rem 1.5rem' }}>
+                      <div>
+                        <div style={{ fontWeight: 700, fontSize: '1rem' }}>{o.label}</div>
+                        <div style={{ fontSize: '0.8rem', color: palette.muted, marginTop: '0.15rem' }}>{o.desc}</div>
+                      </div>
+                      <div style={{ width: '2rem', height: '2rem', borderRadius: '50%', border: `2px solid ${form.style === o.id ? palette.primary : palette.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s' }}>
+                        {form.style === o.id && <div style={{ width: '1rem', height: '1rem', borderRadius: '50%', background: palette.primary }} />}
+                      </div>
+                    </GlassCard>
+                  ))}
+                </div>
+
+                <div style={{ marginBottom: '2.5rem' }}>
+                  <label style={{ fontSize: '0.8rem', color: palette.muted, fontWeight: 600, marginBottom: '0.75rem', display: 'block' }}>Features</label>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                    {features.map(f => (
+                      <button key={f} onClick={() => setForm(p => ({ ...p, solutions: p.solutions.includes(f) ? p.solutions.filter(x => x !== f) : [...p.solutions, f] }))} style={{
+                        padding: '0.5rem 1.25rem', borderRadius: '999px', border: `1px solid ${form.solutions.includes(f) ? palette.primary : palette.border}`,
+                        background: form.solutions.includes(f) ? palette.primarySoft : 'transparent',
+                        color: form.solutions.includes(f) ? palette.primary : palette.muted, fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s',
+                      }}>{f}</button>
                     ))}
                   </div>
                 </div>
 
-                <div>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1rem' }}>Nome da Marca</h3>
-                  <input 
-                    type="text" 
-                    placeholder="Ex: Aura Digital Agency" 
-                    value={formData.businessName}
-                    onChange={e => setFormData(p => ({ ...p, businessName: e.target.value }))}
-                    style={{ width: '100%', padding: '1.25rem', background: 'rgba(255,255,255,0.03)', border: `1px solid ${colors.border}`, borderRadius: '1rem', color: 'white', fontSize: '1.1rem' }}
-                  />
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <MagneticButton primary onClick={() => setStep(2)}>Próximo Passo</MagneticButton>
+                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+                  <button onClick={() => setStep(0)} style={{ padding: '0.85rem 2rem', borderRadius: '999px', border: `1px solid ${palette.border}`, background: 'transparent', color: palette.muted, fontWeight: 600, cursor: 'pointer' }}>Back</button>
+                  <button onClick={() => setStep(2)} disabled={!form.style} style={{
+                    padding: '0.85rem 2.5rem', borderRadius: '999px', border: 'none',
+                    background: `linear-gradient(135deg, ${palette.primary}, ${palette.accent})`,
+                    color: '#fff', fontWeight: 700, fontSize: '0.9rem', cursor: form.style ? 'pointer' : 'not-allowed',
+                    opacity: form.style ? 1 : 0.3, transition: 'all 0.3s ease',
+                  }}>Review →</button>
                 </div>
               </section>
             )}
 
             {step === 2 && (
-              <section style={{ display: 'grid', gap: '3rem' }}>
-                <div>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.5rem' }}>Escolha o Estilo Visual</h3>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem' }}>
-                    {styleOptions.map(opt => (
-                      <EliteCard key={opt.style} selected={formData.style === opt.style} onClick={() => setFormData(p => ({ ...p, style: opt.style }))}>
-                        <div style={{ fontWeight: 800, fontSize: '1.1rem', marginBottom: '0.5rem' }}>{opt.label}</div>
-                        <div style={{ fontSize: '0.85rem', color: colors.textMuted }}>{opt.description}</div>
-                      </EliteCard>
-                    ))}
+              <section style={{ maxWidth: '500px', margin: '0 auto' }}>
+                <GlassCard style={{ marginBottom: '2rem' }}>
+                  <div style={{ display: 'grid', gap: '1rem' }}>
+                    <div><span style={{ color: palette.muted, fontSize: '0.75rem', fontWeight: 600 }}>NICHE</span><div style={{ fontWeight: 700, marginTop: '0.25rem' }}>{selected?.label}</div></div>
+                    <div><span style={{ color: palette.muted, fontSize: '0.75rem', fontWeight: 600 }}>BRAND</span><div style={{ fontWeight: 700, marginTop: '0.25rem' }}>{form.businessName}</div></div>
+                    <div><span style={{ color: palette.muted, fontSize: '0.75rem', fontWeight: 600 }}>STYLE</span><div style={{ fontWeight: 700, marginTop: '0.25rem' }}>{styleOpts.find(s => s.id === form.style)?.label}</div></div>
+                    {form.solutions.length > 0 && (
+                      <div><span style={{ color: palette.muted, fontSize: '0.75rem', fontWeight: 600 }}>FEATURES</span><div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginTop: '0.4rem' }}>{form.solutions.map(s => <span key={s} style={{ padding: '0.2rem 0.6rem', borderRadius: '999px', background: palette.primarySoft, color: palette.primary, fontSize: '0.75rem', fontWeight: 600 }}>{s}</span>)}</div></div>
+                    )}
                   </div>
-                </div>
+                </GlassCard>
 
-                <div>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1rem' }}>Recursos Necessários</h3>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-                    {['Booking', 'Ecommerce', 'Animations', 'SEO', 'Support'].map(f => (
-                      <div 
-                        key={f} 
-                        onClick={() => setFormData(p => ({ ...p, solutions: p.solutions.includes(f) ? p.solutions.filter(x => x !== f) : [...p.solutions, f] }))}
-                        style={{ padding: '0.6rem 1.5rem', borderRadius: '9999px', background: formData.solutions.includes(f) ? colors.primary : 'rgba(255,255,255,0.05)', border: `1px solid ${formData.solutions.includes(f) ? colors.primary : colors.border}`, cursor: 'pointer', transition: 'all 0.3s' }}
-                      >
-                        {f}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
-                  <MagneticButton onClick={() => setStep(1)}>Voltar</MagneticButton>
-                  <MagneticButton primary onClick={handleSubmit}>Gerar Site Elite</MagneticButton>
+                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+                  <button onClick={() => setStep(1)} style={{ padding: '0.85rem 2rem', borderRadius: '999px', border: `1px solid ${palette.border}`, background: 'transparent', color: palette.muted, fontWeight: 600, cursor: 'pointer' }}>Back</button>
+                  <button onClick={handleGenerate} style={{
+                    padding: '0.85rem 2.5rem', borderRadius: '999px', border: 'none',
+                    background: `linear-gradient(135deg, ${palette.primary}, ${palette.accent})`,
+                    color: '#fff', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer',
+                    boxShadow: `0 8px 32px ${palette.glow}`,
+                  }}>Generate Site</button>
                 </div>
               </section>
             )}
+
+            <ProgressDots total={3} current={step} />
           </>
         ) : (
-          <section style={{ maxWidth: '600px', marginInline: 'auto' }}>
-            <header style={{ textAlign: 'center', marginBottom: '4rem' }}>
-              <div style={{ fontSize: '4rem', marginBottom: '1.5rem' }}>🧬</div>
-              <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.5rem' }}>Orquestrando Agentes</h2>
-              <p style={{ color: colors.textMuted }}>O Ruflo Swarm está construindo sua visão.</p>
-            </header>
-
-            <div style={{ display: 'grid', gap: '1rem' }}>
-              {suggestions.map((s, idx) => (
-                <ProgressIndicator key={idx} icon={s.icon} title={s.title} desc={s.desc} active={progressStep === s.step} completed={progressStep > s.step} />
-              ))}
+          <section style={{ maxWidth: '520px', margin: '0 auto', textAlign: 'center' }}>
+            <div style={{ position: 'relative', width: '120px', height: '120px', margin: '0 auto 2.5rem' }}>
+              <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: `2px solid ${palette.border}`, animation: 'spin 3s linear infinite' }} />
+              <div style={{ position: 'absolute', inset: '8px', borderRadius: '50%', border: `2px solid transparent`, borderTopColor: palette.primary, animation: 'spin 2s linear infinite' }} />
+              <div style={{ position: 'absolute', inset: '16px', borderRadius: '50%', border: `2px solid transparent`, borderRightColor: palette.accent, animation: 'spin 1.5s linear infinite reverse' }} />
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem' }}>◈</div>
             </div>
 
-            {rufloData && (
-              <div style={{ marginTop: '3rem', padding: '2rem', background: 'rgba(168, 85, 247, 0.05)', borderRadius: '1.5rem', border: `1px solid rgba(168, 85, 247, 0.2)` }}>
-                <h4 style={{ fontWeight: 800, marginBottom: '1.5rem', fontSize: '0.9rem', letterSpacing: '0.1em', color: colors.primary }}>ATIVIDADE DO SWARM</h4>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
-                  {rufloData.agents.map((a: any, i: number) => (
-                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                      <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: a.status === 'completed' ? '#10B981' : colors.primary }} />
-                      <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>{a.name}</span>
-                      <span style={{ fontSize: '0.7rem', color: colors.textMuted }}>({a.type})</span>
-                    </div>
-                  ))}
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '0.5rem' }}>Building your site</h2>
+            <p style={{ color: palette.muted, fontSize: '0.9rem', marginBottom: '3rem' }}>{progressSteps[progressStep]?.desc}</p>
+
+            <div style={{ display: 'grid', gap: '0.75rem' }}>
+              {progressSteps.map((s, i) => (
+                <div key={i} style={{
+                  display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem 1.25rem',
+                  borderRadius: '0.875rem',
+                  background: i <= progressStep ? palette.primarySoft : 'transparent',
+                  border: `1px solid ${i <= progressStep ? palette.primary : palette.border}`,
+                  transition: 'all 0.5s ease',
+                  opacity: i <= progressStep ? 1 : 0.3,
+                }}>
+                  <div style={{ width: '1.75rem', height: '1.75rem', borderRadius: '50%', background: i < progressStep ? palette.primary : i === progressStep ? `linear-gradient(135deg, ${palette.primary}, ${palette.accent})` : palette.border, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', color: '#fff', fontWeight: 700 }}>
+                    {i < progressStep ? '✓' : i + 1}
+                  </div>
+                  <div style={{ flex: 1, textAlign: 'left' }}>
+                    <div style={{ fontWeight: 700, fontSize: '0.85rem' }}>{s.title}</div>
+                    <div style={{ fontSize: '0.75rem', color: palette.muted }}>{s.desc}</div>
+                  </div>
+                  {i === progressStep && progressStep < 4 && (
+                    <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', background: palette.primary, animation: 'pulse 1s ease infinite' }} />
+                  )}
                 </div>
-              </div>
-            )}
+              ))}
+            </div>
           </section>
         )}
       </div>
+
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+      `}</style>
     </main>
   );
 }
