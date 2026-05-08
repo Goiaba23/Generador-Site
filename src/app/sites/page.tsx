@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
+import { Scene3D, GlowOrb } from '@/components/scene-3d';
 
 // ===== Animações =====
 
@@ -274,7 +275,12 @@ export default function SitesPage() {
   };
 
   return (
-    <main style={{ backgroundColor: '#0a0a1a', minHeight: '100vh', color: '#f8fafc' }}>
+    <main style={{ backgroundColor: '#0a0a1a', minHeight: '100vh', color: '#f8fafc', position: 'relative' }}>
+      {/* 3D Background */}
+      <Scene3D variant="subtle" primaryColor="#6366F1" secondaryColor="#7C3AED" />
+      <GlowOrb color="#6366F1" size={400} blur={100} top="30%" left="20%" speed={8} intensity={20} />
+      <GlowOrb color="#7C3AED" size={300} blur={80} top="60%" left="75%" speed={10} intensity={15} />
+
       {/* Background Decorations */}
       <div style={{ position: 'fixed', top: '-20%', left: '-10%', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(129, 140, 248, 0.08), transparent 70%)', borderRadius: '50%', filter: 'blur(100px)', pointerEvents: 'none' as const }} />
       <div style={{ position: 'fixed', bottom: '10%', right: '-10%', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(192, 132, 252, 0.06), transparent 70%)', borderRadius: '50%', filter: 'blur(100px)', pointerEvents: 'none' as const }} />
