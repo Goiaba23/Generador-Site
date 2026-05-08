@@ -287,6 +287,7 @@ export default function CreatePage() {
   const [loading, setLoading] = useState(false);
   const [progressStep, setProgressStep] = useState(0);
 
+  const [bgImage, setBgImage] = useState('');
   const [form, setForm] = useState({ businessType: '', businessName: '', style: '', solutions: [] as string[] });
 
   const filteredNiches = catFilter === 'All' ? niches : niches.filter(n => n.cat === catFilter);
@@ -311,6 +312,11 @@ export default function CreatePage() {
 
   useEffect(() => {
     gsap.from(mainRef.current, { opacity: 0, duration: 0.6, ease: 'power2.out' });
+    fetch('/api/generate-image', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ niche: 'SaaS premium business', prompt: 'Abstract dark gradient background for a premium SaaS website builder, 3D floating geometric shapes, glassmorphism, cinematic atmospheric lighting, deep purple and magenta tones, ultra HD, no text' }),
+    }).then(r => r.json()).then(d => { if (d.imageUrl) setBgImage(d.imageUrl); }).catch(() => {});
   }, []);
 
   const handleGenerate = async () => {
@@ -343,7 +349,7 @@ export default function CreatePage() {
   };
 
   return (
-    <main ref={mainRef} style={{ background: palette.bg, minHeight: '100vh', position: 'relative', color: palette.text, fontFamily: "'Inter', system-ui, sans-serif" }}>
+    <main ref={mainRef} style={{ background: bgImage ? `url(${bgImage}) center/cover no-repeat` : palette.bg, minHeight: '100vh', position: 'relative', color: palette.text, fontFamily: "'Inter', system-ui, sans-serif" }}>
       <FloatingOrbs />
       <ParticleField />
       <NoiseTexture />
