@@ -6,7 +6,7 @@ import crawlerService from './crawler-service';
 import { BusinessDetails, GeneratedSite, PlanType } from './ai-generator';
 
 // Stitch API integration (using REST API if available, otherwise mock for now)
-const STITCH_API_KEY = process.env.STITCH_API_KEY || 'mock-key';
+const STITCH_API_KEY = process.env.STITCH_API_KEY || '';
 const STITCH_BASE_URL = 'https://stitch.withgoogle.com/api';
 
 async function stitch_generate_screen_from_text(params: any) {
