@@ -8,6 +8,7 @@ import { generateSiteWithInsights } from '@/lib/ai-generator';
 import { getNicheProposalLocal } from '@/lib/ai-generator';
 import { openCodeWorker } from '@/lib/opencode-worker';
 import { getPlanById, getMethodForPlan, canUseOpenCodeWorker } from '@/lib/plan-config';
+import { researchNiche } from '@/lib/skill-research';
 
 const prisma = new PrismaClient();
 
@@ -51,13 +52,15 @@ function inferBusinessDetails(businessName: string, businessType: string) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { businessName, businessType, email, phone, address, plan } = body;
+    const { businessName, businessType, email, phone, address, plan, skillContext, designTokens } = body;
 
     if (!businessName || !businessType) {
       return NextResponse.json({ error: 'Nome e tipo de negócio são obrigatórios' }, { status: 400 });
     }
 
     const inferred = inferBusinessDetails(businessName, businessType);
+
+    const sandwichResearch = skillContext || researchNiche(businessType, businessName, businessName);
 
     // Get or create user - use plan from request
     const selectedPlan = plan && ['simple', 'premium'].includes(plan) ? plan : 'simple';
@@ -127,6 +130,8 @@ export async function POST(request: NextRequest) {
 
     // Standard method or fallback (synchronous) - Simple plan
     if (!siteContent) {
+      const skillDesignTokens = designTokens || null;
+
       const mockInsights = {
         objectives: { primary: 'professional_presence' },
         targetAudience: 'Local customers',
@@ -136,12 +141,19 @@ export async function POST(request: NextRequest) {
           urgency: 'high' as const,
         })),
         features: inferred.solutions,
+        skillResearch: sandwichResearch ? {
+          sandwichLayers: sandwichResearch.sandwichLayers,
+          designRationale: sandwichResearch.designRationale,
+          sections: sandwichResearch.sections,
+          keywords: sandwichResearch.keywords,
+        } : null,
+        designTokens: skillDesignTokens || null,
       };
       const businessDetails = {
         name: businessName,
         type: businessType as BusinessType,
         plan: (selectedPlan === 'premium' ? 'PREMIUM' : 'COMMON') as any,
-        style: inferred.style as any,
+        style: sandwichResearch?.sandwichLayers?.colors?.scheme || inferred.style as any,
         diferencial: inferred.diferencial,
         features: inferred.solutions,
         contact: { phone, email, address },
@@ -203,6 +215,8 @@ export async function POST(request: NextRequest) {
         planUsed: selectedPlan,
       },
       message: `Site criado automaticamente (${methodUsed})!`,
+      designRationale: sandwichResearch?.designRationale || null,
+      sandwichLayers: sandwichResearch?.sandwichLayers || null,
       nextSteps: workerSessionId
         ? ['Stitch design gerado', 'OpenCode analisou criticamente', '21.dev + GSAP aplicados', 'Site entregue pronto']
         : ['Site gerado com sucesso', 'Acesse a pré-visualização'],
