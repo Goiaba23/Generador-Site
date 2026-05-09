@@ -9,6 +9,8 @@ import { getNicheProposalLocal } from '@/lib/ai-generator';
 import { openCodeWorker } from '@/lib/opencode-worker';
 import { getPlanById, getMethodForPlan, canUseOpenCodeWorker } from '@/lib/plan-config';
 import { researchNiche } from '@/lib/skill-research';
+import { researchNicheWithYouTube } from '@/lib/niche-research-pipeline';
+import { trainingLoop } from '@/lib/ai-training-loop';
 
 const prisma = new PrismaClient();
 
@@ -60,7 +62,16 @@ export async function POST(request: NextRequest) {
 
     const inferred = inferBusinessDetails(businessName, businessType);
 
-    const sandwichResearch = skillContext || researchNiche(businessType, businessName, businessName);
+    let sandwichResearch = skillContext;
+    if (!sandwichResearch) {
+      try {
+        sandwichResearch = await researchNicheWithYouTube(businessType, businessName, businessName);
+      } catch {
+        sandwichResearch = researchNiche(businessType, businessName, businessName);
+      }
+    }
+
+    const researchReport = sandwichResearch?.designRationale || null;
 
     // Get or create user - use plan from request
     const selectedPlan = plan && ['simple', 'premium'].includes(plan) ? plan : 'simple';
@@ -200,6 +211,20 @@ export async function POST(request: NextRequest) {
       data: { sitesUsed: { increment: 1 } },
     });
 
+    // Record generation in training loop
+    try {
+      trainingLoop.recordGeneration({
+        businessType,
+        businessName,
+        style: sandwichResearch?.sandwichLayers?.colors?.scheme || inferred.style,
+        sections: sandwichResearch?.sections || [],
+        palette: sandwichResearch?.sandwichLayers?.colors?.palette || [],
+        success: true,
+      });
+    } catch {
+      // Non-blocking training record
+    }
+
     // Delivery response
     const methodUsed = workerSessionId ? 'OpenCode big-pickle (Premium)' : 'IA Padrão (Simples)';
     return NextResponse.json({
@@ -217,6 +242,9 @@ export async function POST(request: NextRequest) {
       message: `Site criado automaticamente (${methodUsed})!`,
       designRationale: sandwichResearch?.designRationale || null,
       sandwichLayers: sandwichResearch?.sandwichLayers || null,
+      keywords: sandwichResearch?.keywords || [],
+      youtubeFindings: sandwichResearch?.youtubeFindings || [],
+      trends: sandwichResearch?.trends || [],
       nextSteps: workerSessionId
         ? ['Stitch design gerado', 'OpenCode analisou criticamente', '21.dev + GSAP aplicados', 'Site entregue pronto']
         : ['Site gerado com sucesso', 'Acesse a pré-visualização'],
