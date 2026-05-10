@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
       steps: session?.steps || [],
       finalResult: session?.finalResult,
       message: progress.status === 'completed' ? 'Site generation completed with $10K+ quality!' :
-               progress.status === 'error' ? 'Error during generation' :
+               progress.status === 'failed' ? 'Error during generation' :
                `Processing with Stitch + OpenCode... ${progress.percentage}% complete`,
     });
   }
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
         success: true,
         sessionId: newSessionId,
         message: 'Stitch + OpenCode big-pickle workflow started',
-        totalSteps: openCodeWorker['PROGRAMMED_PATH']?.length || 4,
+        totalSteps: openCodeWorker.PROGRAMMED_PATH?.length || 4,
         workflow: [
           'Stitch design generation',
           'OpenCode critical analysis with full knowledge base',
