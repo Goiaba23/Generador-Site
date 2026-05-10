@@ -2,308 +2,228 @@
 
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface Scene3DProps {
-  variant?: 'hero' | 'section' | 'subtle';
-  primaryColor?: string;
-  secondaryColor?: string;
+  variant?: 'hero' | 'subtle';
 }
 
-export function Scene3D({ variant = 'hero', primaryColor = '#7C5CFC', secondaryColor = '#F25C9E' }: Scene3DProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef({ x: 0, y: 0 });
+export function Scene3D({ variant = 'subtle' }: Scene3DProps) {
+  return null;
+}
+
+// CSS 3D Cube that anyone can see - rotates in perspective
+export function Cube3D({ size = 120, speed = 12 }: { size?: number; speed?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const half = size / 2;
 
   useEffect(() => {
-    const container = containerRef.current;
-    const canvas = canvasRef.current;
-    if (!container || !canvas) return;
+    if (!ref.current) return;
+    gsap.to(ref.current, {
+      rotationX: 360, rotationY: 360,
+      duration: speed, repeat: -1, ease: 'none',
+    });
+  }, [speed]);
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let w = canvas.width = container.clientWidth;
-    let h = canvas.height = container.clientHeight;
-    const isHero = variant === 'hero';
-
-    const particles: {
-      x: number; y: number; z: number;
-      vx: number; vy: number; vz: number;
-      size: number; alpha: number; color: string;
-      orbit: number; orbitSpeed: number; phase: number;
-    }[] = [];
-
-    const count = isHero ? 120 : 50;
-    const colors = [primaryColor, secondaryColor, '#D4A853', '#6366F1', '#EC4899'];
-
-    for (let i = 0; i < count; i++) {
-      particles.push({
-        x: (Math.random() - 0.5) * w * 1.5,
-        y: (Math.random() - 0.5) * h * 1.5,
-        z: Math.random() * 800 - 200,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        vz: (Math.random() - 0.5) * 0.3,
-        size: Math.random() * 3 + 1,
-        alpha: Math.random() * 0.5 + 0.2,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        orbit: Math.random() * Math.PI * 2,
-        orbitSpeed: (Math.random() - 0.5) * 0.02,
-        phase: Math.random() * Math.PI * 2,
-      });
-    }
-
-    const connections: [number, number][] = [];
-    for (let i = 0; i < count; i++) {
-      for (let j = i + 1; j < count; j++) {
-        if (Math.random() < 0.08) connections.push([i, j]);
-      }
-    }
-
-    const resize = () => {
-      w = canvas.width = container.clientWidth;
-      h = canvas.height = container.clientHeight;
-    };
-    window.addEventListener('resize', resize);
-
-    let animId: number;
-    const render = () => {
-      ctx.clearRect(0, 0, w, h);
-
-      const mx = (mouseRef.current.x - w / 2) / w;
-      const my = (mouseRef.current.y - h / 2) / h;
-
-      particles.forEach(p => {
-        p.orbit += p.orbitSpeed;
-        p.x += p.vx + Math.sin(p.orbit) * 0.3 + mx * 0.5;
-        p.y += p.vy + Math.cos(p.orbit) * 0.3 + my * 0.5;
-        p.z += p.vz;
-
-        const halfW = w * 1.5, halfH = h * 1.5;
-        if (Math.abs(p.x) > halfW) { p.vx *= -1; p.x = Math.sign(p.x) * halfW * 0.9; }
-        if (Math.abs(p.y) > halfH) { p.vy *= -1; p.y = Math.sign(p.y) * halfH * 0.9; }
-        if (Math.abs(p.z) > 600) { p.vz *= -1; }
-
-        const perspective = 600 / (600 + p.z);
-        const px = p.x * perspective + w / 2 + mx * 30 * perspective;
-        const py = p.y * perspective + h / 2 + my * 30 * perspective;
-        const size = p.size * perspective;
-        const alpha = p.alpha * perspective;
-
-        if (px < -size || px > w + size || py < -size || py > h + size) return;
-
-        ctx.beginPath();
-        ctx.arc(px, py, size, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = alpha;
-        ctx.fill();
-
-        if (isHero) {
-          ctx.beginPath();
-          ctx.arc(px, py, size * 3, 0, Math.PI * 2);
-          ctx.fillStyle = p.color;
-          ctx.globalAlpha = alpha * 0.08;
-          ctx.fill();
-        }
-      });
-
-      ctx.globalAlpha = 0.15;
-      connections.forEach(([i, j]) => {
-        const a = particles[i], b = particles[j];
-        const ap = 600 / (600 + a.z), bp = 600 / (600 + b.z);
-        const ax = a.x * ap + w / 2 + mx * 30 * ap;
-        const ay = a.y * ap + h / 2 + my * 30 * ap;
-        const bx = b.x * bp + w / 2 + mx * 30 * bp;
-        const by = b.y * bp + h / 2 + my * 30 * bp;
-        const dx = ax - bx, dy = ay - by;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 200) {
-          ctx.beginPath();
-          ctx.moveTo(ax, ay);
-          ctx.lineTo(bx, by);
-          ctx.strokeStyle = primaryColor;
-          ctx.globalAlpha = 0.08 * (1 - dist / 200);
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
-      });
-
-      ctx.globalAlpha = 1;
-      animId = requestAnimationFrame(render);
-    };
-    render();
-
-    const onMouse = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      mouseRef.current.x = e.clientX - rect.left;
-      mouseRef.current.y = e.clientY - rect.top;
-    };
-    container.addEventListener('mousemove', onMouse);
-
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener('resize', resize);
-      container.removeEventListener('mousemove', onMouse);
-    };
-  }, [variant, primaryColor, secondaryColor]);
+  const face = (label: string, transform: string, color: string) => (
+    <div style={{
+      position: 'absolute', width: size, height: size,
+      background: color, border: '1px solid rgba(255,255,255,0.15)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontWeight: 800, fontSize: '1.25rem', color: 'rgba(255,255,255,0.7)',
+      backdropFilter: 'blur(8px)', transform,
+    }}>{label}</div>
+  );
 
   return (
-    <div ref={containerRef} style={{
-      position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden',
-      perspective: '600px', transformStyle: 'preserve-3d',
+    <div ref={ref} style={{
+      width: size, height: size, position: 'relative',
+      transformStyle: 'preserve-3d', willChange: 'transform',
     }}>
-      <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
-      <div style={{
-        position: 'absolute', inset: 0,
-        background: variant === 'hero'
-          ? `radial-gradient(ellipse at 30% 20%, ${primaryColor}15 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, ${secondaryColor}10 0%, transparent 60%)`
-          : `radial-gradient(ellipse at 50% 50%, ${primaryColor}08 0%, transparent 70%)`,
-        pointerEvents: 'none',
-      }} />
+      {face('C', `translateZ(${half}px)`, 'rgba(6,182,212,0.25)')}
+      {face('Y', `rotateY(180deg) translateZ(${half}px)`, 'rgba(59,130,246,0.25)')}
+      {face('A', `rotateY(-90deg) translateZ(${half}px)`, 'rgba(6,182,212,0.25)')}
+      {face('N', `rotateY(90deg) translateZ(${half}px)`, 'rgba(212,165,116,0.25)')
+}
+      {face('S', `rotateX(90deg) translateZ(${half}px)`, 'rgba(59,130,246,0.25)')}
+      {face('T', `rotateX(-90deg) translateZ(${half}px)`, 'rgba(6,182,212,0.25)')}
     </div>
   );
 }
 
-function Ring3D({ color = '#7C5CFC', size = 300, speed = 20, delay = 0, style }: {
-  color?: string; size?: number; speed?: number; delay?: number; style?: React.CSSProperties;
+// 3D Card Flip on hover
+export function FlipCard3D({ front, back, style }: {
+  front: React.ReactNode; back: React.ReactNode; style?: React.CSSProperties;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!ref.current) return;
-    gsap.to(ref.current, {
-      rotationY: 360,
-      duration: speed,
-      repeat: -1,
-      ease: 'none',
-      delay,
+    gsap.from(ref.current, {
+      opacity: 0, y: 40, duration: 1, ease: 'power3.out',
+      scrollTrigger: { trigger: ref.current, start: 'top 85%' },
     });
-    gsap.to(ref.current, {
-      rotationX: 5,
-      rotationZ: 3,
-      duration: 6,
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine.inOut',
-      delay: delay + 1,
-    });
-  }, [speed, delay]);
+  }, []);
 
   return (
-    <div ref={ref} style={{
-      width: size, height: size,
-      borderRadius: '50%',
-      border: `1.5px solid ${color}22`,
-      position: 'absolute',
-      transformStyle: 'preserve-3d',
-      boxShadow: `0 0 40px ${color}08, inset 0 0 40px ${color}08`,
-      ...style,
-    }}>
-      <div style={{
-        position: 'absolute', top: '15%', left: '15%', width: '70%', height: '70%',
-        borderRadius: '50%', border: `1px solid ${color}15`,
-      }} />
+    <div style={{ perspective: '1000px', ...style }}>
+      <div ref={ref} className="flip-card-3d" style={{
+        position: 'relative', width: '100%', height: '280px',
+        transformStyle: 'preserve-3d', transition: 'transform 0.8s cubic-bezier(0.22,1,0.36,1)',
+        cursor: 'pointer',
+      }}>
+        <div style={{
+          position: 'absolute', inset: 0, backfaceVisibility: 'hidden',
+          borderRadius: '1.25rem', overflow: 'hidden',
+        }}>{front}</div>
+        <div style={{
+          position: 'absolute', inset: 0, backfaceVisibility: 'hidden',
+          transform: 'rotateY(180deg)', borderRadius: '1.25rem', overflow: 'hidden',
+        }}>{back}</div>
+      </div>
+      <style>{`
+        .flip-card-3d:hover { transform: rotateY(180deg); }
+      `}</style>
     </div>
   );
 }
 
-export function Rings3D({ count = 3, color = '#7C5CFC', style }: {
-  count?: number; color?: string; style?: React.CSSProperties;
+// 3D Tilt Card that follows mouse
+export function TiltCard3D({ children, style }: {
+  children: React.ReactNode; style?: React.CSSProperties;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const onMouse = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-      gsap.to(el, { x: x * 20, y: y * 20, duration: 1.5, ease: 'power2.out' });
+    const onMove = (e: MouseEvent) => {
+      const r = el.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      const y = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      el.style.transform = `perspective(800px) rotateX(${-y * 8}deg) rotateY(${x * 8}deg)`;
     };
-    el.addEventListener('mousemove', onMouse);
-    return () => el.removeEventListener('mousemove', onMouse);
+    const onLeave = () => { el.style.transform = 'perspective(800px) rotateX(0) rotateY(0)'; };
+    el.addEventListener('mousemove', onMove);
+    el.addEventListener('mouseleave', onLeave);
+    return () => { el.removeEventListener('mousemove', onMove); el.removeEventListener('mouseleave', onLeave); };
   }, []);
 
-  const rings = Array.from({ length: count });
+  return <div ref={ref} style={{ transition: 'transform 0.1s ease', transformStyle: 'preserve-3d', ...style }}>{children}</div>;
+}
 
+// Depth layers that spread apart on scroll
+export function DepthStack({ layers }: { layers: { content: React.ReactNode; depth: number }[] }) {
   return (
-    <div ref={ref} style={{
-      position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      perspective: '800px', transformStyle: 'preserve-3d', transition: 'transform 0.1s',
-      ...style,
-    }}>
-      {rings.map((_, i) => (
-        <Ring3D
+    <div style={{ perspective: '1000px', transformStyle: 'preserve-3d', position: 'relative', height: '300px' }}>
+      {layers.map((l, i) => (
+        <div
           key={i}
-          color={color}
-          size={200 + i * 60}
-          speed={18 - i * 2}
-          delay={i * 0.5}
+          className={`depth-layer-${i}`}
           style={{
-            position: 'absolute',
-            opacity: 1 - i * 0.15,
-            transform: `translateZ(${-i * 30}px)`,
+            position: 'absolute', inset: 0,
+            transform: `translateZ(${l.depth}px)`,
+            transformStyle: 'preserve-3d',
+            willChange: 'transform',
           }}
-        />
+        >{l.content}</div>
       ))}
     </div>
   );
 }
 
-export function FloatingShape({ children, duration = 6, intensity = 20, style }: {
-  children: React.ReactNode; duration?: number; intensity?: number; style?: React.CSSProperties;
-}) {
+// Glow orbs floating with GSAP (pure CSS, guaranteed visible)
+export function GlowOrbs() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    gsap.to(el, {
-      y: intensity,
-      x: intensity * 0.5,
-      rotation: 2,
-      duration,
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine.inOut',
+    if (!ref.current) return;
+    const orbs = ref.current.querySelectorAll('.glow-orb');
+    orbs.forEach((orb, i) => {
+      gsap.to(orb, {
+        y: i % 2 === 0 ? 30 : -30,
+        x: i % 3 === 0 ? 20 : -20,
+        scale: 1.05,
+        duration: 5 + i,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: i * 0.7,
+      });
     });
-  }, [duration, intensity]);
-
-  return <div ref={ref} style={style}>{children}</div>;
-}
-
-export function GlowOrb({
-  color = '#7C5CFC', size = 300, blur = 100, top = '50%', left = '50%',
-  speed = 8, intensity = 30,
-}: {
-  color?: string; size?: number; blur?: number; top?: string; left?: string;
-  speed?: number; intensity?: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    gsap.to(el, {
-      x: intensity, y: intensity * 0.6,
-      duration: speed, repeat: -1, yoyo: true, ease: 'sine.inOut',
-    });
-    gsap.to(el, {
-      scale: 1.1,
-      duration: speed * 0.7, repeat: -1, yoyo: true, ease: 'sine.inOut',
-      delay: speed * 0.3,
-    });
-  }, [speed, intensity]);
+  }, []);
 
   return (
-    <div ref={ref} style={{
-      position: 'absolute', top, left, width: size, height: size, marginLeft: -size / 2, marginTop: -size / 2,
-      borderRadius: '50%',
-      background: `radial-gradient(circle, ${color}12 0%, ${color}08 40%, transparent 70%)`,
-      filter: `blur(${blur}px)`,
-      pointerEvents: 'none',
-      transformStyle: 'preserve-3d',
-    }} />
+    <div ref={ref} style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden', perspective: '800px' }}>
+      <div className="glow-orb" style={{
+        position: 'absolute', top: '15%', left: '10%', width: '400px', height: '400px',
+        borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,182,212,0.12) 0%, transparent 70%)',
+        filter: 'blur(80px)', willChange: 'transform',
+      }} />
+      <div className="glow-orb" style={{
+        position: 'absolute', bottom: '10%', right: '15%', width: '350px', height: '350px',
+        borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%)',
+        filter: 'blur(90px)', willChange: 'transform',
+      }} />
+      <div className="glow-orb" style={{
+        position: 'absolute', top: '50%', right: '30%', width: '250px', height: '250px',
+        borderRadius: '50%', background: 'radial-gradient(circle, rgba(212,165,116,0.08) 0%, transparent 70%)',
+        filter: 'blur(70px)', willChange: 'transform',
+      }} />
+      <div className="glow-orb" style={{
+        position: 'absolute', bottom: '35%', left: '25%', width: '300px', height: '300px',
+        borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%)',
+        filter: 'blur(100px)', willChange: 'transform',
+      }} />
+    </div>
   );
+}
+
+// Parallax section with depth layers
+export function ParallaxLayer({ children, speed = 0.5, style }: {
+  children: React.ReactNode; speed?: number; style?: React.CSSProperties;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    gsap.to(el, {
+      y: () => -(el.offsetHeight * speed),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: el.parentElement || el,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: true,
+      },
+    });
+  }, [speed]);
+
+  return <div ref={ref} style={{ willChange: 'transform', ...style }}>{children}</div>;
+}
+
+// GSAP Scroll Animation wrapper
+export function ScrollReveal({ children, direction = 'up', style }: {
+  children: React.ReactNode; direction?: 'up' | 'left' | 'right' | 'scale'; style?: React.CSSProperties;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const vars: gsap.TweenVars = { opacity: 0, duration: 1, ease: 'power3.out' };
+    if (direction === 'up') vars.y = 60;
+    else if (direction === 'left') vars.x = -60;
+    else if (direction === 'right') vars.x = 60;
+    else if (direction === 'scale') { vars.scale = 0.8; vars.y = 30; }
+    gsap.from(el, {
+      ...vars,
+      scrollTrigger: { trigger: el, start: 'top 85%' },
+    });
+  }, [direction]);
+
+  return <div ref={ref} style={style}>{children}</div>;
 }

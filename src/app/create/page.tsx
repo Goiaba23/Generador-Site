@@ -9,18 +9,18 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const palette = {
-  bg: '#08080F',
-  surface: '#0C0C1A',
-  text: '#F0F0F5',
-  muted: '#686880',
-  primary: '#7C5CFC',
-  primarySoft: 'rgba(124, 92, 252, 0.12)',
-  accent: '#F25C9E',
-  accentSoft: 'rgba(242, 92, 158, 0.15)',
-  gold: '#D4A853',
-  border: 'rgba(255, 255, 255, 0.05)',
+  bg: '#07070E',
+  surface: '#0E0E18',
+  text: '#EEEEF5',
+  muted: '#808098',
+  primary: '#06B6D4',
+  primarySoft: 'rgba(6, 182, 212, 0.12)',
+  accent: '#D4A574',
+  accentSoft: 'rgba(212, 165, 116, 0.15)',
+  gold: '#3B82F6',
+  border: 'rgba(255, 255, 255, 0.06)',
   glass: 'rgba(255, 255, 255, 0.03)',
-  glow: 'rgba(124, 92, 252, 0.25)',
+  glow: 'rgba(6, 182, 212, 0.25)',
 };
 
 const niches = [
@@ -360,6 +360,21 @@ export default function CreatePage() {
         </Link>
         <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           <Link href="/sites" style={{ textDecoration: 'none', color: palette.muted, fontSize: '0.85rem', fontWeight: 500 }}>Projects</Link>
+          <button onClick={async () => {
+            try {
+              const res = await fetch('/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ plan: 'premium' }),
+              });
+              const data = await res.json();
+              if (data.url) window.location.href = data.url;
+            } catch {}
+          }} style={{
+            padding: '0.4rem 1rem', borderRadius: '999px', border: '1px solid rgba(212,165,116,0.3)',
+            background: 'rgba(212,165,116,0.1)', color: palette.accent,
+            fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', letterSpacing: '0.03em',
+          }}>✦ Upgrade</button>
           <div style={{ width: '1.5rem', height: '1.5rem', borderRadius: '50%', background: `linear-gradient(135deg, ${palette.primary}, ${palette.accent})` }} />
         </div>
       </nav>

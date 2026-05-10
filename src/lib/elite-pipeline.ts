@@ -4,23 +4,112 @@ import { getComponentsForNiche } from './21dev-components';
 import { generateLogoInspiration } from './uxshowcase-logos';
 import crawlerService from './crawler-service';
 import { BusinessDetails, GeneratedSite, PlanType } from './ai-generator';
+import { generateSiteHTMLWithFallback, refineSiteHTML } from './gemini-generator';
+import { stitch } from '@google/stitch-sdk';
+import { fetchBrandData, extractBrandLogo, enrichDesignTokensWithBrand } from './brand-service';
+import { getFormSchemaForNiche, generateFormHTML, buildFallbackFormHTML } from './form-service';
+import { getLogoURL } from './logo-service';
+import { runSEOAudit } from './seo-service';
+import { extractMetadata } from './metascrape-service';
+import { removeBackground } from './poof-service';
+import { captureScreenshot } from './screenshot-service';
 
-// Stitch API integration (using REST API if available, otherwise mock for now)
-const STITCH_API_KEY = process.env.STITCH_API_KEY || '';
-const STITCH_BASE_URL = 'https://stitch.withgoogle.com/api';
+// ─── Stitch Phase: Gera template base via Stitch SDK ───
 
-async function stitch_generate_screen_from_text(params: any) {
-  console.log('[Stitch] Generating screen with prompt:', params.prompt?.substring(0, 100));
-  // Mock response for now - in production, call real Stitch API
-  return {
-    screenId: `stitch-${Date.now()}`,
-    previewUrl: `https://stitch.withgoogle.com/preview/stitch-${Date.now()}`
-  };
+interface StitchInput {
+  projectId: string;
+  prompt: string;
+  designTokens?: any;
+  businessDetails: BusinessDetails;
 }
 
-async function stitch_edit_screens(params: any) {
-  console.log('[Stitch] Editing screens:', params.selectedScreenIds);
-  return { success: true };
+interface StitchOutput {
+  html: string;
+  source: 'stitch-api' | 'gemini-fallback';
+}
+
+async function stitchPhase(input: StitchInput): Promise<StitchOutput> {
+  const { businessDetails, designTokens } = input;
+
+  // 1. Tenta Stitch SDK real
+  try {
+    console.log('[Stitch] Using SDK to generate screen...');
+    const project = stitch.project(input.projectId);
+    const deviceType = 'DESKTOP';
+    const screen = await project.generate(input.prompt, deviceType);
+    console.log('[Stitch] Screen generated, fetching HTML...');
+    const htmlUrl = await screen.getHtml();
+    if (htmlUrl) {
+      const htmlRes = await fetch(htmlUrl);
+      if (htmlRes.ok) {
+        const html = await htmlRes.text();
+        if (html && html.length > 100) {
+          console.log(`[Stitch] ✓ SDK success (${html.length} chars)`);
+          return { html, source: 'stitch-api' };
+        }
+      }
+    }
+    console.warn('[Stitch] SDK returned empty HTML');
+  } catch (e) {
+    console.warn('[Stitch] SDK failed, using Gemini fallback:', e instanceof Error ? e.message : e);
+  }
+
+  // 2. Fallback: Gemini gera o template inicial (age como Stitch)
+  console.log('[Stitch] Gemini generating initial template...');
+  const html = await generateSiteHTMLWithFallback({
+    businessName: businessDetails.name,
+    businessType: businessDetails.type,
+    businessDescription: businessDetails.description,
+    style: businessDetails.style,
+    sections: designTokens?.sections || ['Hero', 'Sobre', 'Servicos', 'Diferenciais', 'Contato', 'Footer'],
+    sandwichLayers: designTokens?.sandwichLayers || {
+      foundation: { layout: 'modern full-width', structure: ['Hero', 'Content', 'Footer'] },
+      colors: { palette: ['#0A0A0F', '#06B6D4', '#3B82F6', '#F0F0F5', '#14141E'], psychology: 'Modern tech', scheme: 'dark' },
+      typography: { heading: 'Inter', body: 'Inter', pairing: 'Inter + Inter' },
+      animation: { type: 'scroll reveal', intensity: 'medium', library: 'GSAP', patterns: ['fade up', 'stagger'] },
+      premium: { glassmorphism: true, bentoGrid: true, noise: false },
+    },
+    objective: 'professional_presence',
+  });
+  return { html, source: 'gemini-fallback' };
+}
+
+// ─── Gemini Refinement: Skills + design tokens aplicados no template ───
+
+interface RefinementInput {
+  templateHTML: string;
+  businessDetails: BusinessDetails;
+  designTokens: any;
+  researchInsights?: any;
+  intensity: 'standard' | 'premium';
+}
+
+async function geminiRefine(input: RefinementInput): Promise<string> {
+  console.log(`[Gemini Refine] Applying ${input.intensity} refinement with 15 skills...`);
+
+  const { businessDetails, designTokens, researchInsights } = input;
+
+  const sections = designTokens?.sections || ['Hero', 'Sobre', 'Servicos', 'Diferenciais', 'Contato', 'Footer'];
+
+  const refined = await refineSiteHTML(input.templateHTML, {
+    businessName: businessDetails.name,
+    businessType: businessDetails.type,
+    businessDescription: businessDetails.description,
+    style: businessDetails.style,
+    sections,
+    sandwichLayers: designTokens?.sandwichLayers || {
+      foundation: { layout: 'modern full-width', structure: sections },
+      colors: { palette: ['#0A0A0F', '#06B6D4', '#3B82F6', '#F0F0F5', '#14141E'], psychology: 'Modern tech', scheme: 'dark' },
+      typography: { heading: 'Inter', body: 'Inter', pairing: 'Inter + Inter' },
+      animation: { type: 'scroll reveal', intensity: 'medium', library: 'GSAP', patterns: ['fade up', 'stagger'] },
+      premium: { glassmorphism: true, bentoGrid: true, noise: false },
+    },
+    objective: businessDetails.description || 'professional_presence',
+    researchInsights,
+    intensity: input.intensity,
+  });
+
+  return refined;
 }
 
 /**
@@ -31,7 +120,6 @@ async function integrateAllTools(details: BusinessDetails, researchResult: any) 
   const result: any = {};
   
   try {
-    // 1. Get niche-specific animations from animations.ts
     result.animations = getAnimationsForNiche(details.type) || [];
     console.log(`[Tools] ✓ Animations loaded: ${result.animations.length} configs`);
   } catch (e) {
@@ -40,7 +128,6 @@ async function integrateAllTools(details: BusinessDetails, researchResult: any) 
   }
   
   try {
-    // 2. Get 21.dev components for this niche
     result.components = getComponentsForNiche(details.type) || [];
     console.log(`[Tools] ✓ Components loaded: ${result.components.length} suggestions`);
   } catch (e) {
@@ -49,7 +136,6 @@ async function integrateAllTools(details: BusinessDetails, researchResult: any) 
   }
   
   try {
-    // 3. Generate logo inspiration from UXShowcase
     result.logoInspiration = generateLogoInspiration(details.type);
     console.log(`[Tools] ✓ Logo inspiration generated`);
   } catch (e) {
@@ -58,119 +144,248 @@ async function integrateAllTools(details: BusinessDetails, researchResult: any) 
   }
     
   try {
-    // 4. Crawl competitor sites for real-world examples
     result.crawledData = await crawlerService.performLiveResearch(details.type);
     console.log(`[Tools] ✓ Crawler data acquired`);
   } catch (e) {
     console.error('[Tools] ✗ Crawler failed (non-fatal):', e);
     result.crawledData = null;
   }
-  
+
+  // Brand.dev enrichment — logo, colors, socials from domain
+  try {
+    if (details.domain) {
+      const brandData = await fetchBrandData(details.domain);
+      if (brandData) {
+        result.brandData = brandData;
+        result.brandLogo = extractBrandLogo(brandData);
+        result.brandColors = brandData.colors.map((c: any) => c.hex);
+        console.log(`[Tools] ✓ Brand data: ${brandData.title} (${brandData.colors?.length || 0} colors, ${brandData.logos?.length || 0} logos)`);
+      }
+    } else {
+      console.log('[Tools] ℹ No domain provided, skipping brand enrichment');
+    }
+  } catch (e) {
+    console.error('[Tools] ✗ Brand enrichment failed (non-fatal):', e);
+    result.brandData = null;
+  }
+
+  // FormForge — generate HTML form for the niche
+  try {
+    const formSchema = getFormSchemaForNiche(details.type);
+    const formResult = await generateFormHTML(formSchema);
+    if (formResult?.html) {
+      result.formHTML = formResult.html;
+      result.formSchema = formSchema;
+      console.log(`[Tools] ✓ Form generated: ${formSchema.title} (via FormForge API)`);
+    } else {
+      result.formHTML = buildFallbackFormHTML(formSchema);
+      result.formSchema = formSchema;
+      console.log(`[Tools] ✓ Form generated: ${formSchema.title} (fallback HTML)`);
+    }
+  } catch (e) {
+    console.error('[Tools] ✗ Form generation failed:', e);
+    result.formHTML = null;
+  }
+
+  // Logo.dev — real logo from domain
+  try {
+    if (details.domain) {
+      result.logoURL = await getLogoURL(details.domain);
+      if (result.logoURL) console.log(`[Tools] ✓ Logo.dev: logo found for ${details.domain}`);
+      else console.log('[Tools] ℹ Logo.dev: no logo found');
+    }
+  } catch (e) {
+    console.warn('[Tools] ℹ Logo.dev skipped:', e);
+  }
+
+  // SEO Score — audit the generated site (if we have a preview URL)
+  try {
+    if (details.domain) {
+      const audit = await runSEOAudit(`https://${details.domain}`);
+      if (audit) {
+        result.seoAudit = audit;
+        console.log(`[Tools] ✓ SEO Score: ${audit.score}/100 (${audit.grade})`);
+      }
+    }
+  } catch (e) {
+    console.warn('[Tools] ℹ SEO audit skipped:', e);
+  }
+
+  // MetaScrape — extract metadata from competitors
+  try {
+    if (details.domain) {
+      const meta = await extractMetadata(`https://${details.domain}`);
+      if (meta) {
+        result.metaData = meta;
+        console.log(`[Tools] ✓ MetaScrape: ${meta.title}`);
+      }
+    }
+  } catch (e) {
+    console.warn('[Tools] ℹ MetaScrape skipped:', e);
+  }
+
+  // Poof — remove bg from hero image (placeholder)
+  try {
+    result.poofEnabled = !!process.env.POOF_KEY;
+    if (result.poofEnabled) console.log('[Tools] ✓ Poof: background removal ready');
+  } catch (e) {
+    console.warn('[Tools] ℹ Poof skipped:', e);
+  }
+
+  // Screenshot Scout — capture preview
+  try {
+    if (details.domain) {
+      const shot = await captureScreenshot(`https://${details.domain}`);
+      if (shot.url) {
+        result.screenshotURL = shot.url;
+        console.log('[Tools] ✓ Screenshot Scout: preview capture ready');
+      }
+    }
+  } catch (e) {
+    console.warn('[Tools] ℹ Screenshot Scout skipped:', e);
+  }
+
   result.researchInsights = researchResult;
   return result;
 }
 
+// ─── Elite Pipeline ───
+
 export class ElitePipeline {
   /**
-   * COMMON PLAN WORKFLOW
-   * 1. User Choice -> 2. YouTube Research -> 3. Stitch Generation -> 4. AI Polish
+   * SIMPLE WORKFLOW: Stitch (template) → Gemini Refine (skills) → HTML
    */
-  async runCommonWorkflow(details: BusinessDetails): Promise<any> {
-    console.log(`[Common Workflow] Starting for ${details.name}...`);
+  async runCommonWorkflow(details: BusinessDetails, designTokens?: any): Promise<any> {
+    console.log(`[Simple Workflow] ${details.name}...`);
 
-    // 1. YouTube Research (Trends & How-to)
-    const research = await researchService.performDeepResearch(details.type);
-    console.log(`[Common Workflow] YouTube research synthesized: ${research.youtubeInsights.length} insights.`);
+    // 1. Brand + Form enrichment (lightweight)
+    const enrichment: any = {};
+    try {
+      if (details.domain) {
+        const brandData = await fetchBrandData(details.domain);
+        if (brandData) {
+          enrichment.brandData = brandData;
+          enrichment.brandLogo = extractBrandLogo(brandData);
+          console.log(`[Simple Workflow] ✓ Brand data: ${brandData.title}`);
+        }
+      }
+    } catch (e) {
+      console.warn('[Simple Workflow] Brand enrichment skipped:', e);
+    }
+    try {
+      const formSchema = getFormSchemaForNiche(details.type);
+      const formResult = await generateFormHTML(formSchema);
+      enrichment.formHTML = formResult?.html || buildFallbackFormHTML(formSchema);
+      enrichment.formSchema = formSchema;
+      console.log(`[Simple Workflow] ✓ Form: ${formSchema.title}`);
+    } catch (e) {
+      console.warn('[Simple Workflow] Form generation skipped:', e);
+    }
 
-    // 2. Stitch Generation with Master Prompt
-    const masterPrompt = `Create an impeccable ${details.type} site. 
-      Insights from Elite Tutorials: ${research.youtubeInsights.join(' ')}.
-      Layout: ${research.trends.join(', ')}. Fonts: Inter/Playfair. 
-      Style: Modern, High-conversion.`;
-    
-    const initialDesign = await stitch_generate_screen_from_text({
-      projectId: 'common-project',
-      prompt: masterPrompt,
-      deviceType: 'DESKTOP'
+    // 2. Stitch Phase — gera template base
+    const stitchResult = await stitchPhase({
+      projectId: `simple-${Date.now()}`,
+      prompt: `Create a ${details.type} landing page for ${details.name}. Style: ${details.style || 'modern'}.`,
+      designTokens,
+      businessDetails: details,
+    });
+    console.log(`[Simple Workflow] Template from: ${stitchResult.source}`);
+
+    // 3. Gemini Refinement — aplica 15 skills + design tokens
+    const finalHTML = await geminiRefine({
+      templateHTML: stitchResult.html,
+      businessDetails: details,
+      designTokens,
+      intensity: 'standard',
     });
 
-    // 3. AI Polish & Harmonic Correction
-    console.log(`[Common Workflow] Polishing design for harmony and animations...`);
-    await stitch_edit_screens({
-      projectId: 'common-project',
-      selectedScreenIds: [initialDesign.screenId],
-      prompt: `Add smooth GSAP animations to all sections. 
-        Improve visual hierarchy. Add micro-interactions to buttons. 
-        Ensure perfect harmony between fonts and colors.`
-    });
+    // Logo.dev enrichment
+    try {
+      if (details.domain) {
+        enrichment.logoURL = await getLogoURL(details.domain);
+      }
+    } catch (e) { /* skip */ }
 
-    return { success: true, screenId: initialDesign.screenId };
+    // SEO audit
+    try {
+      if (details.domain) {
+        const audit = await runSEOAudit(`https://${details.domain}`);
+        if (audit) enrichment.seoAudit = audit;
+      }
+    } catch (e) { /* skip */ }
+
+    // MetaScrape
+    try {
+      if (details.domain) {
+        const meta = await extractMetadata(`https://${details.domain}`);
+        if (meta) enrichment.metaData = meta;
+      }
+    } catch (e) { /* skip */ }
+
+    // Screenshot
+    try {
+      if (details.domain) {
+        const shot = await captureScreenshot(`https://${details.domain}`);
+        if (shot.url) enrichment.screenshotURL = shot.url;
+      }
+    } catch (e) { /* skip */ }
+
+    return {
+      html: finalHTML,
+      source: stitchResult.source,
+      ...enrichment,
+    };
   }
 
   /**
-   * PREMIUM/ELITE ULTRA-REFINED WORKFLOW (V8.0)
-   * UNIFIED ON STITCH ENGINE
+   * PREMIUM WORKFLOW: Stitch (template) → Gemini Refine Premium → HTML
    */
-  async runPremiumWorkflow(details: BusinessDetails): Promise<any> {
-    console.log(`[Elite V8.0] Starting Recursive Premium Pipeline for ${details.name}...`);
+  async runPremiumWorkflow(details: BusinessDetails, designTokens?: any): Promise<any> {
+    console.log(`[Premium Workflow] ${details.name}...`);
 
-    // STAGE 1: MULTI-SOURCE RESEARCH (YouTube + Dribbble + Landbook)
-    const researchQuery = `${details.type} website best design 2026 premium trends`;
-    const deepResearch = await researchService.performDeepResearch(researchQuery);
+    // 1. Research
+    const deepResearch = await researchService.performDeepResearch(`${details.type} website best design 2026 premium trends`);
     
-    // STAGE 2: MOCK RUFLO SWARM (replace with real integration later)
-    const swarmResults = {
-      componentSuggestions: ['Bento Grid', 'Glassmorphism 2.0', 'GSAP Animations', 'Three.js 3D']
-    };
-
-    // STAGE 3: INTEGRATE ALL TOOLS (animations.ts, 21dev-components.ts, uxshowcase-logos.ts, crawler-service.ts)
+    // 2. Tools
     const toolsData = await integrateAllTools(details, deepResearch);
-    console.log(`[Elite V8.0] Tools integrated. Animations: ${toolsData.animations?.length}, Components: ${toolsData.components?.length}`);
 
-    // STAGE 4: STITCH GENERATION (Variant 1)
-    const masterPrompt = `ULTRA-PREMIUM ${details.type} SITE.
-      CONCEPT: ${details.style || 'MODERN LUXURY'}.
-      RESEARCH SECRETS: ${JSON.stringify(deepResearch.youtubeInsights || [])}.
-      COMPONENTS: ${toolsData.components?.join(', ') || 'Bento Grid, Glassmorphism'}.
-      ANIMATIONS: ${toolsData.animations?.map((a: any) => a.name).join(', ') || 'GSAP, Three.js'}.
-      LOGO INSPIRATION: ${JSON.stringify(toolsData.logoInspiration)}.
-      CRAWLED DATA: ${JSON.stringify(toolsData.crawledData?.competitors?.slice(0, 3) || [])}.
-      FEEL: High-conversion, $10k Agency Standard.`;
-
-    const initialScreen = await stitch_generate_screen_from_text({
-      projectId: 'elite-swarm-project',
-      prompt: masterPrompt
+    // 3. Stitch Phase
+    const stitchResult = await stitchPhase({
+      projectId: `premium-${Date.now()}`,
+      prompt: `ULTRA-PREMIUM ${details.type} site for ${details.name}. Style: ${details.style || 'modern luxury'}. Components: ${toolsData.components?.join(', ') || 'Bento Grid, Glassmorphism'}. Animations: ${toolsData.animations?.map((a: any) => a.name).join(', ') || 'GSAP, Three.js'}.`,
+      designTokens,
+      businessDetails: details,
     });
 
-    // STAGE 4: AI ANALYSIS & SELF-CORRECTION (Recursive Loop)
-    // The AI "watches" the generated screen and searches for even better references to fix it
-    console.log(`[Elite V8.0] AI Analyzing Generation... Searching for Landbook/Dribbble improvements.`);
-    const refinementResearch = await researchService.performDeepResearch(`${details.type} modern web layout refinement references`);
-
-    // STAGE 5: STITCH EDIT (The "Improvement" Phase)
-    await stitch_edit_screens({
-      projectId: 'elite-swarm-project',
-      selectedScreenIds: [initialScreen.screenId],
-      prompt: `REFINEMENT PHASE: Based on latest Landbook trends (${refinementResearch.trends.join(', ')}), 
-        fix any visual inconsistencies. Add custom 3D mesh gradients. 
-        Implement magnetic button logic for all CTAs. Ensure perfect typography rhythm.`
+    // 4. Gemini Premium Refinement
+    const finalHTML = await geminiRefine({
+      templateHTML: stitchResult.html,
+      businessDetails: details,
+      designTokens,
+      researchInsights: { youtube: deepResearch.youtubeInsights, trends: deepResearch.trends },
+      intensity: 'premium',
     });
 
-    // STAGE 6: FINAL 3D INJECTION & GSAP SYNC
-    // This part is handled by the platform's renderer injecting the Three.js and GSAP code
-    
-    return { 
-      success: true, 
-      screenId: initialScreen.screenId,
-      variants: [initialScreen.screenId], // Array for compatibility
-      insights: deepResearch.bestPractices,
-      // Integrated tools data from STAGE 3
+    return {
+      success: true,
+      html: finalHTML,
+      source: stitchResult.source,
       animations: toolsData.animations || [],
       components: toolsData.components || [],
       logoInspiration: toolsData.logoInspiration,
+      brandData: toolsData.brandData || null,
+      brandLogo: toolsData.brandLogo || null,
+      brandColors: toolsData.brandColors || [],
+      logoURL: toolsData.logoURL || null,
+      seoAudit: toolsData.seoAudit || null,
+      metaData: toolsData.metaData || null,
+      poofEnabled: toolsData.poofEnabled || false,
+      screenshotURL: toolsData.screenshotURL || null,
+      formHTML: toolsData.formHTML || null,
+      formSchema: toolsData.formSchema || null,
       crawledData: toolsData.crawledData,
       youtubeInsights: toolsData.researchInsights?.youtubeInsights || [],
-      trends: toolsData.researchInsights?.trends || []
+      trends: toolsData.researchInsights?.trends || [],
     };
   }
 }

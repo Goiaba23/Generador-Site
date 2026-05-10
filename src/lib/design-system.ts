@@ -7,51 +7,51 @@
 export const colors = {
   // Backgrounds - Dark Theme Profissional
   bg: {
-    primary: '#0a0a1a',      // Deep dark blue/purple
-    secondary: '#0f172a',     // Slate 950
-    tertiary: '#1e293b',      // Slate 800
-    card: '#1e293b',
-    cardHover: '#334155',
-    overlay: 'rgba(15, 23, 42, 0.8)',
+    primary: '#07070E',      // Deep midnight
+    secondary: '#0E0E18',     // Dark surface
+    tertiary: '#161622',      // Elevated surface
+    card: '#161622',
+    cardHover: '#1E1E2E',
+    overlay: 'rgba(7, 7, 14, 0.8)',
   },
   
   // Gradients - Premium
   gradients: {
-    primary: 'linear-gradient(135deg, #4f46e5, #7c3aed)',    // Indigo → Purple
-    secondary: 'linear-gradient(135deg, #818cf8, #c084fc)',    // Light Indigo → Fuchsia
-    accent: 'linear-gradient(135deg, #c084fc, #fb923c)',       // Fuchsia → Orange
-    hero: 'linear-gradient(to right, #818cf8, #c084fc, #fb923c)', // Triple gradient
-    dark: 'linear-gradient(to right, #0f172a, #1e293b)',
+    primary: 'linear-gradient(135deg, #06B6D4, #3B82F6)',    // Cyan → Blue
+    secondary: 'linear-gradient(135deg, #22D3EE, #60A5FA)',    // Light cyan → Light blue
+    accent: 'linear-gradient(135deg, #D4A574, #F59E0B)',       // Copper → Amber
+    hero: 'linear-gradient(to right, #06B6D4, #3B82F6, #D4A574)', // Triple gradient
+    dark: 'linear-gradient(to right, #07070E, #0E0E18)',
     glow: {
-      purple: 'radial-gradient(circle, rgba(129, 140, 248, 0.15), transparent)',
-      fuchsia: 'radial-gradient(circle, rgba(192, 132, 252, 0.1), transparent)',
-      orange: 'radial-gradient(circle, rgba(251, 146, 60, 0.08), transparent)',
+      cyan: 'radial-gradient(circle, rgba(6, 182, 212, 0.15), transparent)',
+      blue: 'radial-gradient(circle, rgba(59, 130, 246, 0.1), transparent)',
+      copper: 'radial-gradient(circle, rgba(212, 165, 116, 0.08), transparent)',
     }
   },
   
   // Text
   text: {
-    primary: '#f8fafc',      // Slate 50
-    secondary: '#cbd5e1',    // Slate 300
-    muted: '#94a3b8',       // Slate 400
-    accent: '#818cf8',       // Indigo 400
-    fuchsia: '#c084fc',     // Fuchsia 400
+    primary: '#EEEEF5',
+    secondary: '#9494B0',
+    muted: '#646480',
+    accent: '#06B6D4',
+    copper: '#D4A574',
   },
   
   // Borders
   border: {
-    default: '#334155',     // Slate 700
-    light: 'rgba(51, 65, 85, 0.5)',
-    accent: 'rgba(129, 140, 248, 0.3)',
-    focus: '#818cf8',
+    default: '#2A2A3E',
+    light: 'rgba(42, 42, 62, 0.5)',
+    accent: 'rgba(6, 182, 212, 0.3)',
+    focus: '#06B6D4',
   },
   
   // Status
   status: {
-    success: '#10b981',
-    warning: '#f59e0b',
-    error: '#ef4444',
-    info: '#3b82f6',
+    success: '#10B981',
+    warning: '#F59E0B',
+    error: '#EF4444',
+    info: '#3B82F6',
   }
 };
 
@@ -171,11 +171,11 @@ export const shadows = {
   
   // Glow effects (premium)
   glow: {
-    purple: '0 4px 12px rgba(79, 70, 229, 0.3)',
-    purpleLg: '0 10px 30px rgba(79, 70, 229, 0.3)',
-    purpleXl: '0 20px 50px rgba(79, 70, 229, 0.4)',
-    fuchsia: '0 4px 12px rgba(192, 132, 252, 0.3)',
-    orange: '0 4px 12px rgba(251, 146, 60, 0.3)',
+    cyan: '0 4px 12px rgba(6, 182, 212, 0.3)',
+    cyanLg: '0 10px 30px rgba(6, 182, 212, 0.3)',
+    cyanXl: '0 20px 50px rgba(6, 182, 212, 0.4)',
+    blue: '0 4px 12px rgba(59, 130, 246, 0.3)',
+    copper: '0 4px 12px rgba(212, 165, 116, 0.3)',
   }
 };
 
@@ -183,7 +183,7 @@ export const componentStyles = {
   // Botões Premium
   button: {
     primary: {
-      background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+      background: 'linear-gradient(135deg, #06B6D4, #3B82F6)',
       color: '#ffffff',
       border: 'none',
       padding: '1rem 2.5rem',
@@ -191,16 +191,16 @@ export const componentStyles = {
       fontWeight: 600,
       borderRadius: '0.75rem',
       cursor: 'pointer',
-      boxShadow: '0 10px 30px rgba(79, 70, 229, 0.3)',
+      boxShadow: '0 10px 30px rgba(6, 182, 212, 0.3)',
       transition: 'all 0.3s ease',
       display: 'inline-flex',
       alignItems: 'center',
       gap: '0.75rem',
     },
     secondary: {
-      background: 'rgba(30, 41, 59, 0.8)',
-      color: '#f8fafc',
-      border: '1px solid #334155',
+      background: 'rgba(22, 22, 34, 0.8)',
+      color: '#EEEEF5',
+      border: '1px solid #2A2A3E',
       padding: '0.75rem 1.5rem',
       fontSize: '0.875rem',
       fontWeight: 500,
@@ -210,7 +210,7 @@ export const componentStyles = {
     },
     ghost: {
       background: 'transparent',
-      color: '#cbd5e1',
+      color: '#9494B0',
       border: 'none',
       padding: '0.5rem 1rem',
       fontSize: '0.875rem',
@@ -223,21 +223,21 @@ export const componentStyles = {
   // Cards Premium
   card: {
     base: {
-      backgroundColor: '#1e293b',
-      border: '1px solid #334155',
+      backgroundColor: '#161622',
+      border: '1px solid #2A2A3E',
       borderRadius: '1rem',
       padding: '2rem',
       transition: 'all 0.5s ease',
     },
     hover: {
-      borderColor: '#818cf8',
+      borderColor: '#06B6D4',
       transform: 'translateY(-4px)',
-      boxShadow: '0 20px 25px -5px rgba(129, 140, 248, 0.1)',
+      boxShadow: '0 20px 25px -5px rgba(6, 182, 212, 0.1)',
     },
     glass: {
-      backgroundColor: 'rgba(30, 41, 59, 0.5)',
+      backgroundColor: 'rgba(22, 22, 34, 0.5)',
       backdropFilter: 'blur(12px)',
-      border: '1px solid rgba(51, 65, 85, 0.5)',
+      border: '1px solid rgba(42, 42, 62, 0.5)',
       borderRadius: '1rem',
     }
   },
@@ -245,19 +245,19 @@ export const componentStyles = {
   // Input Fields
   input: {
     base: {
-      backgroundColor: '#1e293b',
-      border: '1px solid #334155',
+      backgroundColor: '#161622',
+      border: '1px solid #2A2A3E',
       borderRadius: '0.5rem',
       padding: '0.75rem 1rem',
-      color: '#f8fafc',
+      color: '#EEEEF5',
       fontSize: '0.875rem',
       transition: 'border-color 0.2s ease',
       outline: 'none',
       width: '100%',
     },
     focus: {
-      borderColor: '#818cf8',
-      boxShadow: '0 0 0 3px rgba(129, 140, 248, 0.1)',
+      borderColor: '#06B6D4',
+      boxShadow: '0 0 0 3px rgba(6, 182, 212, 0.1)',
     }
   },
   
@@ -272,15 +272,15 @@ export const componentStyles = {
       fontSize: '0.875rem',
       fontWeight: 500,
     },
-    purple: {
-      backgroundColor: 'rgba(139, 92, 246, 0.2)',
-      color: '#c4b5fd',
-      border: '1px solid rgba(139, 92, 246, 0.3)',
+    cyan: {
+      backgroundColor: 'rgba(6, 182, 212, 0.2)',
+      color: '#67E8F9',
+      border: '1px solid rgba(6, 182, 212, 0.3)',
     },
-    fuchsia: {
-      backgroundColor: 'rgba(192, 132, 252, 0.15)',
-      color: '#d8b4fe',
-      border: '1px solid rgba(192, 132, 252, 0.2)',
+    copper: {
+      backgroundColor: 'rgba(212, 165, 116, 0.15)',
+      color: '#D4A574',
+      border: '1px solid rgba(212, 165, 116, 0.2)',
     }
   },
   
@@ -290,9 +290,9 @@ export const componentStyles = {
       position: 'fixed' as const,
       top: 0,
       width: '100%',
-      backgroundColor: 'rgba(15, 23, 42, 0.8)',
+      backgroundColor: 'rgba(7, 7, 14, 0.8)',
       backdropFilter: 'blur(12px)',
-      borderBottom: '1px solid rgba(51, 65, 85, 0.5)',
+      borderBottom: '1px solid rgba(42, 42, 62, 0.5)',
       zIndex: 50,
       transition: 'all 0.3s ease' as const,
     },
@@ -314,7 +314,7 @@ export const componentStyles = {
       position: 'relative' as const,
     },
     dark: {
-      backgroundColor: 'rgba(30, 41, 59, 0.5)',
+      backgroundColor: 'rgba(22, 22, 34, 0.5)',
     },
     container: {
       maxWidth: '1280px',

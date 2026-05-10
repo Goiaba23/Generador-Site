@@ -106,6 +106,7 @@ export async function POST(request: NextRequest) {
     console.log(`[AI Create] Plan: ${selectedPlan}, Method: ${method}`);
 
     let siteContent: any = null;
+    let generatedSite: any = null;
     let workerSessionId: string | null = null;
 
     // Premium method: Use OpenCode big-pickle worker with Stitch + Analysis + Enhancement
@@ -164,12 +165,13 @@ export async function POST(request: NextRequest) {
         name: businessName,
         type: businessType as BusinessType,
         plan: (selectedPlan === 'premium' ? 'PREMIUM' : 'COMMON') as any,
+        domain: body.domain || '',
         style: sandwichResearch?.sandwichLayers?.colors?.scheme || inferred.style as any,
         diferencial: inferred.diferencial,
         features: inferred.solutions,
         contact: { phone, email, address },
       };
-      const generatedSite = await generateSiteWithInsights(businessDetails, mockInsights);
+      generatedSite = await generateSiteWithInsights(businessDetails, mockInsights);
       siteContent = generatedSite.content;
     }
 
@@ -245,6 +247,10 @@ export async function POST(request: NextRequest) {
       keywords: sandwichResearch?.keywords || [],
       youtubeFindings: sandwichResearch?.youtubeFindings || [],
       trends: sandwichResearch?.trends || [],
+      brandData: generatedSite?.brandData || null,
+      brandLogo: generatedSite?.brandLogo || null,
+      formHTML: generatedSite?.formHTML || null,
+      formSchema: generatedSite?.formSchema || null,
       nextSteps: workerSessionId
         ? ['Stitch design gerado', 'OpenCode analisou criticamente', '21.dev + GSAP aplicados', 'Site entregue pronto']
         : ['Site gerado com sucesso', 'Acesse a pré-visualização'],

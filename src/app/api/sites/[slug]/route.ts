@@ -15,10 +15,8 @@ if (!global.generatedSites) {
 const generatedSites = global.generatedSites;
 
 // Get site by slug
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { slug: string } }
-) {
+export async function GET(request: NextRequest, props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   try {
     const slug = params.slug;
     
@@ -85,10 +83,8 @@ export async function GET(
 }
 
 // Store site data
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { slug: string } }
-) {
+export async function POST(request: NextRequest, props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   try {
     const body = await request.json();
     const siteData = body.siteData || body;
@@ -108,10 +104,8 @@ export async function POST(
 }
 
 // Update site
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: { slug: string } }
-) {
+export async function PATCH(request: NextRequest, props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   try {
     const body = await request.json();
     const { content, published, title, metaDescription } = body;

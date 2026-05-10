@@ -1,12 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  cacheComponents: true,
   images: {
-    domains: ['localhost', 'saas-sites.com'],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'localhost' },
+      { protocol: 'https', hostname: 'saas-sites.com' },
+    ],
   },
   async rewrites() {
     return [
-      // Rewrite for subdomain-based site preview/serving
       {
         source: '/site/:slug*',
         destination: '/api/site/:slug*',

@@ -191,6 +191,10 @@ export default function Home() {
   const [step, setStep] = useState<'chat' | 'analyzing' | 'building' | 'done'>('chat');
   const [progress, setProgress] = useState(0);
   const chatRef = useRef<HTMLDivElement>(null);
+  const [showResearch, setShowResearch] = useState(false);
+  const [feedbackRating, setFeedbackRating] = useState(0);
+  const [feedbackComment, setFeedbackComment] = useState('');
+  const [feedbackSent, setFeedbackSent] = useState(false);
 
   useEffect(() => {
     chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: 'smooth' });
@@ -496,59 +500,201 @@ export default function Home() {
   }
 
   if (step === 'done' && result) {
-    const bgColors = collected.palette || ['#0A0A0F', '#06B6D4', '#3B82F6'];
-    return (
-      <main style={{ minHeight: '100vh', background: 'var(--bg-deep)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
-        <div style={{ textAlign: 'center', maxWidth: '520px', width: '100%' }}>
-          <div style={{
-            width: '80px', height: '80px', borderRadius: '50%',
-            background: 'linear-gradient(135deg, var(--cyan), var(--blue))',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            margin: '0 auto 1.5rem', fontSize: '2rem',
-            boxShadow: '0 8px 32px rgba(6,182,212,0.3)',
-            animation: 'nexusPulse 2s infinite',
-          }}>🎉</div>
-          <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '2rem', fontWeight: 700, color: 'var(--text-heading)', marginBottom: '0.5rem' }}>
-            Site Criado!
-          </h1>
-          <p style={{ color: 'var(--text-muted)', marginBottom: '1rem', lineHeight: 1.7, fontSize: '0.9rem' }}>
-            {collected.businessName && <><strong style={{ color: 'var(--text-heading)' }}>{collected.businessName}</strong> — </>}
-            {collected.businessType && `${collected.businessType.replace(/_/g, ' ').toLowerCase()} • `}
-            {collected.style && `${collected.style} style`}
-          </p>
+    const layers = result.sandwichLayers ? [
+      { id: 'foundation', label: '01 Foundation', icon: '📐', items: [
+        `Layout: ${result.sandwichLayers.foundation?.layout || '—'}`,
+        `Seções: ${result.sandwichLayers.foundation?.structure?.join(' → ') || '—'}`,
+      ]},
+      { id: 'colors', label: '02 Colors', icon: '🎨', items: [
+        `Paleta: ${result.sandwichLayers.colors?.palette?.join(', ') || '—'}`,
+        `Psicologia: ${result.sandwichLayers.colors?.psychology || '—'}`,
+        `Esquema: ${result.sandwichLayers.colors?.scheme || '—'}`,
+      ]},
+      { id: 'typography', label: '03 Typography', icon: '🔤', items: [
+        `Headings: ${result.sandwichLayers.typography?.heading || '—'}`,
+        `Body: ${result.sandwichLayers.typography?.body || '—'}`,
+        `Pairing: ${result.sandwichLayers.typography?.pairing || '—'}`,
+      ]},
+      { id: 'animation', label: '04 Animation', icon: '✨', items: [
+        `Tipo: ${result.sandwichLayers.animation?.type || '—'}`,
+        `Intensidade: ${result.sandwichLayers.animation?.intensity || '—'}`,
+        `Lib: ${result.sandwichLayers.animation?.library || '—'}`,
+      ]},
+      { id: 'premium', label: '05 Premium', icon: '💎', items: [
+        `Glassmorphism: ${result.sandwichLayers.premium?.glassmorphism ? '✓' : '✗'}`,
+        `Bento Grid: ${result.sandwichLayers.premium?.bentoGrid ? '✓' : '✗'}`,
+        `Noise: ${result.sandwichLayers.premium?.noise ? '✓' : '✗'}`,
+      ]},
+    ] : [];
 
-          {collected.sections && (
+    return (
+      <main style={{ minHeight: '100vh', background: 'var(--bg-deep)', overflowY: 'auto' }}>
+        <div style={{ maxWidth: '680px', margin: '0 auto', padding: '3rem 1.5rem' }}>
+          {/* Success Header */}
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
             <div style={{
-              display: 'flex', flexWrap: 'wrap', gap: '0.35rem', justifyContent: 'center', marginBottom: '2rem',
+              width: '80px', height: '80px', borderRadius: '50%',
+              background: 'linear-gradient(135deg, var(--cyan), var(--blue))',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              margin: '0 auto 1.5rem', fontSize: '2rem',
+              boxShadow: '0 8px 32px rgba(6,182,212,0.3)',
+              animation: 'nexusPulse 2s infinite',
+            }}>🎉</div>
+            <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '2rem', fontWeight: 700, color: 'var(--text-heading)', marginBottom: '0.5rem' }}>
+              Site Criado!
+            </h1>
+            <p style={{ color: 'var(--text-muted)', marginBottom: '0.5rem', lineHeight: 1.7, fontSize: '0.9rem' }}>
+              {collected.businessName && <><strong style={{ color: 'var(--text-heading)' }}>{collected.businessName}</strong> — </>}
+              {collected.businessType && `${collected.businessType.replace(/_/g, ' ').toLowerCase()} • `}
+              {collected.style && `${collected.style} style`}
+            </p>
+            {collected.sections && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', justifyContent: 'center', marginBottom: '1.5rem' }}>
+                {collected.sections.map(s => (
+                  <span key={s} style={{ padding: '0.25rem 0.6rem', borderRadius: '999px', fontSize: '0.65rem', fontWeight: 500, color: 'var(--text-muted)', background: 'var(--bg-card)', border: '1px solid var(--border)' }}>{s}</span>
+                ))}
+              </div>
+            )}
+            <a href={result.site?.previewUrl || '/preview/demo'} style={{
+              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+              padding: '0.75rem 2rem', borderRadius: '999px',
+              background: 'linear-gradient(135deg, var(--cyan), var(--blue))',
+              color: '#fff', fontSize: '0.9rem', fontWeight: 600,
+              textDecoration: 'none', marginBottom: '1.5rem',
+              boxShadow: '0 4px 20px rgba(6,182,212,0.2)',
             }}>
-              {collected.sections.map(s => (
-                <span key={s} style={{
-                  padding: '0.3rem 0.75rem', borderRadius: '999px', fontSize: '0.7rem',
-                  fontWeight: 500, color: 'var(--text-muted)',
-                  background: 'var(--bg-card)', border: '1px solid var(--border)',
-                }}>{s}</span>
-              ))}
+              👁 Ver Site Gerado
+            </a>
+          </div>
+
+          {/* Design Rationale */}
+          {result.designRationale && (
+            <div style={{ marginBottom: '1.5rem', padding: '1rem 1.25rem', background: 'rgba(6,182,212,0.04)', borderRadius: '0.75rem', border: '1px solid rgba(6,182,212,0.08)' }}>
+              <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--cyan)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.35rem' }}>🧠 Design Rationale</div>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-body)', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{result.designRationale}</div>
             </div>
           )}
 
-          <a href={result.site?.previewUrl || '/preview/demo'} style={{
-            display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-            padding: '0.875rem 2rem', borderRadius: '999px',
-            background: 'linear-gradient(135deg, var(--cyan), var(--blue))',
-            color: '#fff', fontSize: '0.9rem', fontWeight: 600,
-            textDecoration: 'none', marginBottom: '1rem',
-            boxShadow: '0 4px 20px rgba(6,182,212,0.2)',
-          }}>
-            👁 Ver Site Gerado
-          </a>
+          {/* Research Details - Collapsible */}
+          {(result.sandwichLayers || result.keywords?.length > 0 || result.trends?.length > 0) && (
+            <div style={{ marginBottom: '1.5rem' }}>
+              <button onClick={() => setShowResearch(!showResearch)} style={{
+                width: '100%', padding: '0.75rem 1rem', borderRadius: '0.75rem',
+                background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)',
+                color: 'var(--text-heading)', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600,
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              }}>
+                <span>🔬 Pesquisa & Estratégia ({result.sandwichLayers ? '5 camadas' : 'keywords'})</span>
+                <span style={{ transition: 'transform 0.2s', transform: showResearch ? 'rotate(180deg)' : 'none' }}>▼</span>
+              </button>
 
-          <br />
+              {showResearch && (
+                <div style={{ marginTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  {/* Sandwich Layers */}
+                  {layers.map(layer => (
+                    <div key={layer.id} style={{
+                      padding: '0.75rem 1rem', borderRadius: '0.75rem',
+                      background: 'var(--bg-card)', border: '1px solid var(--border)',
+                      borderLeft: `3px solid var(--cyan)`,
+                    }}>
+                      <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--cyan)', marginBottom: '0.25rem' }}>
+                        {layer.icon} {layer.label}
+                      </div>
+                      {layer.items.map((item, i) => (
+                        <div key={i} style={{ fontSize: '0.78rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>{item}</div>
+                      ))}
+                    </div>
+                  ))}
 
+                  {/* Keywords */}
+                  {result.keywords?.length > 0 && (
+                    <div style={{ padding: '0.75rem 1rem', borderRadius: '0.75rem', background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+                      <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--cyan)', marginBottom: '0.5rem' }}>🔑 Keywords</div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
+                        {result.keywords.map((kw: string) => (
+                          <span key={kw} style={{ padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem', background: 'rgba(6,182,212,0.1)', color: 'var(--cyan)' }}>{kw}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Trends */}
+                  {result.trends?.length > 0 && (
+                    <div style={{ padding: '0.75rem 1rem', borderRadius: '0.75rem', background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+                      <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--cyan)', marginBottom: '0.5rem' }}>🔮 Tendências 2026</div>
+                      {result.trends.map((t: string) => (
+                        <div key={t} style={{ fontSize: '0.78rem', color: 'var(--text-muted)', lineHeight: 1.7 }}>• {t}</div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* YouTube Findings */}
+                  {result.youtubeFindings?.length > 0 && (
+                    <div style={{ padding: '0.75rem 1rem', borderRadius: '0.75rem', background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+                      <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--cyan)', marginBottom: '0.5rem' }}>📺 YouTube Insights</div>
+                      {result.youtubeFindings.map((v: any) => (
+                        <div key={v.url} style={{ fontSize: '0.78rem', color: 'var(--text-muted)', lineHeight: 1.7 }}>
+                          <a href={v.url} target="_blank" rel="noopener" style={{ color: 'var(--cyan)', textDecoration: 'none' }}>{v.title}</a>
+                          <span style={{ color: 'var(--text-muted)', opacity: 0.6 }}> — {v.channelTitle}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Feedback */}
+          <div style={{ marginBottom: '2rem', padding: '1.25rem', borderRadius: '0.75rem', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)' }}>
+            <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-heading)', marginBottom: '0.75rem', textAlign: 'center' }}>
+              {feedbackSent ? '⭐ Obrigado pelo feedback!' : 'Como foi sua experiência?'}
+            </div>
+            {!feedbackSent ? (
+              <>
+                <div style={{ display: 'flex', gap: '0.25rem', justifyContent: 'center', marginBottom: '0.75rem' }}>
+                  {[1,2,3,4,5].map(n => (
+                    <button key={n} onClick={() => setFeedbackRating(n)} style={{
+                      fontSize: '1.5rem', background: 'none', border: 'none', cursor: 'pointer',
+                      color: n <= feedbackRating ? '#f59e0b' : 'rgba(255,255,255,0.15)',
+                      transition: 'color 0.2s, transform 0.1s',
+                      transform: n <= feedbackRating ? 'scale(1.1)' : 'scale(1)',
+                    }}>{n <= feedbackRating ? '★' : '☆'}</button>
+                  ))}
+                </div>
+                <input value={feedbackComment} onChange={e => setFeedbackComment(e.target.value)}
+                  placeholder="O que achou? (opcional)"
+                  style={{ width: '100%', padding: '0.6rem 0.75rem', borderRadius: '0.5rem', background: 'var(--bg-deep)', border: '1px solid var(--border)', color: 'var(--text-body)', fontSize: '0.8rem', outline: 'none', marginBottom: '0.5rem', boxSizing: 'border-box' }}
+                />
+                <button onClick={async () => {
+                  if (feedbackRating === 0) return;
+                  const name = collected.businessName || result.site?.title || 'Meu Negócio';
+                  try { await fetch('/api/ai-training', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'feedback', businessName: name, rating: feedbackRating, comments: feedbackComment }) }); } catch {}
+                  setFeedbackSent(true);
+                }} style={{
+                  width: '100%', padding: '0.6rem', borderRadius: '0.5rem',
+                  background: feedbackRating === 0 ? 'var(--bg-card)' : 'linear-gradient(135deg, var(--cyan), var(--blue))',
+                  color: feedbackRating === 0 ? 'var(--text-muted)' : '#fff',
+                  border: feedbackRating === 0 ? '1px solid var(--border)' : 'none',
+                  fontWeight: 600, fontSize: '0.8rem', cursor: feedbackRating === 0 ? 'not-allowed' : 'pointer',
+                }} disabled={feedbackRating === 0}>
+                  {feedbackRating === 0 ? 'Selecione uma nota' : 'Enviar Feedback →'}
+                </button>
+              </>
+            ) : (
+              <div style={{ textAlign: 'center', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                Seu feedback ajuda a IA a melhorar! {feedbackRating >= 4 ? '🙌' : '🚀'}
+              </div>
+            )}
+          </div>
+
+          {/* Action Buttons */}
           <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button onClick={() => {
               setResult(null); setStep('chat'); setCollected({ detailCount: 0 });
               setMessages([{ role: 'ai', text: WELCOME }]); setAgents(AGENTS.map(a => ({ ...a, status: 'pending' as const })));
               setShowSections(false); setProgress(0); setPhase('💬 Discovery');
+              setFeedbackRating(0); setFeedbackComment(''); setFeedbackSent(false); setShowResearch(false);
             }} style={{
               padding: '0.6rem 1.25rem', borderRadius: '999px',
               background: 'transparent', color: 'var(--text-muted)',

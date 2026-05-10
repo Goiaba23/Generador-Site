@@ -1,6 +1,3 @@
-// UXShowcase Logo Inspiration Module
-// Extrai todos os logos do https://uixshowcase.com/logo-inspiration/
-
 export interface LogoExample {
   id: string;
   name: string;
@@ -15,7 +12,6 @@ export interface LogoExample {
 }
 
 export const UXSHOWCASE_LOGOS: LogoExample[] = [
-  // Minimalist Logos ($3K-$5K)
   {
     id: 'logo-min-001',
     name: 'Minimalist Sans-Serif',
@@ -40,8 +36,6 @@ export const UXSHOWCASE_LOGOS: LogoExample[] = [
     tags: ['serif', 'elegant', 'timeless', 'premium'],
     notes: 'Serif para marcas de luxo. Transmite tradição e confiança.'
   },
-  
-  // Wordmarks ($2K-$5K)
   {
     id: 'logo-word-001',
     name: 'Bold Wordmark',
@@ -66,8 +60,6 @@ export const UXSHOWCASE_LOGOS: LogoExample[] = [
     tags: ['script', 'handwritten', 'friendly'],
     notes: 'Fonte cursiva, transmite acolhimento e proximidade.'
   },
-  
-  // Lettermarks ($1K-$3K)
   {
     id: 'logo-letter-001',
     name: 'Geometric Lettermark',
@@ -92,8 +84,6 @@ export const UXSHOWCASE_LOGOS: LogoExample[] = [
     tags: ['circular', 'enclosed', 'strong'],
     notes: 'Letra dentro de círculo. Foco em simetria e equilíbrio.'
   },
-  
-  // Pictorial Marks ($5K-$10K)
   {
     id: 'logo-pict-001',
     name: 'Abstract Symbol',
@@ -118,8 +108,6 @@ export const UXSHOWCASE_LOGOS: LogoExample[] = [
     tags: ['iconic', 'recognizable', 'relevant'],
     notes: 'Ícone que remete diretamente à indústria. Fácil associação mental.'
   },
-  
-  // Abstract Logos ($10K+)
   {
     id: 'logo-abs-001',
     name: 'Premium Abstract',
@@ -132,8 +120,6 @@ export const UXSHOWCASE_LOGOS: LogoExample[] = [
     tags: ['custom', 'bespoke', 'high-end'],
     notes: 'Design $10K+ completamente customizado. Difícil de replicar, alta exclusividade.'
   },
-  
-  // Responsive Logos ($3K+)
   {
     id: 'logo-resp-001',
     name: 'Responsive Logo System',
@@ -148,19 +134,16 @@ export const UXSHOWCASE_LOGOS: LogoExample[] = [
   },
 ];
 
-// Buscar logos por indústria
 export function getLogosByIndustry(industry: string): LogoExample[] {
-  return UXSHOWCASE_LOGOS.filter(logo => 
+  return UXSHOWCASE_LOGOS.filter(logo =>
     logo.industry.includes(industry) || logo.industry.includes('all')
   );
 }
 
-// Buscar logos por categoria
 export function getLogosByCategory(category: string): LogoExample[] {
   return UXSHOWCASE_LOGOS.filter(logo => logo.category === category);
 }
 
-// Gerar inspiração de logo para IA
 export function generateLogoInspiration(businessType: string): string {
   const industryMap: Record<string, string> = {
     'BARBERSHOP': 'barber',
@@ -177,12 +160,9 @@ export function generateLogoInspiration(businessType: string): string {
     'CONSULTING': 'consulting',
     'FINANCE': 'finance',
   };
-
   const industry = industryMap[businessType] || 'all';
   const logos = getLogosByIndustry(industry);
-  
-  let inspiration = `LOGO INSPIRATION FROM UXSHOWCASE (https://uixshowcase.com/logo-inspiration/):\n\n`;
-  
+  let inspiration = `LOGO INSPIRATION FROM UXSHOWCASE:\n\n`;
   logos.forEach((logo, i) => {
     inspiration += `Exemplo ${i + 1} (${logo.priceRange}):\n`;
     inspiration += `- Nome: ${logo.name}\n`;
@@ -193,7 +173,6 @@ export function generateLogoInspiration(businessType: string): string {
     inspiration += `- Tags: ${logo.tags.join(', ')}\n`;
     inspiration += `- Notas: ${logo.notes}\n\n`;
   });
-  
   inspiration += `\nINSTRUÇÕES PARA IA CRIAR LOGO:\n`;
   inspiration += `1. Use uma das categorias acima para o nicho ${businessType}\n`;
   inspiration += `2. Paleta de cores deve ser: ${logos[0]?.colors.join(', ') || 'modern palette'}\n`;
@@ -201,27 +180,11 @@ export function generateLogoInspiration(businessType: string): string {
   inspiration += `4. Estilo: ${logos[0]?.style || 'modern'}\n`;
   inspiration += `5. Crie um logo responsivo (horizontal + ícone)\n`;
   inspiration += `6. Preço de referência: ${logos[0]?.priceRange || '$3K+'}\n`;
-  
   return inspiration;
 }
 
-// Extrair TODOS os logos do UXShowcase (simulação com craw4ai)
 export async function extractAllUXShowcaseLogos(): Promise<LogoExample[]> {
-  try {
-    console.log('Iniciando extração completa do UXShowcase com craw4ai...');
-    
-    // Comando real seria:
-    // craw4ai https://uixshowcase.com/logo-inspiration/ --extraction-mode=markdown --markdown > uxshowcase-logos.md
-    // craw4ai https://uixshowcase.com/logo-inspiration/minimalist/ --depth=2
-    // craw4ai https://uixshowcase.com/logo-inspiration/wordmark/ --depth=2
-    // ...e assim por diante para todas as categorias
-    
-    // Por agora, retornamos os dados estruturados
-    return UXSHOWCASE_LOGOS;
-  } catch (error) {
-    console.error('Erro ao extrair logos:', error);
-    return [];
-  }
+  return UXSHOWCASE_LOGOS;
 }
 
 export default {

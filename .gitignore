@@ -15,3 +15,5 @@ build_output.txt
 build-error.log
 *.zip
 .DS_Store
+
+.vercel

@@ -1,9 +1,13 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { ReactLenis } from 'lenis/react';
 
 export const metadata: Metadata = {
-  title: 'SitesSaaS - Sites profissionais para seu comércio',
-  description: 'Crie sites profissionais em minutos para seu comércio ou empresa',
+  title: 'NexusAI — Chat Creator de Landing Pages',
+  description: 'Converse com a IA e tenha sua landing page profissional pronta em minutos.',
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
@@ -13,7 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body>
+        <ReactLenis root options={{ lerp: 0.08, duration: 1.2 }}>
+          {children}
+        </ReactLenis>
+      </body>
     </html>
   );
 }

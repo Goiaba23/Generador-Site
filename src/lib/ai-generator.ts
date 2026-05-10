@@ -8,6 +8,7 @@ export interface BusinessDetails {
   type: BusinessType;
   plan: PlanType;
   description?: string;
+  domain?: string;
   brandAssets?: {
     logoUrl?: string;
     imageUrls?: string[];

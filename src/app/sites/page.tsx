@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Scene3D, GlowOrb } from '@/components/scene-3d';
+import { GlowOrbs } from '@/components/scene-3d';
 
 // ===== Animações =====
 
@@ -88,9 +88,9 @@ function SiteCard({ site, onDelete, index = 0 }: { site: any; onDelete?: (id: st
         onMouseLeave={() => setIsHovered(false)}
         style={{
           background: isHovered 
-            ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95))' 
-            : 'linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.8))',
-          border: isHovered ? '1px solid rgba(129, 140, 248, 0.4)' : '1px solid rgba(51, 65, 85, 0.5)',
+            ? 'linear-gradient(135deg, rgba(22, 22, 34, 0.9), rgba(14, 14, 24, 0.95))' 
+            : 'linear-gradient(135deg, rgba(22, 22, 34, 0.7), rgba(14, 14, 24, 0.8))',
+          border: isHovered ? '1px solid rgba(6, 182, 212, 0.4)' : '1px solid rgba(42, 42, 62, 0.5)',
           borderRadius: '1.5rem',
           padding: '2rem',
           transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -137,9 +137,9 @@ function SiteCard({ site, onDelete, index = 0 }: { site: any; onDelete?: (id: st
           
           <div style={{
             padding: '0.5rem 1rem',
-            background: 'rgba(79, 70, 229, 0.1)',
-            borderRadius: '0.75rem',
-            color: '#818cf8',
+          background: 'rgba(6, 182, 212, 0.1)',
+          borderRadius: '0.75rem',
+          color: '#06B6D4',
             fontSize: '0.875rem',
             fontWeight: 600,
           }}>
@@ -154,7 +154,7 @@ function SiteCard({ site, onDelete, index = 0 }: { site: any; onDelete?: (id: st
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#94a3b8', fontSize: '0.875rem' }}>
             <span>🔗</span>
-            <span style={{ color: '#818cf8' }}>{site.slug}.sites-saas.com</span>
+            <span style={{ color: '#06B6D4' }}>{site.slug}.sites-saas.com</span>
           </div>
         </div>
 
@@ -163,7 +163,7 @@ function SiteCard({ site, onDelete, index = 0 }: { site: any; onDelete?: (id: st
             <button style={{
               width: '100%',
               padding: '0.75rem 1.5rem',
-              background: isHovered ? 'linear-gradient(135deg, #4f46e5, #7c3aed)' : 'rgba(79, 70, 229, 0.1)',
+              background: isHovered ? 'linear-gradient(135deg, #06B6D4, #3B82F6)' : 'rgba(79, 70, 229, 0.1)',
               color: 'white',
               border: 'none',
               borderRadius: '0.75rem',
@@ -275,24 +275,22 @@ export default function SitesPage() {
   };
 
   return (
-    <main style={{ backgroundColor: '#0a0a1a', minHeight: '100vh', color: '#f8fafc', position: 'relative' }}>
+        <main style={{ backgroundColor: '#07070E', minHeight: '100vh', color: '#EEEEF5', position: 'relative' }}>
       {/* 3D Background */}
-      <Scene3D variant="subtle" primaryColor="#6366F1" secondaryColor="#7C3AED" />
-      <GlowOrb color="#6366F1" size={400} blur={100} top="30%" left="20%" speed={8} intensity={20} />
-      <GlowOrb color="#7C3AED" size={300} blur={80} top="60%" left="75%" speed={10} intensity={15} />
+      <GlowOrbs />
 
       {/* Background Decorations */}
-      <div style={{ position: 'fixed', top: '-20%', left: '-10%', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(129, 140, 248, 0.08), transparent 70%)', borderRadius: '50%', filter: 'blur(100px)', pointerEvents: 'none' as const }} />
-      <div style={{ position: 'fixed', bottom: '10%', right: '-10%', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(192, 132, 252, 0.06), transparent 70%)', borderRadius: '50%', filter: 'blur(100px)', pointerEvents: 'none' as const }} />
+      <div style={{ position: 'fixed', top: '-20%', left: '-10%', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(6, 182, 212, 0.06), transparent 70%)', borderRadius: '50%', filter: 'blur(100px)', pointerEvents: 'none' as const }} />
+      <div style={{ position: 'fixed', bottom: '10%', right: '-10%', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(59, 130, 246, 0.05), transparent 70%)', borderRadius: '50%', filter: 'blur(100px)', pointerEvents: 'none' as const }} />
 
       {/* Navigation */}
       <nav style={{
         position: 'fixed' as const,
         top: 0,
         width: '100%',
-        backgroundColor: 'rgba(10, 10, 26, 0.9)',
+        backgroundColor: 'rgba(7, 7, 14, 0.9)',
         backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(51, 65, 85, 0.3)',
+        borderBottom: '1px solid rgba(42, 42, 62, 0.3)',
         zIndex: 50,
       }}>
         <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '5rem' }}>
@@ -300,7 +298,7 @@ export default function SitesPage() {
             <div style={{
               width: '3rem',
               height: '3rem',
-              background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+              background: 'linear-gradient(135deg, #06B6D4, #3B82F6)',
               borderRadius: '1rem',
               display: 'flex',
               alignItems: 'center',
@@ -310,34 +308,56 @@ export default function SitesPage() {
             </div>
             <span style={{ fontWeight: 800, fontSize: '1.5rem', color: 'white' }}>SitesSaaS</span>
           </Link>
-          <Link href="/create" style={{ textDecoration: 'none' }}>
-            <button style={{
-              background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
-              color: 'white',
-              border: 'none',
-              padding: '0.75rem 2rem',
-              borderRadius: '0.75rem',
-              cursor: 'pointer',
-              fontSize: '0.875rem',
-              fontWeight: 700,
-              boxShadow: '0 8px 24px rgba(79, 70, 229, 0.4)',
+          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+            <button onClick={async () => {
+              try {
+                const res = await fetch('/api/checkout', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ plan: 'premium' }),
+                });
+                const data = await res.json();
+                if (data.url) window.location.href = data.url;
+              } catch {}
+            }} style={{
+              padding: '0.6rem 1.25rem', borderRadius: '0.75rem',
+              border: '1px solid rgba(212,165,116,0.3)',
+              background: 'rgba(212,165,116,0.1)', color: '#D4A574',
+              cursor: 'pointer', fontSize: '0.8rem', fontWeight: 700,
               transition: 'all 0.3s ease',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 12px 32px rgba(79, 70, 229, 0.6)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 8px 24px rgba(79, 70, 229, 0.4)';
-            }}
-            >
-              🚀 Criar Novo Site
-            </button>
-          </Link>
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(212,165,116,0.2)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(212,165,116,0.1)'; }}
+            >✦ Upgrade</button>
+            <Link href="/create" style={{ textDecoration: 'none' }}>
+              <button style={{
+                background: 'linear-gradient(135deg, #06B6D4, #3B82F6)',
+                color: 'white',
+                border: 'none',
+                padding: '0.75rem 2rem',
+                borderRadius: '0.75rem',
+                cursor: 'pointer',
+                fontSize: '0.875rem',
+                fontWeight: 700,
+                boxShadow: '0 8px 24px rgba(79, 70, 229, 0.4)',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 12px 32px rgba(79, 70, 229, 0.6)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 8px 24px rgba(79, 70, 229, 0.4)';
+              }}
+              >
+                🚀 Criar Novo Site
+              </button>
+            </Link>
+          </div>
         </div>
       </nav>
 
@@ -357,7 +377,7 @@ export default function SitesPage() {
                  }}>
                    Sites dos{' '}
                    <span style={{
-                     background: 'linear-gradient(to right, #818cf8, #c084fc)',
+                     background: 'linear-gradient(to right, #06B6D4, #3B82F6)',
                      WebkitBackgroundClip: 'text',
                      WebkitTextFillColor: 'transparent',
                      backgroundClip: 'text',
@@ -372,7 +392,7 @@ export default function SitesPage() {
 
               <Link href="/create" style={{ textDecoration: 'none' }}>
                 <button style={{
-                  background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+                  background: 'linear-gradient(135deg, #06B6D4, #3B82F6)',
                   color: 'white',
                   border: 'none',
                   padding: '1rem 2.5rem',
@@ -418,8 +438,8 @@ export default function SitesPage() {
                 { number: sites.filter(s => s.status === 'DRAFT').length, label: 'Rascunhos', icon: '◯' },
               ].map((stat, i) => (
                 <div key={i} style={{
-                  background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.7))',
-                  border: '1px solid rgba(51, 65, 85, 0.5)',
+                  background: 'linear-gradient(135deg, rgba(22, 22, 34, 0.6), rgba(14, 14, 24, 0.7))',
+                  border: '1px solid rgba(42, 42, 62, 0.5)',
                   borderRadius: '1.5rem',
                   padding: '2rem',
                   textAlign: 'center' as const,
@@ -461,8 +481,8 @@ export default function SitesPage() {
               <div style={{
                 textAlign: 'center' as const,
                 padding: '6rem 2rem',
-                background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.5))',
-                border: '2px dashed rgba(51, 65, 85, 0.5)',
+                background: 'linear-gradient(135deg, rgba(22, 22, 34, 0.4), rgba(14, 14, 24, 0.5))',
+                border: '2px dashed rgba(42, 42, 62, 0.5)',
                 borderRadius: '2rem',
               }}>
                 <div style={{ fontSize: '5rem', marginBottom: '2rem' }}>🎨</div>
@@ -472,7 +492,7 @@ export default function SitesPage() {
                  </p>
                 <Link href="/create" style={{ textDecoration: 'none' }}>
                   <button style={{
-                    background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+                    background: 'linear-gradient(135deg, #06B6D4, #3B82F6)',
                     color: 'white',
                     border: 'none',
                     padding: '1.25rem 3rem',

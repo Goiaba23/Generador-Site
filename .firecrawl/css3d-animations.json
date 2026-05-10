@@ -1,0 +1,4241 @@
+Best Hero Layout Inspiration of 2026 - YouTube
+  URL: https://www.youtube.com/watch?v=aLZCG8XMM_s
+  Let's check out some of the most popular Hero Layouts of 2026. These are web design hero sections you can reuse for your own website design.
+
+  --- Content ---
+  Best Hero Layout Inspiration of 2026
+  
+  Tap to unmute
+  
+  2x
+  
+  Search
+  
+  Copy link
+  
+  Info
+  
+  Shopping
+  
+  If playback doesn't begin shortly, try restarting your device.
+  
+  •
+  
+  Up next
+  
+  Live
+  
+  Upcoming
+  
+  CancelPlay Now
+  
+  You're signed out
+  
+  Videos you watch may be added to the TV's watch history and influence TV recommendations. To avoid this, cancel and sign in to YouTube on your computer.
+  
+  CancelConfirm
+  
+  Share
+  
+  Include playlist
+  
+  An error occurred while retrieving sharing information. Please try again later.
+  
+  0:00
+  
+  0:00 / 7:36
+  
+  Live
+  
+  •Watch full video
+  
+  •
+  
+  •
+  
+  Error 403 (Forbidden)!!1
+  
+  **403.** That’s an error.
+  
+  We're sorry, but you do not have access to this page. That’s all we know.
+  
+  Back
+  
+  
+  [![](https://www.youtube.com/watch?v=aLZCG8XMM_s)](https://www.youtube.com/)
+  
+  Search
+  --- End Content ---
+
+10+ CSS 3D Transform Examples - DEV Community
+  URL: https://dev.to/csslive/elevate-your-web-ui-high-performance-css-3d-transforms-no-webgl-required-4e93
+  By combining SVG geometry with CSS animations, it creates a lightweight 3D isometric illusion. Each layer floats rhythmically, enhanced by ...
+
+  --- Content ---
+  Flat design is functional, but depth makes an interface truly memorable. This updated collection aggregates high-performance solutions designed to add spatial interaction to your web projects.
+  
+  Unlike standard flat styling, CSS 3D transforms allow developers to bridge the gap between basic layouts and highly immersive experiences. The best part? You can achieve this without the massive performance overhead of WebGL libraries. By using these curated snippets, you guarantee efficient, lightweight code rather than spending hours building complex physics engines from scratch.
+  
+  * * *
+  
+  CodePen Embed - Book Gallery - (Click image)
+  
+  ```
+  <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@800&display=swap"
+        rel="stylesheet"
+        />
+  <div class="scene">
+    <div class="bg-typography">
+      <span>Book</span>
+      <span>Gallery</span>
+    </div>
+  
+    <div class="galeria-book-3d">
+      <div class="galeria-book-3d__item" style="--i: 0">
+        <img
+             src="https://images.unsplash.com/photo-1767122374969-82c7acbbb4ed?q=80&w=400&auto=format&fit=crop"
+             alt="Front 1"
+             />
+        <img
+             src="https://images.unsplash.com/photo-1764617755316-ffb5ff87c2d7?q=80&w=400&auto=format&fit=crop"
+             alt="Back 1"
+             />
+      </div>
+      <div class="galeria-book-3d__item" style="--i: 1">
+        <img
+             src="https://images.unsplash.com/photo-1767749559743-d2e4d8031d4f?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+             alt="Front 2"
+             />
+        <img
+             src="https://images.unsplash.com/photo-1767700358934-3466f476d948?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+             alt="Back 2"
+             />
+      </div>
+      <div class="galeria-book-3d__item" style="--i: 2">
+        <img
+             src="https://images.unsplash.com/photo-1767517734918-d0969751b6b6?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+             alt="Front 3"
+             />
+        <img
+             src="https://images.unsplash.com/photo-1764377724372-d42fed3f442b?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+             alt="Back 3"
+             />
+      </div>
+      <div class="galeria-book-3d__item" style="--i: 3">
+        <img
+             src="https://images.unsplash.com/photo-1767518782545-17fa47a602e2?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+             alt="Front 4"
+             />
+        <img
+             src="https://plus.unsplash.com/premium_photo-1747851577288-c75149e91e1a?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+             alt="Back 4"
+             />
+      </div>
+      <div class="galeria-book-3d__item" style="--i: 4">
+        <img
+             src="https://plus.unsplash.com/premium_photo-1666264200758-1c03db7f530c?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+             alt="Front 5"
+             />
+        <img
+             src="https://images.unsplash.com/photo-1763906667544-02814d191864?q=80&w=709&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+             alt="Back 5"
+             />
+      </div>
+    </div>
+  </div>
+  ```
+  
+  ```
+  @property --page-rotate {
+    syntax: "<angle>";
+    inherits: true;
+    initial-value: 0deg;
+  }
+  @property --spine-shift {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0px;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    background-color: #e0e0e0;
+    font-family: "Outfit", system-ui, -apple-system, sans-serif;
+    color: #111;
+  }
+  .scene {
+    width: 100%;
+    height: 100svh;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+  
+    background-image: url("https://images.unsplash.com/photo-1763152496539-302ef51ef66f?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+  }
+  
+  .bg-typography {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    font-size: clamp(4rem, 15vw, 15rem);
+    font-weight: 800;
+    line-height: 0.8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5vw;
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: exclusion;
+    color: white;
+  }
+  
+  .bg-typography span {
+    display: block;
+  }
+  
+  .galeria-book-3d {
+    position: relative;
+    width: 200px;
+    height: 300px;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  
+    --spine-shift: 0px;
+  
+    transform: translateX(var(--spine-shift));
+    transition: --spine-shift 0.5s ease;
+  }
+  
+  .galeria-book-3d.book-open {
+    --spine-shift: 100px;
+  }
+  
+  .galeria-book-3d__item {
+    position: absolute;
+    width: 200px;
+    height: 300px;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-origin: left center;
+    --page-rotate: 0deg;
+    transform: rotateY(var(--page-rotate));
+    transition: --page-rotate 0.5s ease-in-out, z-index 0s;
+    transition-delay: calc((4 - var(--i)) * 0.1s),
+      calc((4 - var(--i)) * 0.1s + 0.25s);
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: calc(10 - var(--i));
+  }
+  
+  .galeria-book-3d__item.is-open {
+    --page-rotate: -180deg;
+    transition-delay: 0s, 0s;
+    z-index: calc(20 + var(--i));
+  }
+  
+  .galeria-book-3d__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #f4f4f4;
+    backface-visibility: hidden;
+  }
+  
+  .galeria-book-3d__item img:nth-child(2) {
+    transform: rotateY(180deg) translateZ(1px);
+    z-index: 1;
+  }
+  ```
+  
+  ```
+  const items = document.querySelectorAll(".galeria-book-3d__item");
+  const container = document.querySelector(".galeria-book-3d");
+  
+  function updateContainerState() {
+    const anyOpen = Array.from(items).some((item) =>
+                                           item.classList.contains("is-open")
+                                          );
+    if (anyOpen) {
+      container.classList.add("book-open");
+    } else {
+      container.classList.remove("book-open");
+    }
+  }
+  
+  items.forEach((item) => {
+    item.addEventListener("click", (e) => {
+      e.stopPropagation();
+      item.classList.toggle("is-open");
+      updateContainerState();
+    });
+  });
+  
+  document.addEventListener("click", () => {
+    items.forEach((item) => {
+      item.classList.remove("is-open");
+    });
+    updateContainerState();
+  });
+  ```
+  
+  [![](https://assets.codepen.io/2383546/internal/avatars/users/default.png?fit=crop&format=auto&height=256&version=1719245631&width=256)](https://codepen.io/daniel-mu-oz)
+  
+  This Pen is owned by [Daniel Muñoz](https://codepen.io/daniel-mu-oz) on [CodePen](https://codepen.io/).
+  
+  
+  
+  [See more by @daniel-mu-oz on CodePen](https://codepen.io/daniel-mu-oz)
+  
+  ### External CSS
+  
+  This Pen doesn't use any external CSS resources.
+  
+  
+  ### External JavaScript
+  
+  This Pen doesn't use any external JavaScript resources.
+  
+  
+  **Interactive 3D Flip Book Gallery**. This is an Interactive 3D Flip Book Gallery. It simulates a physical book structure where each element acts as a double-sided page. Its function is to showcase images through spatial depth, replacing standard flat carousels with a tactile flipping mechanic.
+  
+  * * *
+  
+  CodePen Embed - 3D Gallery
+  
+  ```
+  <main></main>
+  ```
+  
+  ```
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    height: 100vh;
+    perspective: 800px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(#3a4149, #111722);
+  }
+  
+  main {
+    position: relative;
+    transform-style: preserve-3d;
+    width: 50vmin;
+    height: 75vmin;
+    transition: all 500ms ease;
+  }
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  article {
+    position: absolute;
+    inset: 0;
+    -webkit-box-reflect: below 50px
+      linear-gradient(transparent, rgba(255, 255, 255, 0.15));
+  
+    button {
+      border: 0;
+      outline: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 12px;
+      transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 200ms ease;
+  
+      &:focus-visible {
+        box-shadow: 0 0 0 3px cyan;
+      }
+      // fallback
+      &:focus {
+        box-shadow: 0 0 0 3px cyan;
+      }
+      &:focus:not(:focus-visible) {
+        box-shadow: none;
+      }
+  
+      &:hover,
+      &:focus-visible {
+        transform: scale(1.03) translateY(-4%);
+      }
+    }
+  }
+  ```
+  
+  ```
+  /**
+   * Initially the elements are positioned in front of the camera.
+   * We define here the transformations to position them in the scene.
+   * When clicking on an item, we apply the inversed transformation but on the main container to "zoom" on the item
+   */
+  const articles = new Map([\
+    ["6392322", { tx: "-90%", tz: "-70vmin", ry: "60deg" }],\
+    ["1761279", { tz: "-110vmin" }],\
+    ["1679772", { tx: "90%", tz: "-70vmin", ry: "-60deg" }]\
+  ]);
+  
+  window.addEventListener("load", () => {
+    const main = document.querySelector("main");
+  
+    for (const [id, { tx, tz, ry }] of articles.entries()) {
+      main.appendChild(makeArticleElement(id, tx, tz, ry));
+    }
+  
+    document.addEventListener("click", ({ target }) => {
+      const targetId = target.closest("article")?.id;
+      let [itx, itz, iry] = [0, 0, 0]; // inversed transformation to apply to the main element
+  
+      if (targetId && main.dataset.focus !== targetId) {
+        // zoom in
+        const { tx, tz, ry } = articles.get(targetId) || {};
+        [itx, itz, iry] = [tx, tz, ry].map(inverseTransformation);
+        main.setAttribute("data-focus", targetId);
+      } else {
+        // zoom out
+        main.removeAttribute("data-focus");
+      }
+      main.style.transform = `rotateY(${iry}) translate3d(${itx}, 0, ${itz})`;
+    });
+  });
+  
+  // e.g. turn "90%" into "-90%" or "-10vmin" into "10vmin"
+  function inverseTransformation(transform) {
+    if (!transform) return 0;
+    const [_, value, unit] = transform.match(/(-?\d+)(.*)/);
+    return `${-Number(value)}${unit}`;
+  }
+  
+  function makeArticleElement(id, tx = 0, tz = 0, ry = 0) {
+    const img = document.createElement("img");
+    img.src = `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500`;
+  
+    const button = document.createElement("button");
+    button.appendChild(img);
+  
+    const element = document.createElement("article");
+    element.id = id;
+    element.style.transform = `translate3d(${tx}, 0, ${tz}) rotateY(${ry})`;
+    element.appendChild(button);
+    return element;
+  }
+  ```
+  
+  [![](https://assets.codepen.io/2247341/internal/avatars/users/default.png?fit=crop&format=auto&height=256&version=1770759734&width=256)](https://codepen.io/jsulpis)
+  
+  This Pen is owned by [Julien Sulpis](https://codepen.io/jsulpis) on [CodePen](https://codepen.io/).
+  
+  
+  
+  [See more by @jsulpis on CodePen](https://codepen.io/jsulpis)
+  
+  ### External CSS
+  
+  This Pen doesn't use any external CSS resources.
+  
+  
+  ### External JavaScript
+  
+  This Pen doesn't use any external JavaScript resources.
+  
+  
+  **Interactive 3D Coverflow Gallery**. This is an Interactive 3D Coverflow Gallery. It organizes visual media into a spatial environment. Its function is to replace flat grids with depth-based navigation, using mathematical inverse transformations to zoom into selected items seamlessly.
+  
+  * * *
+  
+  CodePen Embed - Scrolling Image Effects -> GSAP & JS
+  
+  ```
+  <body class="scroll loading">
+    <main>
+      <div data-scroll class="page page--layout-2">
+        <h1 class="page__title">#scroll</h1>
+  
+        <!--Animated Arrow by @joshgjohnson
+  -->
+        <svg class="arrow">
+          <path class="a1" d="M0 0 L30 22 L60 0"></path>
+          <path class="a2" d="M0 20 L30 42 L60 20"></path>
+          <path class="a3" d="M0 40 L30 62 L60 40"></path>
+        </svg>
+  
+        <div class="content content--alternate content--padded">
+  
+          <div class="content__item content__item--expand" style="--aspect-ratio: 700/525">
+            <div class="content__item-imgwrap">
+              <div class="content__item-img" style="
+                    background-image: url(https://images.pexels.com/photos/1642068/pexels-photo-1642068.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
+                  "></div>
+            </div>
+            <h2 class="content__item-title">Leopard</h2>
+            <p class="content__item-description">
+              The English name 'leopard' comes from Old French: leupart or
+              Middle French: liepart, that derives from Latin: leopardus and
+              Ancient Greek: λέοπάρδος (leopardos).
+            </p>
+          </div>
+  
+          <div class="content__item content__item--expand" style="--aspect-ratio: 700/460">
+            <div class="content__item-imgwrap">
+              <div class="content__item-img" style="
+                    background-image: url(https://images.pexels.com/photos/208840/pexels-photo-208840.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
+                  "></div>
+            </div>
+            <h2 class="content__item-title">Irbis</h2>
+            <p class="content__item-description">
+              The name 'irbis' comes from the Turkic language, it was borrowed
+              by Russian fur traders from local hunters in the XVII century. In
+              different regions of Central Asia, the predator was called
+              differently: irbish, irbiz, irvish, ilbers.
+            </p>
+          </div>
+  
+          <div class="content__item content__item--expand" style="--aspect-ratio: 600/450">
+            <div class="content__item-imgwrap">
+              <div class="content__item-img" style="
+                    background-image: url(https://images.pexels.com/photos/146067/pexels-photo-146067.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
+                  "></div>
+            </div>
+            <h2 class="content__item-title">Tiger</h2>
+            <p class="content__item-description">
+              The Middle English 'tigre' and Old English tigras derive French
+              tigre, from Latin tigris.
+            </p>
+          </div>
+  
+          <div class="content__item content__item--expand" style="--aspect-ratio: 600/500">
+            <div class="content__item-imgwrap">
+              <div class="content__item-img" style="
+                    background-image: url(https://images.pexels.com/photos/247502/pexels-photo-247502.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
+                  "></div>
+            </div>
+            <h2 class="content__item-title">Lion</h2>
+            <p class="content__item-description">
+              The word 'lion' is derived from Latin: leo and Ancient Greek: λέων
+              (leon).
+            </p>
+          </div>
+  
+          <div class="content__item content__item--expand" style="--aspect-ratio: 600/455">
+            <div class="content__item-imgwrap">
+              <div class="content__item-img" style="
+                    background-image: url(https://images.pexels.com/photos/2544554/pexels-photo-2544554.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
+                  "></div>
+            </div>
+            <h2 class="content__item-title">Cheetah</h2>
+            <p class="content__item-description">
+              The vernacular name 'cheetah' is derived from Hindustani Urdu:
+              چیتا‎ and Hindi: चीता (ćītā).
+            </p>
+          </div>
+  
+          <div class="content__item content__item--expand" style="--aspect-ratio: 600/470">
+            <div class="content__item-imgwrap">
+              <div class="content__item-img" style="
+                    background-image: url(https://images.pexels.com/photos/7386324/pexels-photo-7386324.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
+                  "></div>
+            </div>
+            <h2 class="content__item-title">Lynx</h2>
+            <p class="content__item-description">
+              The name 'lynx' originated in Middle English via Latin from the
+              Greek word λύγξ, derived from the Indo-European root leuk-
+              ('light, brightness') in reference to the luminescence of its
+              reflective eyes.
+            </p>
+          </div>
+  
+          <div class="content__item content__item--expand" style="--aspect-ratio: 600/460">
+            <div class="content__item-imgwrap">
+              <div class="content__item-img" style="
+                    background-image: url(https://get.wallhere.com/photo/manul-wool-fur-snout-667968.jpg);
+                  "></div>
+            </div>
+            <h2 class="content__item-title">Manul</h2>
+            <p class="content__item-description">
+              'Manul' is the Pallas's cat's name in the Kyrgyz language. It is
+              called 'manol' in the Mongolian language. The name 'Pallas's cat'
+              was coined by William Thomas Blanford in honour of Peter Simon
+              Pallas. The alternate spelling 'Pallas' cat' is also used.
+            </p>
+          </div>
+  
+          <div class="content__item content__item--expand" style="--aspect-ratio: 600/460">
+            <div class="content__item-imgwrap">
+              <div class="content__item-img" style="
+                    background-image: url(https://images.pexels.com/photos/177809/pexels-photo-177809.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
+                  "></div>
+            </div>
+            <h2 class="content__item-title">Cat</h2>
+            <p class="content__item-description">
+              The origin of the English word 'cat', Old English catt, is thought
+              to be the Late Latin word cattus, which was first used at the
+              beginning of the 6th century.
+            </p>
+          </div>
+  
+          <p class="credits">
+            <a href="https://codepen.io/DivineBlow" target="_blank"><i class="fab fa-codepen"></i> DivineBlow <i class="fab fa-codepen"></i></a>
+          </p>
+  
+        </div>
+      </div>
+    </main>
+  
+    <button class="scrollToTopBtn">
+      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;" xml:space="preserve">
+        <path d="M403.015,296.471L264.5,108.591c-4.22-5.725-12.778-5.725-16.999,0l-138.515,187.88
+    c-5.14,6.972-0.162,16.826,8.499,16.826h277.03C403.177,313.297,408.155,303.443,403.015,296.471z" />
+        <path d="M413.693,288.598L275.18,100.718c-4.471-6.066-11.641-9.688-19.178-9.688s-14.707,3.621-19.178,9.688
+    L156.992,209h-34.146L256.001,28.39l136.335,184.924c4.348,5.898,12.653,7.154,18.552,2.806c5.898-4.348,7.154-12.655,2.805-18.552
+    L275.18,9.688C270.708,3.621,263.537,0,256.001,0s-14.707,3.621-19.178,9.688L98.308,197.568c-5.365,7.279-6.166,16.813-2.09,24.884
+    c4.077,8.071,12.226,13.083,21.268,13.083h19.943l-39.121,53.063c-5.365,7.279-6.166,16.813-2.09,24.884
+    c4.077,8.071,12.226,13.083,21.268,13.083h45.236V483.23c0,15.864,12.907,28.771,28.771,28.771h129.015
+    c15.864,0,28.771-12.907,28.771-28.771v-88.805c0-15.864-12.907-28.771-28.771-28.771h-78.976c-7.326,0-13.268,5.94-13.268,13.268
+    c0,7.328,5.941,13.268,13.268,13.268h78.976c1.233,0,2.236,1.003,2.236,2.236v88.805c0,1.233-1.003,2.236-2.236,2.236H191.493
+    c-1.233,0-2.236-1.003-2.236-2.236V326.565h205.257c9.042,0,17.191-5.014,21.268-13.083
+    C419.86,305.411,419.059,295.877,413.693,288.598z M122.846,300.03L256.001,119.42l133.154,180.61L122.846,300.03L122.846,300.03z" />
+        <g>
+        </g>
+        <g>
+        </g>
+        <g>
+        </g>
+        <g>
+        </g>
+        <g>
+        </g>
+        <g>
+        </g>
+        <g>
+        </g>
+        <g>
+        </g>
+        <g>
+        </g>
+        <g>
+        </g>
+        <g>
+        </g>
+        <g>
+        </g>
+        <g>
+        </g>
+        <g>
+        </g>
+        <g>
+        </g>
+      </svg>
+    </button>
+  
+  </body>
+  ```
+  
+  ```
+  @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Righteous&display=swap");
+  
+  *,
+  *::after,
+  *::before {
+    box-sizing: border-box;
+  }
+  
+  :root {
+    font-size: 16px;
+  }
+  
+  body {
+    margin: 0;
+    --color-text: #dc6e25;
+    --color-bg: #efded3;
+    --color-link: #000;
+    --color-link-hover: #dc6e25;
+    --aspect-ratio: 1/1.5;
+    --imgwidthmax: 500px;
+    --size-title: 10rem;
+    --font-weight-title: 400;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    font-size: 1.5rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .scroll {
+    --color-text: #905348;
+    --color-bg: #120605;
+    --color-link: #8f8f76;
+    --color-link-hover: #fff;
+    font-size: 1rem;
+    --imgwidthmax: 400px;
+    --color-description: #7e605b;
+    --font-title: "Dancing Script", serif;
+    --size-title: 6vw;
+    --imgwidthmax: 600px;
+  }
+  
+  body::-webkit-scrollbar {
+    width: 0.25em;
+  }
+  
+  body::-webkit-scrollbar-track {
+    background: #120605;
+  }
+  
+  body::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: #8d5146;
+  }
+  
+  body::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  
+  a {
+    text-decoration: none;
+    color: var(--color-link);
+    outline: none;
+  }
+  
+  a:hover,
+  a:focus {
+    color: var(--color-link-hover);
+    outline: none;
+  }
+  
+  /* Scroll-to-Top */
+  .scrollToTopBtn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: fixed;
+    width: 100px;
+    bottom: 20px;
+    right: 0px;
+    z-index: 100;
+    opacity: 0;
+    transform: translateY(200px);
+    transition: all 0.5s ease;
+    filter: invert(35%) sepia(12%) saturate(1922%) hue-rotate(321deg)
+      brightness(96%) contrast(88%);
+  }
+  
+  .showBtn {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .page {
+    display: grid;
+    padding: 5vw;
+    max-width: 1200px;
+    margin: 0 auto;
+    grid-template-columns: 100%;
+    grid-template-areas: "header" "grid";
+    will-change: transform;
+  }
+  
+  .page__title {
+    grid-area: header;
+    margin: 0 0 0.5rem;
+    font-family: "Righteous", cursive;
+    font-size: var(--size-title);
+    font-weight: 400;
+  }
+  
+  .arrow {
+    width: 60px;
+    height: 80px;
+    position: absolute;
+    top: 1%;
+    right: 5%;
+    z-index: 999;
+  }
+  
+  .arrow path {
+    stroke: var(--color-text);
+    stroke-width: 2px;
+    fill: transparent;
+    animation: down 2s infinite;
+  }
+  
+  @keyframes down {
+    0% {
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  .arrow path.a1 {
+    animation-delay: -1s;
+  }
+  .arrow path.a2 {
+    animation-delay: -0.5s;
+  }
+  .arrow path.a3 {
+    animation-delay: 0s;
+  }
+  
+  .content {
+    grid-area: grid;
+    margin: 25vh 0 30vh;
+  }
+  
+  .content--padded {
+    padding: 0 10vw;
+  }
+  
+  .content__item {
+    --imgwidth: calc(var(--imgwidthmax) * var(--aspect-ratio));
+    width: var(--imgwidth);
+    max-width: 100%;
+    position: relative;
+    will-change: transform;
+    margin-bottom: 30vh;
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+  
+  .content--center .content__item {
+    margin: 0 auto 60vh;
+  }
+  
+  .content__item--expand {
+    width: 100%;
+    grid-template-columns: minmax(0, var(--imgwidth)) 1fr;
+  }
+  
+  .content__item--expand:nth-child(even) {
+    grid-template-columns: 1fr minmax(0, var(--imgwidth));
+  }
+  
+  .content--alternate .content__item {
+    max-width: 90vw;
+  }
+  
+  .content--alternate .content__item:nth-child(even) {
+    margin-left: auto;
+  }
+  
+  .content__item-imgwrap {
+    position: relative;
+    --imgwidth: 100%;
+    margin: 0 auto;
+    grid-area: 1 / 1 / 3 / 3;
+    overflow: hidden;
+    width: var(--imgwidth);
+    padding-bottom: calc(var(--imgwidth) / (var(--aspect-ratio)));
+    will-change: transform;
+  }
+  
+  .content__item--expand .content__item-imgwrap {
+    grid-area: 1 / 1 / 3 / 2;
+  }
+  
+  .content__item--expand:nth-child(even) .content__item-imgwrap {
+    grid-area: 1 / 2 / 3 / 3;
+    justify-self: end;
+  }
+  
+  .content__item-img {
+    --overflow: 40px;
+    height: calc(100% + (2 * var(--overflow)));
+    top: calc(-1 * var(--overflow));
+    width: 100%;
+    position: absolute;
+    background-size: cover;
+    background-position: 50% 0%;
+    will-change: transform;
+    opacity: 0.8;
+  }
+  
+  .content__item-number {
+    opacity: 0.03;
+    font-size: 25vw;
+    position: absolute;
+    top: -7vw;
+    right: -10vw;
+    line-height: 1;
+  }
+  
+  .content__item:nth-child(even) .content__item-number {
+    right: auto;
+    left: -7vw;
+  }
+  
+  .content__item-title {
+    position: relative;
+    font-size: var(--size-title);
+    padding: 0 3vw;
+    margin: calc(var(--size-title) * -1 / 2) 0 0 0;
+    align-self: start;
+    line-height: 1;
+    font-family: var(--font-title);
+    font-weight: var(--font-weight-title);
+    color: var(--color-title);
+    will-change: transform;
+    mix-blend-mode: var(--blendmode-title);
+  }
+  
+  .credits {
+    text-align: center;
+  }
+  
+  .credits a {
+    color: var(--color-text);
+  }
+  
+  .credits a:hover {
+    color: #fff;
+  }
+  
+  .credits--fixed {
+    position: fixed;
+    bottom: 5vw;
+    margin: 0;
+    left: 5vw;
+    width: 90vw;
+    text-align: right;
+  }
+  
+  .credits--fixed::before {
+    content: "";
+    background: currentColor;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 5rem;
+    width: 1px;
+  }
+  
+  .content--center .content__item-title {
+    grid-area: 1 / 1 / 3 / 3;
+    margin: auto;
+  }
+  
+  .content__item-title--layer {
+    padding: 0;
+    z-index: 10;
+    grid-area: 1 / 1 / 2 / 3;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .content__item-description {
+    grid-area: 3 / 1 / 3 / 3;
+    width: 70%;
+    position: relative;
+    margin: 0;
+    padding: 1rem 0 0 0;
+    color: var(--color-description);
+  }
+  
+  .content--alternate .content__item-title,
+  .content__item--wide:nth-child(even) .content__item-description {
+    grid-area: 3 / 1 / 4 / 2;
+    justify-self: start;
+  }
+  
+  .content--alternate .content__item:nth-child(even) .content__item-title,
+  .content__item--wide .content__item-description {
+    grid-area: 3 / 2 / 4 / 3;
+    justify-self: end;
+    width: auto;
+  }
+  
+  .content__item--expand .content__item-description {
+    grid-area: 1 / 2 / 3 / 3;
+    justify-self: start;
+    align-self: start;
+    padding: 0 2rem;
+    width: 250px;
+    font-size: 0.9rem;
+  }
+  
+  .content__item--expand:nth-child(even) .content__item-description {
+    grid-area: 1 / 1 / 3 / 2;
+    justify-self: end;
+    text-align: right;
+  }
+  
+  @media screen and (min-width: 53em) {
+    .page--layout-2 {
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: "header header" "...  meta" "grid grid";
+    }
+  }
+  
+  @media screen and (max-width: 40em) {
+    .content__item--expand .content__item-imgwrap,
+    .content__item--expand:nth-child(even) .content__item-imgwrap {
+      grid-area: 1 / 1 / 3 / 3;
+    }
+    .content__item--expand .content__item-description,
+    .content__item--expand:nth-child(even) .content__item-description,
+    .content__item--wide .content__item-description,
+    .content__item--wide:nth-child(even) .content__item-description {
+      grid-area: 3 / 1 / 4 / 3;
+      padding: 1rem 0;
+      width: 100%;
+      text-align: left;
+    }
+    .content__item--wide .content__item-description {
+      padding: 1rem;
+    }
+    .content--alternate .content__item-title,
+    .content--alternate .content__item:nth-child(even) .content__item-title {
+      grid-area: 1 / 1 / 4 / 2;
+    }
+  }
+  ```
+  
+  ```
+  // Scroll-to-Top
+  let scrollToTopBtn = document.querySelector(".scrollToTopBtn");
+  let rootElement = document.documentElement;
+  
+  function handleScroll() {
+    // Do something on scroll
+    let scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
+    if (rootElement.scrollTop / scrollTotal > 0.4) {
+      // Show button
+      scrollToTopBtn.classList.add("showBtn");
+    } else {
+      // Hide button
+      scrollToTopBtn.classList.remove("showBtn");
+    }
+  }
+  
+  function scrollToTop() {
+    // Scroll to top logic
+    rootElement.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+  scrollToTopBtn.addEventListener("click", scrollToTop);
+  document.addEventListener("scroll", handleScroll);
+  
+  {
+    const MathUtils = {
+      map: (x, a, b, c, d) => ((x - a) * (d - c)) / (b - a) + c,
+      lerp: (a, b, n) => (1 - n) * a + n * b,
+  
+      getRandomFloat: (min, max) => (Math.random() * (max - min) + min).toFixed(2)
+    };
+  
+    const body = document.body;
+  
+    let winsize;
+    const calcWinsize = () =>
+      (winsize = { width: window.innerWidth, height: window.innerHeight });
+    calcWinsize();
+  
+    window.addEventListener("resize", calcWinsize);
+  
+    let docScroll;
+    let lastScroll;
+    let scrollingSpeed = 0;
+  
+    const getPageYScroll = () =>
+      (docScroll = window.pageYOffset || document.documentElement.scrollTop);
+    window.addEventListener("scroll", getPageYScroll);
+  
+    class Item {
+      constructor(el) {
+        // the .item element
+        this.DOM = { el: el };
+        this.DOM.image = this.DOM.el.querySelector(".content__item-img");
+        this.DOM.imageWrapper = this.DOM.image.parentNode;
+        // 3d stuff
+        this.DOM.el.style.perspective = "1000px";
+        this.DOM.imageWrapper.style.transformOrigin = "50% 100%";
+        this.ry = MathUtils.getRandomFloat(-0.5, 0.5);
+        this.rz = MathUtils.getRandomFloat(-0.5, 0.5);
+        this.DOM.title = this.DOM.el.querySelector(".content__item-title");
+        this.DOM.title.style.transform = "translate3d(0,0,200px)";
+        this.renderedStyles = {
+          // here we define which property will change as we scroll the page and the item is inside the viewport
+          // in this case we will be:
+          // - translating the inner image
+          // - rotating the item
+          // we interpolate between the previous and current value to achieve a smooth effect
+          innerTranslationY: {
+            previous: 0,
+            current: 0,
+            ease: 0.1,
+  
+            setValue: () => {
+              // the maximum value to translate the image is set in a CSS variable (--overflow)
+              const toValue = parseInt(
+                getComputedStyle(this.DOM.image).getPropertyValue("--overflow"),
+                10
+              );
+              const fromValue = -1 * toValue;
+              return Math.max(
+                Math.min(
+                  MathUtils.map(
+                    this.props.top - docScroll,
+                    winsize.height,
+                    -1 * this.props.height,
+                    fromValue,
+                    toValue
+                  ),
+                  toValue
+                ),
+                fromValue
+              );
+            }
+          },
+          itemRotation: {
+            previous: 0,
+            current: 0,
+            ease: 0.1,
+            toValue: Number(MathUtils.getRandomFloat(-70, -50)),
+  
+            setValue: () => {
+              const toValue = this.renderedStyles.itemRotation.toValue;
+              const fromValue = toValue * -1;
+              const val = MathUtils.map(
+                this.props.top - docScroll,
+                winsize.height * 1.5,
+                -1 * this.props.height,
+                fromValue,
+                toValue
+              );
+              return Math.min(Math.max(val, toValue), fromValue);
+            }
+          }
+        };
+  
+        this.getSize();
+        this.update();
+  
+        this.observer = new IntersectionObserver((entries) => {
+          entries.forEach(
+            (entry) => (this.isVisible = entry.intersectionRatio > 0)
+          );
+        });
+        this.observer.observe(this.DOM.el);
+        this.initEvents();
+      }
+      update() {
+        for (const key in this.renderedStyles) {
+          this.renderedStyles[key].current = this.renderedStyles[\
+            key\
+          ].previous = this.renderedStyles[key].setValue();
+        }
+        this.layout();
+      }
+      getSize() {
+        const rect = this.DOM.el.getBoundingClientRect();
+        this.props = {
+          // item's height
+          height: rect.height,
+          // offset top relative to the document
+          top: docScroll + rect.top
+        };
+      }
+      initEvents() {
+        window.addEventListener("resize", () => this.resize());
+      }
+      resize() {
+        this.getSize();
+        this.update();
+      }
+      render() {
+        // update the current and interpolated values
+        for (const key in this.renderedStyles) {
+          this.renderedStyles[key].current = this.renderedStyles[key].setValue();
+          this.renderedStyles[key].previous = MathUtils.lerp(
+            this.renderedStyles[key].previous,
+            this.renderedStyles[key].current,
+            this.renderedStyles[key].ease
+          );
+        }
+  
+        this.layout();
+      }
+      layout() {
+        // translates the image
+        this.DOM.image.style.transform = `translate3d(0,${this.renderedStyles.innerTranslationY.previous}px,0)`;
+        // rotate the image wrapper
+        this.DOM.imageWrapper.style.transform = `rotate3d(1,${this.ry},${this.rz},${this.renderedStyles.itemRotation.previous}deg)`;
+      }
+    }
+  
+    // SmoothScroll
+    class SmoothScroll {
+      constructor() {
+        this.DOM = { main: document.querySelector("main") };
+        // the scrollable element
+        // we translate this element when scrolling (y-axis)
+        this.DOM.scrollable = this.DOM.main.querySelector("div[data-scroll]");
+        // the items on the page
+        this.items = [];
+        this.DOM.content = this.DOM.main.querySelector(".content");
+        [...this.DOM.content.querySelectorAll(".content__item")].forEach((item) =>
+          this.items.push(new Item(item))
+        );
+  
+        this.renderedStyles = {
+          translationY: {
+            previous: 0,
+            current: 0,
+            ease: 0.1,
+  
+            setValue: () => docScroll
+          }
+        };
+        // set the body's height
+        this.setSize();
+        // set the initial values
+        this.update();
+        // the <main> element's style needs to be modified
+        this.style();
+        // init/bind events
+        this.initEvents();
+        // start the render loop
+        requestAnimationFrame(() => this.render());
+      }
+      update() {
+        // sets the initial value (no interpolation) - translate the scroll value
+        for (const key in this.renderedStyles) {
+          this.renderedStyles[key].current = this.renderedStyles[\
+            key\
+          ].previous = this.renderedStyles[key].setValue();
+        }
+        // translate the scrollable element
+        this.layout();
+      }
+      layout() {
+        this.DOM.scrollable.style.transform = `translate3d(0,${
+          -1 * this.renderedStyles.translationY.previous
+        }px,0)`;
+      }
+      setSize() {
+        // set the heigh of the body in order to keep the scrollbar on the page
+        body.style.height = `${this.DOM.scrollable.scrollHeight}px`;
+      }
+      style() {
+        this.DOM.main.style.position = "fixed";
+        this.DOM.main.style.width = this.DOM.main.style.height = "100%";
+        this.DOM.main.style.top = this.DOM.main.style.left = 0;
+        this.DOM.main.style.overflow = "hidden";
+      }
+      initEvents() {
+        // on resize reset the body's height
+        window.addEventListener("resize", () => this.setSize());
+      }
+      render() {
+        // Get scrolling speed
+        // Update lastScroll
+        scrollingSpeed = Math.abs(docScroll - lastScroll);
+        lastScroll = docScroll;
+  
+        // update the current and interpolated values
+        for (const key in this.renderedStyles) {
+          this.renderedStyles[key].current = this.renderedStyles[key].setValue();
+          this.renderedStyles[key].previous = MathUtils.lerp(
+            this.renderedStyles[key].previous,
+            this.renderedStyles[key].current,
+            this.renderedStyles[key].ease
+          );
+        }
+  
+        this.layout();
+  
+        // for every item
+        for (const item of this.items) {
+          if (item.isVisible) {
+            if (item.insideViewport) {
+              item.render();
+            } else {
+              item.insideViewport = true;
+              item.update();
+            }
+          } else {
+            item.insideViewport = false;
+          }
+        }
+  
+        requestAnimationFrame(() => this.render());
+      }
+    }
+  
+    /***********************************/
+    /********** Preload stuff **********/
+  
+    // Preload images
+    const preloadImages = () => {
+      return new Promise((resolve, reject) => {
+        imagesLoaded(
+          document.querySelectorAll(".content__item-img"),
+          { background: true },
+          resolve
+        );
+      });
+    };
+  
+    preloadImages().then(() => {
+      // Remove the loader
+      document.body.classList.remove("loading");
+      // Get the scroll position and update the lastScroll variable
+      getPageYScroll();
+      lastScroll = docScroll;
+      new SmoothScroll();
+    });
+  }
+  ```
+  
+  [![](https://assets.codepen.io/3916158/internal/avatars/users/default.png?fit=crop&format=auto&height=256&version=1645310954&width=256)](https://codepen.io/DivineBlow)
+  
+  This Pen is owned by [Sebi](https://codepen.io/DivineBlow) on [CodePen](https://codepen.io/).
+  
+  
+  
+  [See more by @DivineBlow on CodePen](https://codepen.io/DivineBlow)
+  
+  ### External CSS
+  
+  1. [https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css)
+  
+  ### External JavaScript
+  
+  1. [https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js](https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js)
+  2. [https://cdn.jsdelivr.net/npm/gsap@3.0.1/dist/gsap.min.js](https://cdn.jsdelivr.net/npm/gsap@3.0.1/dist/gsap.min.js)
+  
+  **Smooth 3D Scroll-Driven Reveal**. This is a Smooth 3D Scroll-Driven Reveal. It replaces the native scroll behavior with a custom, momentum-based scrolling engine that orchestrates complex 3D transforms. Its function is to create a gallery experience where images feel weightless, tilting and translating in 3D space based on their velocity and position relative to the viewport.
+  
+  * * *
+  
+  CodePen Embed - Heart fill animation
+  
+  ```
+  <div class="container">
+    <div class="heart-wrap">
+      <div class="heart">
+        <div class="tank"></div>
+        <svg class="curve" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+          <defs>
+            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+          </defs>
+          <g>
+            <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(103, 130, 191, 0.5)" />
+            <use xlink:href="#gentle-wave" x="48" y="1" fill="rgba(103, 130, 191, 0.3)" />
+            <use xlink:href="#gentle-wave" x="48" y="2" fill="rgba(103, 130, 191, 1)" />
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <svg>
+    <clipPath id="myPath" clipPathUnits="objectBoundingBox">
+  <!--     <path d="M0.498,1 s0.243,-0.102,0.394,-0.323 S1,0.14,0.864,0.033 S0.498,0.141,0.498,0.141 S0.291,-0.08,0.124,0.031 s-0.159,0.434,-0.021,0.646 S0.498,1,0.498,1" /> -->
+      <path d="M0.373,0.967 S0.616,0.866,0.768,0.644 S0.912,0.107,0.739,0 S0.373,0.108,0.373,0.108 S0.166,-0.113,0,-0.002 S-0.159,0.432,-0.021,0.644 S0.373,0.967,0.373,0.967"></path>
+    </clipPath>
+  </svg>
+  ```
+  
+  ```
+  /*
+  Wave svg credits - https://codepen.io/goodkatz/pen/LYPGxQz
+  */
+  
+  :root {
+    --dim-x: 80px;
+    --dim-y: 70px;
+    --cruve-height: 20px;
+  }
+  
+  * {
+    border: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  .container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: white;
+  }
+  
+  #myPath {
+    path {
+      transform: translate(0.125px, 0.033px);
+    }
+  }
+  
+  .heart-wrap {
+    cursor: pointer;
+    perspective: 200px;
+    filter: drop-shadow(0px 10px 10px rgba(174, 196, 238, 0.5));
+  }
+  
+  .heart {
+    position: relative;
+    height: var(--dim-y);
+    width: var(--dim-x);
+    overflow: hidden;
+    clip-path: url(#myPath);
+    background-image: radial-gradient(#c9d8f5 60%, #afc4ee);
+  }
+  
+  .tank {
+    position: absolute;
+    bottom: 0;
+    height: 0;
+    width: var(--dim-x);
+    background-color: rgb(103, 130, 191);
+    z-index: 5;
+  }
+  
+  .curve {
+    position: absolute;
+    bottom: calc(-1 * var(--cruve-height));
+    width: var(--dim-x);
+    height: var(--cruve-height);
+  
+    use {
+      animation: move 2s cubic-bezier(.55,.5,.45,.5) infinite;
+    }
+  
+    use:nth-child(1) {
+      animation-duration: 3s;
+    }
+    use:nth-child(2) {
+      animation-duration: 4s;
+    }
+    use:nth-child(3) {
+      animation-duration: 2s;
+    }
+  }
+  
+  @keyframes move {
+    0% {
+      transform: translateX(-90px);
+    }
+    100% {
+      transform: translateX(85px);
+    }
+  }
+  ```
+  
+  ```
+  window.onload = function() {
+    let pumpLevels = [15, 20, 25, 0];
+    let tankLevels = [25, 45, 70, -20];
+    let counter = 0;
+    let isAnimating = false;
+  
+    function pumpHeart() {
+      if(isAnimating) {
+        return;
+      }
+  
+      isAnimating = true;
+      //forward
+      gsap.to('.heart', {
+        translateZ: pumpLevels[counter],
+        duration: 0.5
+      });
+  
+      gsap.to(".curve", {
+        bottom: tankLevels[counter],
+        transformOrigin: "bottom",
+        scaleY: 1,
+        duration: 0.5
+      })
+        gsap.to(".tank", {
+        height: counter === 3 ? 0 : tankLevels[counter],
+        duration: 0.5
+      })
+  
+      //reverse
+      gsap.to(".curve", {
+        delay: 0.6,
+        bottom: tankLevels[counter],
+        transformOrigin: "bottom",
+        scaleY: 0.5,
+        duration: 0.5
+      });
+  
+      gsap.to('.heart', {
+        delay: 0.6,
+        translateZ: 0,
+        duration: 0.25,
+        onComplete: function() {
+          isAnimating = false;
+        }
+      })
+  
+      if(++counter > 3) counter = 0;
+    }
+  
+    let heart = document.getElementsByClassName('heart')[0];
+    heart.addEventListener("click", pumpHeart);
+  }
+  ```
+  
+  [![](https://assets.codepen.io/2072237/internal/avatars/users/default.png?fit=crop&format=auto&height=256&version=1640356117&width=256)](https://codepen.io/saranya-mohan)
+  
+  This Pen is owned by [Saranya Mohan](https://codepen.io/saranya-mohan) on [CodePen](https://codepen.io/).
+  
+  
+  
+  [See more by @saranya-mohan on CodePen](https://codepen.io/saranya-mohan)
+  
+  ### External CSS
+  
+  This Pen doesn't use any external CSS resources.
+  
+  
+  ### External JavaScript
+  
+  1. [https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js](https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js)
+  
+  **Liquid Filling Heart Interaction**. This is a Liquid Filling Heart Interaction. It visualizes a "pumping" effect by animating a fluid level inside a heart-shaped container. Its function is to serve as a playful, interactive state indicator - like a "like" button or health bar - that responds to user clicks with a simulated hydraulic fill and a 3D perspective jolt.
+  
+  * * *
+  
+  **Immersive 3D Tilt Card Modal**. We accept flatness in web interfaces as a constraint, but it is merely a habit. This component breaks the fourth wall, transforming a static modal into a tangible, digital artifact. By coupling mouse physics with deep perspective, we create an interaction that feels less like clicking a link and more like holding a rare collectable.
+  
+  * * *
+  
+  **Isometric Floating Layers Diagram**. This Isometric Floating Layers Diagram is a visually striking React component designed to represent architectural stacks or multi-tiered systems. By combining SVG geometry with CSS animations, it creates a lightweight 3D isometric illusion. Each layer floats rhythmically, enhanced by vibrant gradients and drop shadows, making it perfect for landing pages explaining software infrastructure or service tiers.
+  
+  * * *
+  
+  **3D Parallax Card Slider**. This 3D Parallax Card Slider brings a tangible, high-fidelity feel to web galleries. It goes beyond simple sliding by implementing a physics-based tilt effect that reacts to mouse movement, giving each card weight and depth. The background adapts seamlessly to the active slide, creating an immersive atmosphere perfect for luxury travel sites or premium portfolios.
+  
+  * * *
+  
+  **Flip-Disc Mechanical Checkbox**. This Flip-Disc Mechanical Checkbox brings the satisfying, tactile physics of old-school airport information boards to the web. Instead of a simple tick, selecting an item triggers a 3D rotation of a mechanical disc, flipping it from a dark, inactive side to a glowing orange active side. This creates a high-contrast, industrial aesthetic perfect for system dashboards or retro-themed interfaces.
+  
+  * * *
+  
+  **3D Rotating iOS Time Picker**. This 3D Rotating iOS Time Picker recreates the tactile feel of native mobile controls on the web. It features three independently rotating wheels (Hours, Minutes, Meridiem) that snap into place with satisfying physics. The component leverages the cutting-edge Scroll-driven Animations API for buttery-smooth performance on supported browsers, while seamlessly falling back to GSAP for others. The 3D perspective creates a "drum" effect where numbers fade and rotate away as they leave the center view.
+  
+  * * *
+  
+  **3D Tilt Mobile Navigation**. This 3D Tilt Mobile Navigation concept adds a tactile, physical feel to mobile app menus. Unlike standard flat navigations, this component utilizes CSS perspective to "tilt" the entire menu bar towards the user's touch point, simulating a floating surface. It pairs this effect with delightful SVG icon micro-interactions and a "fly-out" card transition for the content area, creating a highly polished, app-like experience on the web.
+  
+  * * *
+  
+  This post was inspired by a curated selection on FreeFrontend. The original version is available at: [https://freefrontend.com/css-3d-transforms/](https://freefrontend.com/css-3d-transforms/)
+  
+  [![profile](https://media2.dev.to/dynamic/image/width=64,height=64,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Forganization%2Fprofile_image%2F1%2Fd908a186-5651-4a5a-9f76-15200bc6801f.jpg)\\
+  The DEV Team](https://dev.to/devteam) Promoted
+  
+  Dropdown menu
+  
+  - [What's a billboard?](https://dev.to/billboards)
+  - [Manage preferences](https://dev.to/settings/customization#sponsors)
+  
+  * * *
+  
+  - [Report billboard](https://dev.to/report-abuse?billboard=263004)
+  
+  [![Google article image](https://media2.dev.to/dynamic/image/width=775%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fkbzyxhkg7jgrmemr43df.png)](https://dev.to/gde/running-agentic-ai-at-scale-on-google-kubernetes-engine-2540?bb=263004)
+  
+  ## [Running Agentic AI at Scale on Google Kubernetes Engine](https://dev.to/gde/running-agentic-ai-at-scale-on-google-kubernetes-engine-2540?bb=263004)
+  
+  The AI industry crossed an inflection point. We stopped asking "can the model answer my question?" and started asking "can the system complete my goal?" That shift from inference to agency changes everything about how we build, deploy, and scale AI in the cloud.
+  
+  [Read more →](https://dev.to/gde/running-agentic-ai-at-scale-on-google-kubernetes-engine-2540?bb=263004)
+  
+  Read More
+  
+  
+  ![pic](https://media2.dev.to/dynamic/image/width=256,height=,fit=scale-down,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8j7kvp660rqzt99zui8e.png)
+  
+  [Create template](https://dev.to/settings/response-templates)
+  
+  Templates let you quickly answer FAQs or store snippets for re-use.
+  
+  SubmitPreview [Dismiss](https://dev.to/404.html)
+  
+  Are you sure you want to hide this comment? It will become hidden in your post, but will still be visible via the comment's [permalink](https://dev.to/csslive/elevate-your-web-ui-high-performance-css-3d-transforms-no-webgl-required-4e93#).
+  
+  
+  Hide child comments as well
+  
+  Confirm
+  
+  
+  For further actions, you may consider blocking this person and/or [reporting abuse](https://dev.to/report-abuse)
+  
+  [![profile](https://media2.dev.to/dynamic/image/width=64,height=64,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Forganization%2Fprofile_image%2F1%2Fd908a186-5651-4a5a-9f76-15200bc6801f.jpg)\\
+  The DEV Team](https://dev.to/devteam) Promoted
+  
+  Dropdown menu
+  
+  - [What's a billboard?](https://dev.to/billboards)
+  - [Manage preferences](https://dev.to/settings/customization#sponsors)
+  
+  * * *
+  
+  - [Report billboard](https://dev.to/report-abuse?billboard=263293)
+  
+  [![Midnight Hackathon image](https://media2.dev.to/dynamic/image/width=775%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fi.imgur.com%2FL0MFXec.png)](https://mlh.link/midnight-hackathon-may-2026?bb=263293)
+  
+  ## [Build and win prizes 🥇](https://mlh.link/midnight-hackathon-may-2026?bb=263293)
+  
+  This is your opportunity to build on a fully launched network designed to solve the internet's biggest privacy challenges. You’ll get hands-on experience with cutting-edge data protection tech to create applications that give users true control over their digital lives.
+  
+  [Start building →](https://mlh.link/midnight-hackathon-may-2026?bb=263293)
+  
+  DEV Education Tracks
+  
+  Dropdown menu
+  
+  - [What's a billboard?](https://dev.to/billboards)
+  - [Manage preferences](https://dev.to/settings/customization#sponsors)
+  
+  * * *
+  
+  - [Report billboard](https://dev.to/report-abuse?billboard=238629)
+  
+  x
+  
+  ### Announcing the First DEV Education Track: "Build Apps with Google AI Studio"
+  
+  The moment is here! We recently announced DEV Education Tracks, our new initiative to bring you structured learning paths directly from industry experts.
+  
+  
+  [Dive in and Learn](https://dev.to/devteam/announcing-the-first-dev-education-track-build-apps-with-google-ai-studio-ej7?bb=238629)
+  
+  DEV is bringing Education Tracks to the community. Dismiss if you're not interested. ❤️
+  
+  
+  ![DEV Community](https://media2.dev.to/dynamic/image/width=190,height=,fit=scale-down,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8j7kvp660rqzt99zui8e.png)
+  
+  We're a place where coders share, stay up-to-date and grow their careers.
+  
+  
+  [Log in](https://dev.to/enter?signup_subforem=1) [Create account](https://dev.to/enter?signup_subforem=1&state=new-user)
+  
+  ![](https://assets.dev.to/assets/sparkle-heart-5f9bee3767e18deb1bb725290cb151c25234768a0e9a2bd39370c382d02920cf.svg)![](https://assets.dev.to/assets/multi-unicorn-b44d6f8c23cdd00964192bedc38af3e82463978aa611b4365bd33a0f1f4f3e97.svg)![](https://assets.dev.to/assets/exploding-head-daceb38d627e6ae9b730f36a1e390fca556a4289d5a41abb2c35068ad3e2c4b5.svg)![](https://assets.dev.to/assets/raised-hands-74b2099fd66a39f2d7eed9305ee0f4553df0eb7b4f11b01b6b1b499973048fe5.svg)![](https://assets.dev.to/assets/fire-f60e7a582391810302117f987b22a8ef04a2fe0df7e3258a5f49332df1cec71e.svg)
+  --- End Content ---
+
+3D Hero Section Template in Framer
+  URL: https://framer.university/resources/3d-hero-section-template-in-framer
+  This is a 3D hero section template in Framer that helps you explore responsive structure, code components, video integration, element animations ...
+
+  --- Content ---
+  [Resources](https://framer.university/resources)
+  
+  3D Hero Section Template in Framer
+  
+  [View demo](https://earth-2026.learnframer.site/)
+  
+  [Remix project](https://framer.link/JvDDb3x)
+  
+  [Remix project](https://framer.link/JvDDb3x)
+  
+  ![Nandi Muzsik](https://framerusercontent.com/images/dO1bkWusR06uEpnb8mrFFHrbY.jpg?width=500&height=500)
+  
+  How can I improve Framer Uni?
+  
+  Let me know if there’s a missing feature or something that could be improved.
+  
+  Name
+  
+  Email
+  
+  Your feedback
+  
+  Send a message
+  
+  Thanks for your
+  
+  feedback!
+  
+  Share feedback
+  
+  How to Make $10K+ with Framer in 60 days
+  
+  [Get the course](https://go.frameruniversity.com/)
+  
+  January 19, 2026
+  
+  Website
+  
+  # 3D Hero Section Template in Framer
+  
+  This is a 3D hero section template in [Framer](https://framer.university/free-account) that helps you explore responsive structure, code components, video integration, element animations, and reusable components. Remix the file to dig into how the entire template is built and how the pieces work together.
+  
+  [![image of Nandi Muzsik](https://framerusercontent.com/images/dO1bkWusR06uEpnb8mrFFHrbY.jpg)](https://x.com/nandimuzsik)
+  
+  [![image of Prianca S.](https://framerusercontent.com/images/ka1hYjSqLAdbEd72D4ZEzJSkvk.jpeg?width=800&height=800)](https://x.com/heyprianca)
+  
+  Created by
+  
+  [Nandi](https://x.com/nandimuzsik)
+  
+  and
+  
+  [Prianca](https://x.com/heyprianca)
+  
+  ![Landing page with new way to build headline and globe](https://framerusercontent.com/images/gWBaJwkYefmJ9YfCjLL8VepBmc0.png?width=2400&height=1350)
+  
+  ## [About the resource](https://framer.university/resources/3d-hero-section-template-in-framer\#about-the-resource)
+  
+  This template shows how I put together a full 3D hero section template in Framer using a mix of code and no-code components, focusing on structure, animation, and reusability. To create this website, I set up a responsive layout and included everything you need to follow along, including the video, background graphics, icons, logos, and a clear step-by-step roadmap so you can build the entire site from scratch.
+  
+  In the hero section, I start with a navigation component that appears on load, followed by a video wrap component that holds the video, hover variants, and a soft appear effect. I then add reusable button components and an [Interactive Animated 3D globe](https://framer.university/resources/interactive-animated-3d-globe-for-framer) to bring in depth and movement.
+  
+  Below that, I stack the logos and animate them using a ticket-style effect. In the next section, I create the Connect text hover repeat effect by overlapping multiple text layers and applying the [parallax floating component](https://framer.university/resources/parallax-floating-effect-in-framer) with custom settings for each layer. I use an [animated pattern background component](https://framer.university/resources/animated-pattern-background-in-framer) here, followed by a row of simple card components.
+  
+  I wrap everything up with a footer component that uses link components with hover variants, so you can clearly see how all the pieces come together into a complete website.
+  
+  ![Design interface with layers panel and hero section layout](https://framerusercontent.com/images/gbZgMAkfzMtY2smLFdWOVdO8UN8.png?width=2400&height=1350)
+  
+  The responsive structure of the website with multiple layers.
+  
+  ## Learn how can one go from 0 to $11.5k with Framer in 60 days.
+  
+  From no followers, no portfolio, no reputation, to making thousands with a profitable Framer business.
+  
+  [Get access now](https://go.frameruniversity.com/)
+  
+  ![Nandi portrait's background](https://framerusercontent.com/images/a6NUSLAl5iirQLwHDNXD3dtOH6s.jpg?width=1013&height=570)
+  
+  ## More resources
+  
+  [View all](https://framer.university/resources)
+  
+  - Quick preview
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  ![Playful Scribbles Pack for Framer](https://framerusercontent.com/images/6KQShZjRGFBzlSVznJ7DS9QRxo.jpg?width=2400&height=1350)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  Playful Scribbles Pack for Framer
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  Website
+  
+  - Quick preview
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  ![Colorful 3D balloon letters spelling FORM for creative agency website](https://framerusercontent.com/images/UXzwxGDdyey7cj9YSNWspKkLfFE.jpg?width=2400&height=1350)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  Hero Section With Framer and ChatGPT 4o
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  Website
+  --- End Content ---
+
+85 CSS 3D Transform Examples - FreeFrontend
+  URL: https://freefrontend.com/css-3d-transforms/
+  Explore the best CSS 3D transform examples including flip cards, hover effects, rotating cubes, sliders, and interactive UI animations for ...
+
+  --- Content ---
+  Clear
+  
+  ![Rotating 3D cube morphing into a rhombic dodecahedron with purple and orange gradient faces using CSS clip-path](https://freefrontend.com/img/2026/2026-05-05-3d-morphing-geometric-polyhedron_hu10305312810088416732.webp)
+  
+  ### 3D Morphing Geometric Polyhedron
+  
+  [demo & code](https://freefrontend.com/code/3d-morphing-geometric-polyhedron-2026-05-05/)
+  
+  This is a **3D Morphing Geometric Polyhedron**. It seamlessly transitions a six-sided cube into a twelve-sided rhombic dodecahedron through continuous spatial interpolation. Its function is to serve as a highly complex visual anchor or loading state, demonstrating advanced volumetric transformations without relying on WebGL or external physics engines.
+  
+  Technologies:
+  
+  PugSCSS
+  
+  Difficulty:Advanced
+  
+  Browser Support (as of May 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 85+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 85+![Safari](https://api.iconify.design/logos:safari.svg)Safari 16.4+
+  
+  Features:
+  
+  Shape MorphingCSS @property3D TransformsProcedural Geometry
+  
+  Code by:![Ana Tudor](https://github.com/thebabydino.png)[Ana Tudor](https://codepen.io/thebabydino)
+  
+  License:MIT
+  
+  ![3D rotating dial counter with layered extruded typography and dynamic color hue shift using CSS](https://freefrontend.com/img/2026/2026-04-12-3d-rotating-value-dial_hu14474376803871635980.webp)
+  
+  ### 3D Rotating Value Dial
+  
+  [demo & code](https://freefrontend.com/code/3d-rotating-value-dial-2026-04-12/)
+  
+  This is a **3D Rotating Value Dial**. It visualizes continuous data through a spatial, cylindrical interface. Its function is to replace flat range indicators with a tactile, volumetric readout that dynamically shifts color hue based on value.
+  
+  Technologies:
+  
+  HTMLSCSSJavaScript
+  
+  Difficulty:Advanced
+  
+  Browser Support (as of Apr 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 111+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 111+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 108+![Safari](https://api.iconify.design/logos:safari.svg)Safari 15.4+
+  
+  Features:
+  
+  Trigonometric LayoutLayered TextDynamic Color
+  
+  Code by:![Amit Sheen](https://github.com/amit_sheen.png)[Amit Sheen](https://codepen.io/amit_sheen)
+  
+  License:MIT
+  
+  ![Custom range slider component with an orange diamond tooltip that physically tilts based on drag speed using JavaScript lerp](https://freefrontend.com/img/2026/2026-03-30-tilting-diamond-range-slider-effect_hu16618959256812453852.webp)
+  
+  ### Tilting Diamond Range Slider Effect
+  
+  [demo & code](https://freefrontend.com/code/tilting-diamond-range-slider-effect-2026-03-30/)
+  
+  This is a **Tilting Diamond Range Slider Effect**. It tracks user input through a hidden native range element, overlaying a custom graphical interface. Its primary function is to inject physical inertia into a standard digital control. The tooltip mimics mass, lagging behind rapid movements and tilting in the direction of travel.
+  
+  Technologies:
+  
+  HTMLSCSSBabel
+  
+  Difficulty:Advanced
+  
+  Browser Support (as of Mar 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 80+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 80+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 75+![Safari](https://api.iconify.design/logos:safari.svg)Safari 13+
+  
+  Features:
+  
+  Lerp AnimationKinetic TiltNative Input
+  
+  Code by:![@keyframers](https://github.com/keyframers.png)[@keyframers](https://codepen.io/team/keyframers)
+  
+  License:MIT
+  
+  ![Minimalist 3D book mockup with interactive flipping pages displaying high-resolution photography on a textured background.](https://freefrontend.com/img/2026/2026-03-18-interactive-3d-flip-book-gallery_hu1709791636995279619.webp)
+  
+  ### Interactive 3D Flip Book Gallery
+  
+  [demo & code](https://freefrontend.com/code/interactive-3d-flip-book-gallery-2026-03-18/)
+  
+  This is an **Interactive 3D Flip Book Gallery**. It simulates a physical book structure where each element acts as a double-sided page. Its function is to showcase images through spatial depth, replacing standard flat carousels with a tactile flipping mechanic.
+  
+  Technologies:
+  
+  HTMLCSSJavaScript
+  
+  Difficulty:Intermediate
+  
+  Browser Support (as of Mar 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 85+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 85+![Safari](https://api.iconify.design/logos:safari.svg)Safari 16.4+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 128+
+  
+  Features:
+  
+  3D PerspectivePage TurningStacked LayoutAuto-Closure
+  
+  Code by:![Daniel Muñoz](https://github.com/daniel-mu-oz.png)[Daniel Muñoz](https://codepen.io/daniel-mu-oz)
+  
+  License:MIT
+  
+  ![Dark themed 3D coverflow image gallery with floor reflections and interactive zoom effect](https://freefrontend.com/img/2026/2026-02-27-interactive-3d-coverflow-gallery_hu5473671954478350819.webp)
+  
+  ### Interactive 3D Coverflow Gallery
+  
+  [demo & code](https://freefrontend.com/code/interactive-3d-coverflow-gallery-2026-02-27/)
+  
+  This is an Interactive 3D Coverflow Gallery. It organizes visual media into a spatial environment. Its function is to replace flat grids with depth-based navigation, using mathematical inverse transformations to zoom into selected items seamlessly.
+  
+  Technologies:
+  
+  HTMLSCSSJavaScript
+  
+  Difficulty:Intermediate
+  
+  Browser Support (as of Feb 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 60+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 79+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 55+![Safari](https://api.iconify.design/logos:safari.svg)Safari 11+
+  
+  Features:
+  
+  Inverse Transform ZoomBox ReflectionDynamic DOM Generation
+  
+  Code by:![Julien Sulpis](https://github.com/jsulpis.png)[Julien Sulpis](https://codepen.io/jsulpis)
+  
+  License:MIT
+  
+  ![Web page with a grid of images showcasing a smooth 3D tilt and translation effect as the user scrolls down, with a scroll-to-top button visible](https://freefrontend.com/img/2026/2026-02-26-smooth-3d-scroll-driven-reveal_hu930272759556101817.webp)
+  
+  ### Smooth 3D Scroll-Driven Reveal
+  
+  [demo & code](https://freefrontend.com/code/smooth-3d-scroll-driven-reveal-2026-02-26/)
+  
+  This is a Smooth 3D Scroll-Driven Reveal. It replaces the native scroll behavior with a custom, momentum-based scrolling engine that orchestrates complex 3D transforms. Its function is to create a gallery experience where images feel weightless, tilting and translating in 3D space based on their velocity and position relative to the viewport.
+  
+  Technologies:
+  
+  JavaScriptHTMLCSS
+  
+  Difficulty:Advanced
+  
+  Browser Support (as of Feb 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 60+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 79+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 55+![Safari](https://api.iconify.design/logos:safari.svg)Safari 11.1+
+  
+  Features:
+  
+  3D TransformsSmooth ScrollIntersection ObserverParallax
+  
+  Code by:![Sebi](https://github.com/DivineBlow.png)[Sebi](https://codepen.io/DivineBlow)
+  
+  License:MIT
+  
+  ![Heart shape filling with blue liquid waves on click, using SVG clip-path and GSAP animation](https://freefrontend.com/img/2026/2026-02-25-liquid-filling-heart-interaction_hu12728378493153792671.webp)
+  
+  ### Liquid Filling Heart Interaction
+  
+  [demo & code](https://freefrontend.com/code/liquid-filling-heart-interaction-2026-02-25/)
+  
+  This is a Liquid Filling Heart Interaction. It visualizes a “pumping” effect by animating a fluid level inside a heart-shaped container. Its function is to serve as a playful, interactive state indicator — like a “like” button or health bar — that responds to user clicks with a simulated hydraulic fill and a 3D perspective jolt.
+  
+  Technologies:
+  
+  HTMLSCSSJavaScript
+  
+  Difficulty:Intermediate
+  
+  Browser Support (as of Feb 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 80+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 80+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 75+![Safari](https://api.iconify.design/logos:safari.svg)Safari 13+
+  
+  Features:
+  
+  Liquid SimulationSVG Masking3D TransformsGSAP Animation
+  
+  Code by:![Saranya Mohan](https://github.com/saranya-mohan.png)[Saranya Mohan](https://codepen.io/saranya-mohan)
+  
+  License:MIT
+  
+  ![Digital trading card with 3D thickness and hover tilt effect featuring SVG character art against a clean background](https://freefrontend.com/img/2026/2026-02-13-immersive-3d-tilt-card-modal_hu2309756265405322502.webp)
+  
+  ### Immersive 3D Tilt Card Modal
+  
+  [demo & code](https://freefrontend.com/code/immersive-3d-tilt-card-modal-2026-02-13/)
+  
+  We accept flatness in web interfaces as a constraint, but it is merely a habit. This component breaks the fourth wall, transforming a static modal into a tangible, digital artifact. By coupling mouse physics with deep perspective, we create an interaction that feels less like clicking a link and more like holding a rare collectable.
+  
+  Technologies:
+  
+  HTMLSCSSJavaScript
+  
+  Difficulty:Advanced
+  
+  Browser Support (as of Feb 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 80+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 80+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 75+![Safari](https://api.iconify.design/logos:safari.svg)Safari 13+
+  
+  Features:
+  
+  3D ParallaxMouse TrackingDynamic ContentPerformance Optimized
+  
+  Code by:![Ryan LaBar](https://github.com/ryan_labar.png)[Ryan LaBar](https://codepen.io/ryan_labar)
+  
+  License:MIT
+  
+  ![Isometric 3D plates floating in a stack, styled with blue and pink gradients and labeled text, representing a layered architecture](https://freefrontend.com/img/2026/2026-02-13-isometric-floating-layers-diagram_hu765600420454621532.webp)
+  
+  ### Isometric Floating Layers Diagram
+  
+  [demo & code](https://freefrontend.com/code/isometric-floating-layers-diagram-2026-02-13/)
+  
+  This **Isometric Floating Layers Diagram** is a visually striking React component designed to represent architectural stacks or multi-tiered systems. By combining SVG geometry with CSS animations, it creates a lightweight 3D isometric illusion. Each layer floats rhythmically, enhanced by vibrant gradients and drop shadows, making it perfect for landing pages explaining software infrastructure or service tiers.
+  
+  Technologies:
+  
+  SCSSBabel
+  
+  Difficulty:Intermediate
+  
+  Browser Support (as of Feb 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 50+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 79+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 50+![Safari](https://api.iconify.design/logos:safari.svg)Safari 10+
+  
+  Features:
+  
+  Isometric PerspectiveFloating AnimationDynamic GradientsScalable Vector
+  
+  Code by:![Yoav Kadosh](https://github.com/ykadosh.png)[Yoav Kadosh](https://codepen.io/ykadosh)
+  
+  License:MIT
+  
+  ![A sleek travel slider showing a 3D tilted card of Scotland's Highlands, with blurred background and floating typography](https://freefrontend.com/img/2026/2026-02-11-3d-parallax-card-slider_hu17924661891608205013.webp)
+  
+  ### 3D Parallax Card Slider
+  
+  [demo & code](https://freefrontend.com/code/3d-parallax-card-slider-2026-02-11/)
+  
+  This **3D Parallax Card Slider** brings a tangible, high-fidelity feel to web galleries. It goes beyond simple sliding by implementing a physics-based tilt effect that reacts to mouse movement, giving each card weight and depth. The background adapts seamlessly to the active slide, creating an immersive atmosphere perfect for luxury travel sites or premium portfolios.
+  
+  Technologies:
+  
+  HTMLCSSJavaScript
+  
+  Difficulty:Advanced
+  
+  Browser Support (as of Feb 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 60+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 79+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 55+![Safari](https://api.iconify.design/logos:safari.svg)Safari 11+
+  
+  Features:
+  
+  3D Tilt EffectPhysics InterpolationState ManagementImage Preloader
+  
+  Code by:![Sikriti Dakua](https://github.com/dev_loop.png)[Sikriti Dakua](https://codepen.io/dev_loop)
+  
+  License:MIT
+  
+  ![A dark-themed list of system diagnostics (Memory Test, Disk Integrity). The checkboxes are 3D mechanical discs that flip from dark grey to glowing orange when checked.](https://freefrontend.com/img/2026/2026-02-06-flip-disc-mechanical-checkbox_hu15075453035862689716.webp)
+  
+  ### Flip-Disc Mechanical Checkbox
+  
+  [demo & code](https://freefrontend.com/code/flip-disc-mechanical-checkbox-2026-02-06/)
+  
+  This **Flip-Disc Mechanical Checkbox** brings the satisfying, tactile physics of old-school airport information boards to the web. Instead of a simple tick, selecting an item triggers a 3D rotation of a mechanical disc, flipping it from a dark, inactive side to a glowing orange active side. This creates a high-contrast, industrial aesthetic perfect for system dashboards or retro-themed interfaces.
+  
+  Technologies:
+  
+  HTMLCSS
+  
+  Difficulty:Intermediate
+  
+  Browser Support (as of Feb 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 36+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 12+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 16+![Safari](https://api.iconify.design/logos:safari.svg)Safari 9+
+  
+  Features:
+  
+  3D TransformsFlip AnimationCheckbox HackTactile UI
+  
+  Code by:![chase2k25](https://github.com/chase2k25.png)[chase2k25](https://uiverse.io/profile/chase2k25)
+  
+  License:MIT
+  
+  ![A realistic 3D time picker interface with scrolling wheels for hours, minutes, and AM/PM, styled in dark mode with a 3D perspective skew.](https://freefrontend.com/img/2026/2026-02-05-3d-rotating-ios-time-picker_hu16514413191947291412.webp)
+  
+  ### 3D Rotating iOS Time Picker
+  
+  [demo & code](https://freefrontend.com/code/3d-rotating-ios-time-picker-2026-02-05/)
+  
+  This **3D Rotating iOS Time Picker** recreates the tactile feel of native mobile controls on the web. It features three independently rotating wheels (Hours, Minutes, Meridiem) that snap into place with satisfying physics. The component leverages the cutting-edge **Scroll-driven Animations API** for buttery-smooth performance on supported browsers, while seamlessly falling back to GSAP for others. The 3D perspective creates a “drum” effect where numbers fade and rotate away as they leave the center view.
+  
+  Technologies:
+  
+  HTMLCSSBabel
+  
+  Difficulty:Advanced
+  
+  Browser Support (as of Feb 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 115+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 115+![Safari](https://api.iconify.design/logos:safari.svg)Safari 26+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox (support via GSAP Fallback)
+  
+  Features:
+  
+  3D TransformInfinite ScrollingScroll SnappingDrag Interaction
+  
+  Code by:![Jhey](https://github.com/jh3y.png)[Jhey](https://codepen.io/jh3y)
+  
+  License:MIT
+  
+  ![Mobile app interface with a bottom navigation bar that tilts in 3D space when clicked, featuring animated SVG icons.](https://freefrontend.com/img/2026/2026-02-02-3d-tilt-mobile-navigation_hu7000543358274355000.webp)
+  
+  ### 3D Tilt Mobile Navigation
+  
+  [demo & code](https://freefrontend.com/code/3d-tilt-mobile-navigation-2026-02-02/)
+  
+  This **3D Tilt Mobile Navigation** concept adds a tactile, physical feel to mobile app menus. Unlike standard flat navigations, this component utilizes CSS `perspective` to “tilt” the entire menu bar towards the user’s touch point, simulating a floating surface. It pairs this effect with delightful SVG icon micro-interactions and a “fly-out” card transition for the content area, creating a highly polished, app-like experience on the web.
+  
+  Technologies:
+  
+  HTMLSCSSJavaScript
+  
+  Difficulty:Intermediate
+  
+  Browser Support (as of Feb 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 86+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 86+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 85+![Safari](https://api.iconify.design/logos:safari.svg)Safari 15.4+
+  
+  Features:
+  
+  3D PerspectiveSVG MorphingMicro-interactionsReflow Triggering
+  
+  Code by:![Jon Kantner](https://github.com/jkantner.png)[Jon Kantner](https://codepen.io/jkantner)
+  
+  License:MIT
+  
+  ![Dark themed card component displaying 'DevOps' text, tilting in 3D space with a technology-themed background image shifting in perspective.](https://freefrontend.com/img/2026/2026-01-28-3d-parallax-hover-card_hu2521454878284327556.webp)
+  
+  ### 3D Parallax Hover Card
+  
+  [demo & code](https://freefrontend.com/code/3d-parallax-hover-card-2026-01-28/)
+  
+  This **3D Parallax Hover Card** creates a premium, tactile feel by mimicking physical depth on a flat screen. As the user moves their cursor over the card, it tilts along the X and Y axes to face the mouse, while the background image shifts in the opposite direction. This compound movement creates a convincing “window” effect, making the content appear to float above the background.
+  
+  Technologies:
+  
+  HTMLSCSSJavaScript
+  
+  Difficulty:Intermediate
+  
+  Browser Support (as of Jan 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 80+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 80+![Safari](https://api.iconify.design/logos:safari.svg)Safari 13+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 75+
+  
+  Features:
+  
+  Mouse Tracking3D TiltParallax BackgroundInteractive Hover
+  
+  Code by:![Christopher Lohr](https://github.com/cmlohr.png)[Christopher Lohr](https://codepen.io/cmlohr)
+  
+  License:MIT
+  
+  ![A 3D cube displaying photographs on its faces, with the side faces appearing darker due to a simulated lighting effect.](https://freefrontend.com/img/2026/2026-01-27-draggable-3d-cube-with-dynamic-lighting_hu17741113235983623170.webp)
+  
+  ### Draggable 3D Cube with Dynamic Lighting
+  
+  [demo & code](https://freefrontend.com/code/draggable-3d-cube-with-dynamic-lighting-2026-01-27/)
+  
+  This **Draggable 3D Cube** goes beyond standard CSS 3D transforms by implementing a custom “lighting engine” using JavaScript. As the user drags to rotate the carousel, the opacity of each face is dynamically calculated based on its angle relative to the viewport. This creates a realistic shading effect - faces facing the viewer are bright and fully opaque, while those turning away fade into the background, enhancing the perception of depth without using WebGL.
+  
+  Technologies:
+  
+  HTMLCSSJavaScript
+  
+  Difficulty:Intermediate
+  
+  Browser Support (as of Jan 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 90+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 90+![Safari](https://api.iconify.design/logos:safari.svg)Safari 14+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 88+
+  
+  Features:
+  
+  Simulated Lighting3D TransformsInertia DraggingProcedural Geometry
+  
+  Code by:![Tom Miller](https://github.com/creativeocean.png)[Tom Miller](https://codepen.io/creativeocean)
+  
+  License:MIT
+  
+  ![A circular arrangement of landscape photographs floating in 3D space on a black background, with a vignette fading the edges.](https://freefrontend.com/img/2026/2026-01-27-draggable-3d-parallax-image-ring_hu6420450447935241448.webp)
+  
+  ### Draggable 3D Parallax Image Ring
+  
+  [demo & code](https://freefrontend.com/code/draggable-3d-parallax-image-ring-2026-01-27/)
+  
+  This **Draggable 3D Parallax Image Ring** creates a high-end, immersive gallery experience often associated with WebGL, but built entirely with DOM elements and GSAP. It arranges images in a 3D circle that users can spin with a swipe or mouse drag. The standout feature is the calculated **parallax effect**: as the ring rotates, the background position of each image shifts in the opposite direction, creating a convincing illusion of depth and window-like transparency.
+  
+  Technologies:
+  
+  HTMLCSSJavaScript
+  
+  Difficulty:Advanced
+  
+  Browser Support (as of Jan 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 90+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 90+![Safari](https://api.iconify.design/logos:safari.svg)Safari 14+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 88+
+  
+  Features:
+  
+  3D CSS TransformsGSAP DraggableParallax BackgroundsInfinite Looping
+  
+  Code by:![Tom Miller](https://github.com/creativeocean.png)[Tom Miller](https://codepen.io/creativeocean)
+  
+  License:MIT
+  
+  ![A 3D cube floating in a dark space, with different scenic photographs mapped to each of its six faces, rotated slightly to show depth.](https://freefrontend.com/img/2026/2026-01-27-interactive-3d-photo-cube_hu14731576667776290295.webp)
+  
+  ### Interactive 3D Photo Cube
+  
+  [demo & code](https://freefrontend.com/code/interactive-3d-photo-cube-2026-01-27/)
+  
+  This **Interactive 3D Photo Cube** creates a spatial navigation experience where a user explores six images mapped onto a cube by moving their cursor. Unlike standard sliders, it utilizes CSS 3D transforms orchestrated by GSAP to create a seamless, physics-like rotation. The snippet also features a “window-pane” parallax effect where the background images shift slightly inside their frames, adding an extra layer of depth.
+  
+  Technologies:
+  
+  HTMLCSSJavaScript
+  
+  Difficulty:Intermediate
+  
+  Browser Support (as of Jan 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 90+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 90+![Safari](https://api.iconify.design/logos:safari.svg)Safari 14+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 88+
+  
+  Features:
+  
+  Mouse Tracking3D TransformsParallax EffectProcedural Generation
+  
+  Code by:![Tom Miller](https://github.com/creativeocean.png)[Tom Miller](https://codepen.io/creativeocean)
+  
+  License:MIT
+  
+  ![A circular 3D carousel of rounded images floating in a dark void, following a complex mathematical curve driven by pure CSS.](https://freefrontend.com/img/2026/2026-01-23-trigonometric-3d-orbit-gallery_hu14803897175032388367.webp)
+  
+  ### Trigonometric 3D Orbit Gallery
+  
+  [demo & code](https://freefrontend.com/code/trigonometric-3d-orbit-gallery-2026-01-23/)
+  
+  This **Trigonometric 3D Orbit Gallery** is a stunning example of “Code Art,” demonstrating the raw power of modern CSS mathematics. Instead of relying on rigid keyframes for positioning, it uses parametric equations to place and animate 32 images along a complex, fluid 3D curve in real-time, creating a perpetual motion machine effect purely with stylesheets.
+  
+  Technologies:
+  
+  PugSCSS
+  
+  Difficulty:Advanced
+  
+  Browser Support (as of Jan 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 111+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 111+![Safari](https://api.iconify.design/logos:safari.svg)Safari 16.4+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 113+
+  
+  Features:
+  
+  CSS TrigonometryHoudini API (@property)3D TransformsParametric Animation
+  
+  Code by:![Ana Tudor](https://github.com/thebabydino.png)[Ana Tudor](https://codepen.io/thebabydino)
+  
+  License:MIT
+  
+  ![3D stacked white user profile cards with depth blur and perspective transform on hover against a vibrant purple gradient background](https://freefrontend.com/img/2026/2026-01-21-3d-stacking-card-list-effect_hu2731900379257191777.webp)
+  
+  ### 3D Stacking Card List Effect
+  
+  [demo & code](https://freefrontend.com/code/3d-stacking-card-list-effect-2026-01-21/)
+  
+  This **3D Stacking Card List Effect** transforms a standard vertical list into an immersive, layered user interface. By leveraging CSS 3D transforms and focal blur filters, it simulates a physical deck of cards where background items appear distant and out of focus, settling into a clear layout only upon interaction.
+  
+  Technologies:
+  
+  HTMLCSS
+  
+  Difficulty:Intermediate
+  
+  Browser Support (as of Jan 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 84+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 84+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 63+![Safari](https://api.iconify.design/logos:safari.svg)Safari 14.1+
+  
+  Features:
+  
+  3D StackingFocal BlurStaggered HoverPerspective UI
+  
+  Code by:![Ethan](https://github.com/pleasedonotdisturb.png)[Ethan](https://codepen.io/pleasedonotdisturb)
+  
+  License:MIT
+  
+  ![Dark themed 3D labyrinth view from above with a glowing ball and neon-colored walls tilting based on keyboard input](https://freefrontend.com/img/2026/2026-01-18-3d-tilt-maze-game_hu1955662715573844115.webp)
+  
+  ### 3D Tilt Maze Game
+  
+  [demo & code](https://freefrontend.com/code/3d-tilt-maze-game-2026-01-18/)
+  
+  This **3D Tilt Maze Game** recreates the classic wooden labyrinth toy using web technologies. By combining CSS `perspective` with JavaScript keyboard events, it simulates a physical board that tilts to roll a ball. The game includes a rudimentary physics engine for ball movement and wall collision, complete with multiple levels generated from array maps.
+  
+  Technologies:
+  
+  HTMLCSSJavaScript
+  
+  Difficulty:Intermediate
+  
+  Browser Support (as of Jan 2026):
+  
+  ![Chrome](https://api.iconify.design/logos:chrome.svg)Chrome 36+![Edge](https://api.iconify.design/logos:microsoft-edge.svg)Edge 12+![Firefox](https://api.iconify.design/logos:firefox.svg)Firefox 16+![Safari](https://api.iconify.design/logos:safari.svg)Safari 9+
+  
+  Features:
+  
+  3D TransformsCollision DetectionKeyboard ControlsDynamic Levels
+  
+  Code by:![Kit Jenson](https://github.com/kitjenson.png)[Kit Jenson](https://codepen.io/kitjenson)
+  
+  License:MIT
+  
+  ![A scenic forest landscape illustration that tilts and rotates in 3D space with mouse movement.](https://freefrontend.com/img/2026/2026-01-02-3d-landscape_hu15978691199332445595.webp)
+  
+  ### 3D Landscape
+  
+  demo & code
+  
+  A scenic forest landscape with a house that smoothly tilts and rotates following the mouse movement, revealing the scene’s depth through a parallax effect.
+  
+  x close
+  
+  ![An interactive Advent calendar with 25 cards that flip to reveal quotes.](https://freefrontend.com/img/2026/2026-01-02-advent-calendar-with-quotes_hu142307440290394313.webp)
+  
+  ### Advent Calendar with Quotes
+  
+  demo & code
+  
+  An interactive Advent Calendar featuring 25 flip-cards generated via JavaScript.
+  
+  x close
+  
+  ![A psychedelic 3D VIP card with animated moiré patterns and rotating text.](https://freefrontend.com/img/2026/2026-01-02-moire-psy-dance-party-vip-access-card-css-only_hu653257566251370119.webp)
+  
+  ### Moiré Psy-Dance Party VIP Access Card (CSS Only)
+  
+  demo & code
+  
+  A psychedelic 3D VIP card animation powered by pure CSS.
+  
+  x close
+  
+  ![A fully functional Connect 4 game board implemented entirely in CSS.](https://freefrontend.com/img/2026/2026-01-01-can-has-connect-4_hu17989658362820286825.webp)
+  
+  ### Can :has() Connect 4?
+  
+  demo & code
+  
+  A fully functional Connect 4 game implemented entirely in CSS, utilizing the :has() selector to manage complex game state, enforce turn-taking via CSS counters, and detect win conditions (vertical, horizontal, diagonal).
+  
+  x close
+  
+  ![An isometric text cube created with pure CSS, showing text on its different faces and rotating in 3D space.](https://freefrontend.com/img/2026/2026-01-01-css-cube_hu8718446470840185169.webp)
+  
+  ### CSS Cube
+  
+  demo & code
+  
+  A pure CSS isometric text cube constructed via 3D transforms and trigonometry-based SCSS calculations. It features dynamic styling controlled by `:has()` and CSS variables, allowing for runtime theme switching (tritone/monotone/dim) and dark mode adaptation without JavaScript logic.
+  
+  x close
+  
+  ![A showcase of various kinetic typography effects, such as letters flipping and scrambling.](https://freefrontend.com/img/2026/2026-01-01-gsap-animate-text_hu4321494413974522538.webp)
+  
+  ### GSAP Animate Text
+  
+  demo & code
+  
+  A showcase of 7 kinetic typography effects powered by GSAP.
+  
+  x close
+  
+  ![Blocky Digital Clock](https://freefrontend.com/img/2025/2025-12-25-blocky-digital-clock_hu6132341575899629978.webp)
+  
+  ### Blocky Digital Clock
+  
+  demo & code
+  
+  A voxel-style 3D clock where digits morph physically via CSS transforms driven by sibling selectors, creating a floating, mechanical restructuring effect.
+  
+  x close
+  
+  ![Original vs. Negative Card (Hover and Drag)](https://freefrontend.com/img/2025/2025-12-25-original-vs-negative-card-hover-and-drag_hu2258786871920397640.webp)
+  
+  ### Original vs. Negative Card (Hover and Drag)
+  
+  demo & code
+  
+  A tactile 3D comparison card where the slider reveals image states via blend modes, with smart label occlusion logic.
+  
+  x close
+  
+  ![Uninvert Kitty](https://freefrontend.com/img/2025/2025-12-25-uninvert-kitty_hu11431974864236486430.webp)
+  
+  ### Uninvert Kitty
+  
+  demo & code
+  
+  An interactive spotlight reveal where the cursor controls a negative mask and a physical 3D tilt effect.
+  
+  x close
+  
+  ![Holographic Name Card with Hover Effects](https://freefrontend.com/img/2025/2025-12-10-holographic-name-card-with-hover-effects_hu4846045785378816418.webp)
+  
+  ### Holographic Name Card with Hover Effects
+  
+  demo & code
+  
+  An interactive 3D holographic card where JavaScript maps pointer coordinates to scoped CSS Custom Properties like `--pointer-x`. The physical lighting simulation relies on complex gradient layering, `mask-image`, and `mix-blend-mode`, all dynamically driven by these calculated values to create realistic depth and glare.
+  
+  x close
+  
+  - ««
+  - «
+  - 1
+  - [2](https://freefrontend.com/css-3d-transforms/page/2/)
+  - [3](https://freefrontend.com/css-3d-transforms/page/3/)
+  - [»](https://freefrontend.com/css-3d-transforms/page/2/)
+  - [»»](https://freefrontend.com/css-3d-transforms/page/3/)
+  --- End Content ---
+
+Browse thousands of Css 3D images for design inspiration - Dribbble
+  URL: https://dribbble.com/search/css-3d
+  Explore thousands of high-quality css 3d images on Dribbble. Your resource to get inspired, discover and connect with designers worldwide.
+
+  --- Content ---
+  Get 20% (up to $100) off your first payment for design and development services on Dribbble! Use code WELCOME20 🎉
+  
+  [Get Started](https://dribbble.com/instantmatch)
+  
+  [Dribbble: the community for graphic design](https://dribbble.com/)
+  
+  Shots
+  
+  ShotsDesignersServices
+  
+  [Sign up](https://dribbble.com/signups/new) [Log in](https://dribbble.com/session/new)
+  
+  # css 3d
+  
+  Unique css 3d designs for inspiration
+  
+  - Related:
+  - [html](https://dribbble.com/search/html)
+  - [c4d](https://dribbble.com/search/c4d)
+  - [cinema 4d](https://dribbble.com/search/cinema%204d)
+  - [render](https://dribbble.com/search/render)
+  - [cinema4d](https://dribbble.com/search/cinema4d)
+  - [javascript](https://dribbble.com/search/javascript)
+  
+  [Popular](https://dribbble.com/search/css-3d#)
+  
+  - [Popular](https://dribbble.com/search/shots/popular?q=css-3d)
+  - [New & Noteworthy](https://dribbble.com/search/shots/recent?q=css-3d)
+  
+  - [Discover](https://dribbble.com/search/shots/popular/?q=css-3d "Discover")
+  - [Animation](https://dribbble.com/search/shots/popular/animation?q=css-3d "Animation")
+  - [Branding](https://dribbble.com/search/shots/popular/branding?q=css-3d "Branding")
+  - [Illustration](https://dribbble.com/search/shots/popular/illustration?q=css-3d "Illustration")
+  - [Mobile](https://dribbble.com/search/shots/popular/mobile?q=css-3d "Mobile")
+  - [Print](https://dribbble.com/search/shots/popular/print?q=css-3d "Print")
+  - [Product Design](https://dribbble.com/search/shots/popular/product-design?q=css-3d "Product Design")
+  - [Typography](https://dribbble.com/search/shots/popular/typography?q=css-3d "Typography")
+  - [Web Design](https://dribbble.com/search/shots/popular/web-design?q=css-3d "Web Design")
+  
+  [Filters](https://dribbble.com/search/css-3d#)
+  
+  [Clear](https://dribbble.com/search/shots/filters?q=css-3d) Tags
+  
+  [Clear](https://dribbble.com/search/shots/filters?q=css-3d) Color
+  
+  - [#faddd1](https://dribbble.com/search/css-3d?color=faddd1)
+  - [#fad3d1](https://dribbble.com/search/css-3d?color=fad3d1)
+  - [#fad1e6](https://dribbble.com/search/css-3d?color=fad1e6)
+  - [#e5d1fa](https://dribbble.com/search/css-3d?color=e5d1fa)
+  - [#d4d1fa](https://dribbble.com/search/css-3d?color=d4d1fa)
+  - [#d1e3fa](https://dribbble.com/search/css-3d?color=d1e3fa)
+  - [#d1f3fa](https://dribbble.com/search/css-3d?color=d1f3fa)
+  - [#d1faf0](https://dribbble.com/search/css-3d?color=d1faf0)
+  - [#d1fad7](https://dribbble.com/search/css-3d?color=d1fad7)
+  - [#ebfad1](https://dribbble.com/search/css-3d?color=ebfad1)
+  - [#faf9d1](https://dribbble.com/search/css-3d?color=faf9d1)
+  - [#faefd1](https://dribbble.com/search/css-3d?color=faefd1)
+  - [#fae6d1](https://dribbble.com/search/css-3d?color=fae6d1)
+  - [#f2e2d9](https://dribbble.com/search/css-3d?color=f2e2d9)
+  - [#ffffff](https://dribbble.com/search/css-3d?color=ffffff)
+  - [#f4b69c](https://dribbble.com/search/css-3d?color=f4b69c)
+  - [#f4a09c](https://dribbble.com/search/css-3d?color=f4a09c)
+  - [#f49cc8](https://dribbble.com/search/css-3d?color=f49cc8)
+  - [#c69cf4](https://dribbble.com/search/css-3d?color=c69cf4)
+  - [#a39cf4](https://dribbble.com/search/css-3d?color=a39cf4)
+  - [#9cc2f4](https://dribbble.com/search/css-3d?color=9cc2f4)
+  - [#9ce5f4](https://dribbble.com/search/css-3d?color=9ce5f4)
+  - [#9cf4df](https://dribbble.com/search/css-3d?color=9cf4df)
+  - [#9cf4a7](https://dribbble.com/search/css-3d?color=9cf4a7)
+  - [#d4f49c](https://dribbble.com/search/css-3d?color=d4f49c)
+  - [#f4f19c](https://dribbble.com/search/css-3d?color=f4f19c)
+  - [#f4dc9c](https://dribbble.com/search/css-3d?color=f4dc9c)
+  - [#f4c89c](https://dribbble.com/search/css-3d?color=f4c89c)
+  - [#e3c0ac](https://dribbble.com/search/css-3d?color=e3c0ac)
+  - [#e4e4e4](https://dribbble.com/search/css-3d?color=e4e4e4)
+  - [#ee8f66](https://dribbble.com/search/css-3d?color=ee8f66)
+  - [#ee6d66](https://dribbble.com/search/css-3d?color=ee6d66)
+  - [#ee66aa](https://dribbble.com/search/css-3d?color=ee66aa)
+  - [#a866ee](https://dribbble.com/search/css-3d?color=a866ee)
+  - [#7166ee](https://dribbble.com/search/css-3d?color=7166ee)
+  - [#66a1ee](https://dribbble.com/search/css-3d?color=66a1ee)
+  - [#66d7ee](https://dribbble.com/search/css-3d?color=66d7ee)
+  - [#66eece](https://dribbble.com/search/css-3d?color=66eece)
+  - [#66ee78](https://dribbble.com/search/css-3d?color=66ee78)
+  - [#bcee66](https://dribbble.com/search/css-3d?color=bcee66)
+  - [#eee966](https://dribbble.com/search/css-3d?color=eee966)
+  - [#eeca66](https://dribbble.com/search/css-3d?color=eeca66)
+  - [#eeaa66](https://dribbble.com/search/css-3d?color=eeaa66)
+  - [#d59f80](https://dribbble.com/search/css-3d?color=d59f80)
+  - [#b4b4b4](https://dribbble.com/search/css-3d?color=b4b4b4)
+  - [#e86830](https://dribbble.com/search/css-3d?color=e86830)
+  - [#e83a30](https://dribbble.com/search/css-3d?color=e83a30)
+  - [#e8308c](https://dribbble.com/search/css-3d?color=e8308c)
+  - [#8930e8](https://dribbble.com/search/css-3d?color=8930e8)
+  - [#4030e8](https://dribbble.com/search/css-3d?color=4030e8)
+  - [#3080e8](https://dribbble.com/search/css-3d?color=3080e8)
+  - [#30c9e8](https://dribbble.com/search/css-3d?color=30c9e8)
+  - [#30e8bd](https://dribbble.com/search/css-3d?color=30e8bd)
+  - [#30e849](https://dribbble.com/search/css-3d?color=30e849)
+  - [#a5e830](https://dribbble.com/search/css-3d?color=a5e830)
+  - [#e8e230](https://dribbble.com/search/css-3d?color=e8e230)
+  - [#e8b730](https://dribbble.com/search/css-3d?color=e8b730)
+  - [#e88c30](https://dribbble.com/search/css-3d?color=e88c30)
+  - [#c67d53](https://dribbble.com/search/css-3d?color=c67d53)
+  - [#848484](https://dribbble.com/search/css-3d?color=848484)
+  - [#c74b16](https://dribbble.com/search/css-3d?color=c74b16)
+  - [#c71f16](https://dribbble.com/search/css-3d?color=c71f16)
+  - [#c7166f](https://dribbble.com/search/css-3d?color=c7166f)
+  - [#6c16c7](https://dribbble.com/search/css-3d?color=6c16c7)
+  - [#2516c7](https://dribbble.com/search/css-3d?color=2516c7)
+  - [#1663c7](https://dribbble.com/search/css-3d?color=1663c7)
+  - [#16a9c7](https://dribbble.com/search/css-3d?color=16a9c7)
+  - [#16c79e](https://dribbble.com/search/css-3d?color=16c79e)
+  - [#16c72e](https://dribbble.com/search/css-3d?color=16c72e)
+  - [#86c716](https://dribbble.com/search/css-3d?color=86c716)
+  - [#c7c116](https://dribbble.com/search/css-3d?color=c7c116)
+  - [#c79816](https://dribbble.com/search/css-3d?color=c79816)
+  - [#c76f16](https://dribbble.com/search/css-3d?color=c76f16)
+  - [#a66037](https://dribbble.com/search/css-3d?color=a66037)
+  - [#545454](https://dribbble.com/search/css-3d?color=545454)
+  - [#913710](https://dribbble.com/search/css-3d?color=913710)
+  - [#911710](https://dribbble.com/search/css-3d?color=911710)
+  - [#911051](https://dribbble.com/search/css-3d?color=911051)
+  - [#4f1091](https://dribbble.com/search/css-3d?color=4f1091)
+  - [#1b1091](https://dribbble.com/search/css-3d?color=1b1091)
+  - [#104891](https://dribbble.com/search/css-3d?color=104891)
+  - [#107c91](https://dribbble.com/search/css-3d?color=107c91)
+  - [#109173](https://dribbble.com/search/css-3d?color=109173)
+  - [#109121](https://dribbble.com/search/css-3d?color=109121)
+  - [#629110](https://dribbble.com/search/css-3d?color=629110)
+  - [#918d10](https://dribbble.com/search/css-3d?color=918d10)
+  - [#916f10](https://dribbble.com/search/css-3d?color=916f10)
+  - [#915110](https://dribbble.com/search/css-3d?color=915110)
+  - [#794628](https://dribbble.com/search/css-3d?color=794628)
+  - [#242424](https://dribbble.com/search/css-3d?color=242424)
+  - [#5c230a](https://dribbble.com/search/css-3d?color=5c230a)
+  - [#5c0e0a](https://dribbble.com/search/css-3d?color=5c0e0a)
+  - [#5c0a33](https://dribbble.com/search/css-3d?color=5c0a33)
+  - [#320a5c](https://dribbble.com/search/css-3d?color=320a5c)
+  - [#110a5c](https://dribbble.com/search/css-3d?color=110a5c)
+  - [#0a2e5c](https://dribbble.com/search/css-3d?color=0a2e5c)
+  - [#0a4e5c](https://dribbble.com/search/css-3d?color=0a4e5c)
+  - [#0a5c49](https://dribbble.com/search/css-3d?color=0a5c49)
+  - [#0a5c15](https://dribbble.com/search/css-3d?color=0a5c15)
+  - [#3e5c0a](https://dribbble.com/search/css-3d?color=3e5c0a)
+  - [#5c590a](https://dribbble.com/search/css-3d?color=5c590a)
+  - [#5c460a](https://dribbble.com/search/css-3d?color=5c460a)
+  - [#5c330a](https://dribbble.com/search/css-3d?color=5c330a)
+  - [#4d2c19](https://dribbble.com/search/css-3d?color=4d2c19)
+  - [#000000](https://dribbble.com/search/css-3d?color=000000)
+  
+  [Clear](https://dribbble.com/search/shots/filters?q=css-3d) Timeframe[Select a Timeframe](https://dribbble.com/search/css-3d#)
+  
+  - [Select a Timeframe](https://dribbble.com/search/css-3d?timeframe=)
+  - [This Past Week](https://dribbble.com/search/css-3d?timeframe=week)
+  - [This Past Month](https://dribbble.com/search/css-3d?timeframe=month)
+  - [This Past Year](https://dribbble.com/search/css-3d?timeframe=year)
+  - [All Time](https://dribbble.com/search/css-3d?timeframe=ever)
+  - [Now](https://dribbble.com/search/css-3d?timeframe=now)
+  
+  01. ![CSS 3D Transform with Torus Kit 3d animation bootstrap css design effect flat html interaction landing minimal mouse svg torus kit transform ui](https://cdn.dribbble.com/userupload/29888368/file/still-073f9b4b5f0a96fdaa50ce1b381015b4.png?format=webp&resize=400x300&vertical=center)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/14743382-CSS-3D-Transform-with-Torus-Kit)
+  
+      [View CSS 3D Transform with Torus Kit](https://dribbble.com/shots/14743382-CSS-3D-Transform-with-Torus-Kit)
+  
+  
+  
+  
+  
+  
+      CSS 3D Transform with Torus Kit
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Torus Kit](<Base64-Image-Removed>)Torus Kit](https://dribbble.com/TorusKit)[PRO](https://dribbble.com/pro)
+  
+  42
+  
+  
+  14.1k
+  
+  
+  02. ![Hem.com / Hem Configurator configurator css3d e commerce fab flat furniture hem home icons shelf ui website](https://cdn.dribbble.com/userupload/41717320/file/still-1a41d3b4e92893341eaef824bd11eec3.gif?format=webp&resize=400x300&vertical=center)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/1746252-Hem-com-Hem-Configurator)
+  
+      [View Hem.com / Hem Configurator](https://dribbble.com/shots/1746252-Hem-com-Hem-Configurator)
+  
+  
+  
+  
+  
+  
+      Hem.com / Hem Configurator
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Soham Majumder](<Base64-Image-Removed>)Soham Majumder](https://dribbble.com/to_soham)
+  
+  71
+  
+  
+  10.7k
+  
+  
+  03. ![Codus “Debugging” magnifying glass illustration 3d 3d animation animation clean code css dark design gradient html html 5 illustration javascript landing landing page magnifier magnifying magnifying glass minimal motion](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/6042831-Codus-Debugging-magnifying-glass-illustration)
+  
+      [View Codus “Debugging” magnifying glass illustration](https://dribbble.com/shots/6042831-Codus-Debugging-magnifying-glass-illustration)
+  
+  
+  
+  
+  
+  
+      Codus “Debugging” magnifying glass illustration
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Luke Taylor](<Base64-Image-Removed>)Luke Taylor](https://dribbble.com/controversial)[PRO](https://dribbble.com/pro)
+  
+  26
+  
+  
+  8.7k
+  
+  
+  04. ![3d logo effect 3d css logo svg web design](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/3147420-3d-logo-effect)
+  
+      [View 3d logo effect](https://dribbble.com/shots/3147420-3d-logo-effect)
+  
+  
+  
+  
+  
+  
+      3d logo effect
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Evan Walker](<Base64-Image-Removed>)Evan Walker](https://dribbble.com/ewyattwalker)
+  
+  8
+  
+  
+  927
+  
+  
+  05. ![AI trading brand website 3d animation 3d css 3d css development 3d designs 3d desinging 3d figma designs 3d landing page 3d landing page designs 3d web design 3d webflow 3d website design figma 3d landing page landing page design spline spline 3d spline 3d websites spline designs spline website web design](<Base64-Image-Removed>)
+  
+  
+  
+      [View AI trading brand website](https://dribbble.com/shots/23522960-AI-trading-brand-website)
+  
+  
+  
+  
+  
+  
+      AI trading brand website
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Ali Hyder](<Base64-Image-Removed>)Ali Hyder](https://dribbble.com/Hyder303)
+  
+  1
+  
+  
+  5.2k
+  
+  
+  06. ![Creative agency web ui design agency business agency ui agency web ui agency website branding business agency clean ui creative agency creative design landing page minimal design minimal ui ui ui designer ux web web design website website design](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/26954032-Creative-agency-web-ui-design)
+  
+      [View Creative agency web ui design](https://dribbble.com/shots/26954032-Creative-agency-web-ui-design)
+  
+  
+  
+  
+  
+  
+      Creative agency web ui design
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Roohi Koohi ✦](<Base64-Image-Removed>)Roohi Koohi ✦](https://dribbble.com/roohollah)[PRO](https://dribbble.com/pro)
+  
+  51
+  
+  
+  11.3k
+  
+  
+  07. ![Crypto Exchange Web UI Design banking blockchain clean ui crypto crypto wallet cryptocurrency design digital wallet ethereum ui exchange finance fintech minimal ui modern ui payments trading trading platform ui designer ux designer web design](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/26938506-Crypto-Exchange-Web-UI-Design)
+  
+      [View Crypto Exchange Web UI Design](https://dribbble.com/shots/26938506-Crypto-Exchange-Web-UI-Design)
+  
+  
+  
+  
+  
+  
+      Crypto Exchange Web UI Design
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Roohi Koohi ✦](<Base64-Image-Removed>)Roohi Koohi ✦](https://dribbble.com/roohollah)[PRO](https://dribbble.com/pro)
+  
+  30
+  
+  
+  8.6k
+  
+  
+  08. ![AirBase X - Technology Website Template app app landing pga branding design figma figma template framer template illustration landing page saas software saas ui ui design uiux ux web web ui webflow webflow templates website design](<Base64-Image-Removed>)
+  
+  
+  
+      [View AirBase X - Technology Website Template](https://dribbble.com/shots/25333565-AirBase-X-Technology-Website-Template)
+  
+  
+  
+  
+  
+  
+      AirBase X - Technology Website Template
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Md Ahsan Habib](<Base64-Image-Removed>)Md Ahsan Habib](https://dribbble.com/findahsanhabib)
+  
+  11
+  
+  
+  5.4k
+  
+  
+  09. ![Beskar Labs — Dropdown Navigation 3d animation beskar design dropdown graphic header hero home icon item labs menu motion nav navigation orange transition ui website](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/21846632-Beskar-Labs-Dropdown-Navigation)
+  
+      [View Beskar Labs — Dropdown Navigation](https://dribbble.com/shots/21846632-Beskar-Labs-Dropdown-Navigation)
+  
+  
+  
+  
+  
+  
+      Beskar Labs — Dropdown Navigation
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Hayden Bleasel](<Base64-Image-Removed>)Hayden Bleasel](https://dribbble.com/haydenbleasel)
+  
+  73
+  
+  
+  47.9k
+  
+  
+  10. ![3d room configurator using html css three js 3d 3d website animated website animation frontend developer three js ui ui developer](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/27303892-3d-room-configurator-using-html-css-three-js)
+  
+      [View 3d room configurator using html css three js](https://dribbble.com/shots/27303892-3d-room-configurator-using-html-css-three-js)
+  
+  
+  
+  
+  
+  
+      3d room configurator using html css three js
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Muhammad Abdullah](<Base64-Image-Removed>)Muhammad Abdullah](https://dribbble.com/abdullah041)
+  
+  0
+  
+  
+  157
+  
+  
+  11. ![Modern VR Website UI — Immersive Experiences & Digital Worlds 3dweb creativeui designinspiration digitalexperience dribbble figmadesign futuristicui immersivedesign innovation landingpage modernweb productdesign startupdesign techwebsite uidesign uxdesign uxui virtualreality vrdesign webdesign](<Base64-Image-Removed>)
+  
+  
+  
+      [View Modern VR Website UI — Immersive Experiences & Digital Worlds](https://dribbble.com/shots/27026249-Modern-VR-Website-UI-Immersive-Experiences-Digital-Worlds)
+  
+  
+  
+  
+  
+  
+      Modern VR Website UI — Immersive Experiences & Digital Worlds
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![TERABIT IT](<Base64-Image-Removed>)TERABIT IT](https://dribbble.com/terabit_it)[PRO\\
+  \\
+  +](https://dribbble.com/pro)
+  
+  2
+  
+  
+  6.4k
+  
+  
+  12. ![FIGMA WEBSITE ANIMATION 3d 3d animated websites 3d animations 3d element 3d figma animation 3d web 3d web animations 3danimation 3dfigma animated websites animation branding figma figma 2024 figma animation graphic design motion graphics spline animation trending website wordpress animation](<Base64-Image-Removed>)
+  
+  
+  
+      [View FIGMA WEBSITE ANIMATION](https://dribbble.com/shots/24157695-FIGMA-WEBSITE-ANIMATION)
+  
+  
+  
+  
+  
+  
+      FIGMA WEBSITE ANIMATION
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Ali Hyder](<Base64-Image-Removed>)Ali Hyder](https://dribbble.com/Hyder303)
+  
+  3
+  
+  
+  2.9k
+  
+  
+  13. ![AI animated web ui design ai ai generation animate animation application chat gpt chatgpt illustration landing landing page mobile ui vector web web animation web design web intractive web ui](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/21763550-AI-animated-web-ui-design)
+  
+      [View AI animated web ui design](https://dribbble.com/shots/21763550-AI-animated-web-ui-design)
+  
+  
+  
+  
+  
+  
+      AI animated web ui design
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Roohi Koohi ✦](<Base64-Image-Removed>)Roohi Koohi ✦](https://dribbble.com/roohollah)[PRO](https://dribbble.com/pro)
+  
+  438
+  
+  
+  164k
+  
+  
+  14. ![3D Switch 3d animation checkbox codepen css gsap interface micro interaction motion slider switch toggle ui ui design ux](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/14725005-3D-Switch)
+  
+      [View 3D Switch](https://dribbble.com/shots/14725005-3D-Switch)
+  
+  
+  
+  
+  
+  
+      3D Switch
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Aaron Iker](<Base64-Image-Removed>)Aaron Iker](https://dribbble.com/ai)[PRO](https://dribbble.com/pro)
+  
+  420
+  
+  
+  309k
+  
+  
+  15. ![Web Design 3D Illustration 3d 3d art 3d blender 3d computer 3d graphic design 3d icon blender css design graphic design html illustration ui uiux ux web design web icon web illustration website](<Base64-Image-Removed>)
+  
+  
+  
+      [View Web Design 3D Illustration](https://dribbble.com/shots/20254045-Web-Design-3D-Illustration)
+  
+  
+  
+  
+  
+  
+      Web Design 3D Illustration
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Uneric Studio](<Base64-Image-Removed>)Uneric Studio](https://dribbble.com/UnericStudio)
+  
+  73
+  
+  
+  17.8k
+  
+  
+  16. ![3D Button button css hover interaction ui ux](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/8118009-3D-Button)
+  
+      [View 3D Button](https://dribbble.com/shots/8118009-3D-Button)
+  
+  
+  
+  
+  
+  
+      3D Button
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Katherine Kato](<Base64-Image-Removed>)Katherine Kato](https://dribbble.com/kathykato)
+  
+  75
+  
+  
+  24.3k
+  
+  
+  17. ![Dark Mode Agency Website Concept with Cinematic 3D 3d animation dark design ui website](<Base64-Image-Removed>)
+  
+  
+  
+      [View Dark Mode Agency Website Concept with Cinematic 3D](https://dribbble.com/shots/26854048-Dark-Mode-Agency-Website-Concept-with-Cinematic-3D)
+  
+  
+  
+  
+  
+  
+      Dark Mode Agency Website Concept with Cinematic 3D
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Denormalized™](<Base64-Image-Removed>)Denormalized™](https://dribbble.com/denormalized)
+  
+  6
+  
+  
+  3.5k
+  
+  
+  18. ![CSS Perspective hero concept developer hero layout motion parallax product reveal scroll web web design](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/24726105-CSS-Perspective-hero-concept)
+  
+      [View CSS Perspective hero concept](https://dribbble.com/shots/24726105-CSS-Perspective-hero-concept)
+  
+  
+  
+  
+  
+  
+      CSS Perspective hero concept
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Nicolas Solerieu](<Base64-Image-Removed>)Nicolas Solerieu](https://dribbble.com/SLRNCL)[PRO](https://dribbble.com/pro)
+  
+  87
+  
+  
+  29.4k
+  
+  
+  19. ![AURA - Fashion Campaign Poster | 3D Out-of-Bounds Effect 3d effect branding creative design dark aesthetic dark mode editorial fashion campaign fashion poster graphic design html css image editor layout design minimal out of bounds poster design streetwear tool ui typography visual design web design](<Base64-Image-Removed>)
+  
+  
+  
+      [View AURA - Fashion Campaign Poster \| 3D Out-of-Bounds Effect](https://dribbble.com/shots/27335259-AURA-Fashion-Campaign-Poster-3D-Out-of-Bounds-Effect)
+  
+  
+  
+  
+  
+  
+      AURA - Fashion Campaign Poster \| 3D Out-of-Bounds Effect
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Mobashwir Rahman](<Base64-Image-Removed>)Mobashwir Rahman](https://dribbble.com/mobashwir9)
+  
+  0
+  
+  
+  73
+  
+  
+  20. ![CabinetCraft — a premium 3D cabinet configurator 3d animation css frontend development frontend devloper html next react ui ui developer](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/27329736-CabinetCraft-a-premium-3D-cabinet-configurator)
+  
+      [View CabinetCraft — a premium 3D cabinet configurator](https://dribbble.com/shots/27329736-CabinetCraft-a-premium-3D-cabinet-configurator)
+  
+  
+  
+  
+  
+  
+      CabinetCraft — a premium 3D cabinet configurator
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Muhammad Abdullah](<Base64-Image-Removed>)Muhammad Abdullah](https://dribbble.com/abdullah041)
+  
+  0
+  
+  
+  35
+  
+  
+  21. ![Login PageUI Design html css js 2d 3d animated animated login page animated ui login login form login page modern login ui web page website](<Base64-Image-Removed>)
+  
+  
+  
+      [View Login PageUI Design html css js](https://dribbble.com/shots/26320219-Login-PageUI-Design-html-css-js)
+  
+  
+  
+  
+  
+  
+      Login PageUI Design html css js
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Gaurav Tripathi](<Base64-Image-Removed>)Gaurav Tripathi](https://dribbble.com/lorgaurav)
+  
+  6
+  
+  
+  25.4k
+  
+  
+  22. ![Online Courses Tailwind CSS Template 3d branding graphic design ui university](<Base64-Image-Removed>)
+  
+  
+  
+      [View Online Courses Tailwind CSS Template](https://dribbble.com/shots/24743845-Online-Courses-Tailwind-CSS-Template)
+  
+  
+  
+  
+  
+  
+      Online Courses Tailwind CSS Template
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Bizantheme](<Base64-Image-Removed>)Bizantheme](https://dribbble.com/Bizantheme)
+  
+  1
+  
+  
+  947
+  
+  
+  23. ![Fluid Hover Cards with Tailwind CSS 3d branding code illustration](<Base64-Image-Removed>)
+  
+  
+  
+      [View Fluid Hover Cards with Tailwind CSS](https://dribbble.com/shots/23510921-Fluid-Hover-Cards-with-Tailwind-CSS)
+  
+  
+  
+  
+  
+  
+      Fluid Hover Cards with Tailwind CSS
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Maxime Bourgeois](<Base64-Image-Removed>)Maxime Bourgeois](https://dribbble.com/maximebourgeois)
+  
+  54
+  
+  
+  26.4k
+  
+  
+  24. ![Responsive 3D Ball 3d css drylikov html image scss web](<Base64-Image-Removed>)
+  
+  
+  
+      [View Responsive 3D Ball](https://dribbble.com/shots/25807456-Responsive-3D-Ball)
+  
+  
+  
+  
+  
+  
+      Responsive 3D Ball
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Denis](<Base64-Image-Removed>)Denis](https://dribbble.com/drylikov)
+  
+  24
+  
+  
+  537
+  
+  
+  25. ![3d map for Framer [mapbox] ar framer map mapbox reality virtual vr](<Base64-Image-Removed>)
+  
+  
+  
+      1
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/3452078-3d-map-for-Framer-mapbox)
+  
+      [View 3d map for Framer \[mapbox\]](https://dribbble.com/shots/3452078-3d-map-for-Framer-mapbox)
+  
+  
+  
+  
+  
+  
+      3d map for Framer \[mapbox\]
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Patryk Adaś](<Base64-Image-Removed>)Patryk Adaś](https://dribbble.com/patrykadas)
+  
+  107
+  
+  
+  16.9k
+  
+  
+  26. ![Fight Club 3D Website Concept 3d animation fightclub motion graphics web](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/25999595-Fight-Club-3D-Website-Concept)
+  
+      [View Fight Club 3D Website Concept](https://dribbble.com/shots/25999595-Fight-Club-3D-Website-Concept)
+  
+  
+  
+  
+  
+  
+      Fight Club 3D Website Concept
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Boris Bessonov](<Base64-Image-Removed>)Boris Bessonov](https://dribbble.com/borisbessonov_)
+  
+  16
+  
+  
+  6.2k
+  
+  
+  27. ![🍔 3D Button 3d animation button codepen css design explore hamburger hover interface menu micro interaction motion perspective ui web](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/14693563--3D-Button)
+  
+      [View 🍔 3D Button](https://dribbble.com/shots/14693563--3D-Button)
+  
+  
+  
+  
+  
+  
+      🍔 3D Button
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Aaron Iker](<Base64-Image-Removed>)Aaron Iker](https://dribbble.com/ai)[PRO](https://dribbble.com/pro)
+  
+  769
+  
+  
+  407k
+  
+  
+  28. ![3D rainbow hypnosis dance abstract css dance fractal gradient hypnosis loop processing rainbow tsankashvili](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/4096825-3D-rainbow-hypnosis-dance)
+  
+      [View 3D rainbow hypnosis dance](https://dribbble.com/shots/4096825-3D-rainbow-hypnosis-dance)
+  
+  
+  
+  
+  
+  
+      3D rainbow hypnosis dance
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Misha Tsankashvili](<Base64-Image-Removed>)Misha Tsankashvili](https://dribbble.com/tsankashvili)
+  
+  201
+  
+  
+  17.8k
+  
+  
+  29. ![3D Product Interaction Design - Kanak Naturals Green Packaging 3d 3d interaction 3d product interaction design product product interaction ui user experience user interface ux visual design visual storytelling web design website website design](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/24443893-3D-Product-Interaction-Design-Kanak-Naturals-Green-Packaging)
+  
+      [View 3D Product Interaction Design - Kanak Naturals Green Packaging](https://dribbble.com/shots/24443893-3D-Product-Interaction-Design-Kanak-Naturals-Green-Packaging)
+  
+  
+  
+  
+  
+  
+      3D Product Interaction Design - Kanak Naturals Green Packaging
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Bearplus](<Base64-Image-Removed>)Bearplus](https://dribbble.com/bearplus)[PRO\\
+  \\
+  +](https://dribbble.com/pro)
+  
+  13
+  
+  
+  2.7k
+  
+  
+  30. ![3D Rainbow Star art css css only dots fractal gradient loop magical processing rainbow star tsankashvili](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/3845446-3D-Rainbow-Star)
+  
+      [View 3D Rainbow Star](https://dribbble.com/shots/3845446-3D-Rainbow-Star)
+  
+  
+  
+  
+  
+  
+      3D Rainbow Star
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Leavingstone](<Base64-Image-Removed>)Leavingstone](https://dribbble.com/Leavingstone)
+  
+  165
+  
+  
+  20.8k
+  
+  
+  31. ![PayFlow - Fintech Landing Page (HTML & Tailwind CSS) code css developer fintech frontend glassmorphism html landingpage paymentapp tailwindcss ui uidesign ux webdesign](<Base64-Image-Removed>)
+  
+  
+  
+      [View PayFlow - Fintech Landing Page (HTML & Tailwind CSS)](https://dribbble.com/shots/26585113-PayFlow-Fintech-Landing-Page-HTML-Tailwind-CSS)
+  
+  
+  
+  
+  
+  
+      PayFlow - Fintech Landing Page (HTML & Tailwind CSS)
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Adryan Prawira](<Base64-Image-Removed>)Adryan Prawira](https://dribbble.com/adryanprawira)
+  
+  0
+  
+  
+  2.3k
+  
+  
+  32. ![Immersive Earphone Hero Section | Gradient, Glow & 3D Product UI 3d 3d product animation brand design branding design earphones graphic design hero section landing page product design saas saas hero section saas landing page saas web design saas website ui ux web design website design](<Base64-Image-Removed>)
+  
+  
+  
+      [View Immersive Earphone Hero Section \| Gradient, Glow & 3D Product UI](https://dribbble.com/shots/27261655-Immersive-Earphone-Hero-Section-Gradient-Glow-3D-Product-UI)
+  
+  
+  
+  
+  
+  
+      Immersive Earphone Hero Section \| Gradient, Glow & 3D Product UI
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Lawrence Precious Ginka](<Base64-Image-Removed>)Lawrence Precious Ginka](https://dribbble.com/prestige_creative)[PRO](https://dribbble.com/pro)
+  
+  1
+  
+  
+  477
+  
+  
+  33. ![Interactive 3D Robot Landing Page — Next.js & Spline 3d design bento grid dark ui framer motion glassmorphism interactive 3d landing page next.js ui saas shader animation spline 3d uiux web design](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/27007780-Interactive-3D-Robot-Landing-Page-Next-js-Spline)
+  
+      [View Interactive 3D Robot Landing Page — Next.js & Spline](https://dribbble.com/shots/27007780-Interactive-3D-Robot-Landing-Page-Next-js-Spline)
+  
+  
+  
+  
+  
+  
+      Interactive 3D Robot Landing Page — Next.js & Spline
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Mahenoor Salat](<Base64-Image-Removed>)Mahenoor Salat](https://dribbble.com/salatmahenoor7-8-6)
+  
+  1
+  
+  
+  2.1k
+  
+  
+  34. ![Cyberpunk Glitch Effect Button (Pure CSS) 3d animation branding button css cyberpunk design graphic design illustration ui](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/27006487-Cyberpunk-Glitch-Effect-Button-Pure-CSS)
+  
+      [View Cyberpunk Glitch Effect Button (Pure CSS)](https://dribbble.com/shots/27006487-Cyberpunk-Glitch-Effect-Button-Pure-CSS)
+  
+  
+  
+  
+  
+  
+      Cyberpunk Glitch Effect Button (Pure CSS)
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Ahmod Musa](<Base64-Image-Removed>)Ahmod Musa](https://dribbble.com/musa379)
+  
+  0
+  
+  
+  883
+  
+  
+  35. ![3D Boxes Loader 3d animation box codepen css interface loader micro interaction motion ui](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/7227469-3D-Boxes-Loader)
+  
+      [View 3D Boxes Loader](https://dribbble.com/shots/7227469-3D-Boxes-Loader)
+  
+  
+  
+  
+  
+  
+      3D Boxes Loader
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Aaron Iker](<Base64-Image-Removed>)Aaron Iker](https://dribbble.com/ai)[PRO](https://dribbble.com/pro)
+  
+  117
+  
+  
+  45.7k
+  
+  
+  36. ![Interactive 3D Dial css interactive training ui](<Base64-Image-Removed>)
+  
+  
+  
+      [View Interactive 3D Dial](https://dribbble.com/shots/26287640-Interactive-3D-Dial)
+  
+  
+  
+  
+  
+  
+      Interactive 3D Dial
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Max Daunarovich](<Base64-Image-Removed>)Max Daunarovich](https://dribbble.com/MaxStalker)
+  
+  1
+  
+  
+  446
+  
+  
+  37. ![Craft Scalable, Custom-Made Interfaces with Tailwind CSS 3d brush illustration paint pixel sketch](<Base64-Image-Removed>)
+  
+  
+  
+      [View Craft Scalable, Custom-Made Interfaces with Tailwind CSS](https://dribbble.com/shots/17252819-Craft-Scalable-Custom-Made-Interfaces-with-Tailwind-CSS)
+  
+  
+  
+  
+  
+  
+      Craft Scalable, Custom-Made Interfaces with Tailwind CSS
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Maxime Bourgeois](<Base64-Image-Removed>)Maxime Bourgeois](https://dribbble.com/maximebourgeois)
+  
+  79
+  
+  
+  36k
+  
+  
+  38. ![Zelt Website Development 3d benefits corporate site cuberto development devices employee graphic design hr tool landing payroll people platform product scroll ui ux web](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/21118990-Zelt-Website-Development)
+  
+      [View Zelt Website Development](https://dribbble.com/shots/21118990-Zelt-Website-Development)
+  
+  
+  
+  
+  
+  
+      Zelt Website Development
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Cuberto](<Base64-Image-Removed>)Cuberto](https://dribbble.com/cuberto)[PRO](https://dribbble.com/pro)
+  
+  981
+  
+  
+  267k
+  
+  
+  39. ![⭐️ Button 3d animation button css gsap interface micro interaction motion star starred success ui ux](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/16468954--Button)
+  
+      [View ⭐️ Button](https://dribbble.com/shots/16468954--Button)
+  
+  
+  
+  
+  
+  
+      ⭐️ Button
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Aaron Iker](<Base64-Image-Removed>)Aaron Iker](https://dribbble.com/ai)[PRO](https://dribbble.com/pro)
+  
+  1.1k
+  
+  
+  477k
+  
+  
+  40. ![Website Builder - Apple Vision Pro 3d ai apple ar css drag and drop glass morphism spatial vision vision pro vr webflow website builder](<Base64-Image-Removed>)
+  
+  
+  
+      [View Website Builder - Apple Vision Pro](https://dribbble.com/shots/21808741-Website-Builder-Apple-Vision-Pro)
+  
+  
+  
+  
+  
+  
+      Website Builder - Apple Vision Pro
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Ofspace ](<Base64-Image-Removed>)Ofspace](https://dribbble.com/ofspace)[PRO](https://dribbble.com/pro)
+  
+  516
+  
+  
+  147k
+  
+  
+  41. ![Twitter Sidebar animation button codepen css gsap interface menu micro interaction motion nav playful sidebar toggle twitter ui ux](<Base64-Image-Removed>)
+  
+  
+  
+      1
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/14742295-Twitter-Sidebar)
+  
+      [View Twitter Sidebar](https://dribbble.com/shots/14742295-Twitter-Sidebar)
+  
+  
+  
+  
+  
+  
+      Twitter Sidebar
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Aaron Iker](<Base64-Image-Removed>)Aaron Iker](https://dribbble.com/ai)[PRO](https://dribbble.com/pro)
+  
+  625
+  
+  
+  422k
+  
+  
+  42. ![Loading boxes 3d animation box codepen css cube interface loader loading motion ui ux](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/5533600-Loading-boxes)
+  
+      [View Loading boxes](https://dribbble.com/shots/5533600-Loading-boxes)
+  
+  
+  
+  
+  
+  
+      Loading boxes
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Aaron Iker](<Base64-Image-Removed>)Aaron Iker](https://dribbble.com/ai)[PRO](https://dribbble.com/pro)
+  
+  492
+  
+  
+  130k
+  
+  
+  43. ![Bus Ticket Flip Animation 3d animation branding bus clean component concept flip illustration interaction interface mobile qr ticket ui ux web](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/26044744-Bus-Ticket-Flip-Animation)
+  
+      [View Bus Ticket Flip Animation](https://dribbble.com/shots/26044744-Bus-Ticket-Flip-Animation)
+  
+  
+  
+  
+  
+  
+      Bus Ticket Flip Animation
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Aleksandr Shchilkin](<Base64-Image-Removed>)Aleksandr Shchilkin](https://dribbble.com/shchilkin)[PRO](https://dribbble.com/pro)
+  
+  14
+  
+  
+  15.9k
+  
+  
+  44. ![Job Finding Platform Website 3d animation css dailyui digitalmarketing ecommerce emailmarketing entrepreneurlife explorepage graphicdesign interfacedesign losangeles seo socialmediamarketing ui uiinspiration uitrends uiuxdesigner webdesign webdeveloper](<Base64-Image-Removed>)
+  
+  
+  
+      [View Job Finding Platform Website](https://dribbble.com/shots/24818854-Job-Finding-Platform-Website)
+  
+  
+  
+  
+  
+  
+      Job Finding Platform Website
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Turja Sen Das Partho](<Base64-Image-Removed>)Turja Sen Das Partho](https://dribbble.com/turjasen)[PRO](https://dribbble.com/pro)
+  
+  55
+  
+  
+  8.5k
+  
+  
+  45. ![Sales Dashboard by Panicle Tech 3d animation clean code css dashboard fullstack graphic design html motion graphics panicle react sales simple tailwind tech ui](<Base64-Image-Removed>)
+  
+  
+  
+      [View Sales Dashboard by Panicle Tech](https://dribbble.com/shots/26605855-Sales-Dashboard-by-Panicle-Tech)
+  
+  
+  
+  
+  
+  
+      Sales Dashboard by Panicle Tech
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Panicle Tech](<Base64-Image-Removed>)Panicle Tech](https://dribbble.com/panicle-tech)[PRO](https://dribbble.com/pro)
+  
+  66
+  
+  
+  12.9k
+  
+  
+  46. ![EnduroSat — Website content 3d animation b2b content corporate endurosat homepage immersive landing page nanosat render satellite smooth scroll space ui ux web design website wordpress](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/25010304-EnduroSat-Website-content)
+  
+      [View EnduroSat — Website content](https://dribbble.com/shots/25010304-EnduroSat-Website-content)
+  
+  
+  
+  
+  
+  
+      EnduroSat — Website content
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Kreativa Studio](<Base64-Image-Removed>)Kreativa Studio](https://dribbble.com/KreativaStudio)[PRO\\
+  \\
+  +](https://dribbble.com/pro)
+  
+  96
+  
+  
+  46.2k
+  
+  
+  47. ![Interactive Contact Form - Kanak Naturals Green Packaging 3d 3d interaction contact form design form interactive design lead lead form mobile ui user user experience ux visual design visual storytelling web design website website design](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/24443814-Interactive-Contact-Form-Kanak-Naturals-Green-Packaging)
+  
+      [View Interactive Contact Form - Kanak Naturals Green Packaging](https://dribbble.com/shots/24443814-Interactive-Contact-Form-Kanak-Naturals-Green-Packaging)
+  
+  
+  
+  
+  
+  
+      Interactive Contact Form - Kanak Naturals Green Packaging
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Bearplus](<Base64-Image-Removed>)Bearplus](https://dribbble.com/bearplus)[PRO\\
+  \\
+  +](https://dribbble.com/pro)
+  
+  22
+  
+  
+  21k
+  
+  
+  48. ![Homepage Design - Kanak Naturals Green Packaging 3d 3d interaction design homepage homepage design interaction mobile ui user user experience user interface ux visual design visual storytelling web design website website design](<Base64-Image-Removed>)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      [Shot Link](https://dribbble.com/shots/24429013-Homepage-Design-Kanak-Naturals-Green-Packaging)
+  
+      [View Homepage Design - Kanak Naturals Green Packaging](https://dribbble.com/shots/24429013-Homepage-Design-Kanak-Naturals-Green-Packaging)
+  
+  
+  
+  
+  
+  
+      Homepage Design - Kanak Naturals Green Packaging
+  
+  
+  
+  
+      - [Save shot](https://dribbble.com/signups/new "Save shot")
+  
+  [![Bearplus](<Base64-Image-Removed>)Bearplus](https://dribbble.com/bearplus)[PRO\\
+  \\
+  +](https://dribbble.com/pro)
+  
+  13
+  
+  
+  9k
+  
+  
+  ← Prev [Next →](https://dribbble.com/search/css-3d?page=2)
+  
+  [Sign up to continue](https://dribbble.com/signups/new)
+  
+  Loading more…
+  
+  * * *
+  
+  Previous
+  
+  Next
+  
+  [close](https://dribbble.com/search/css-3d#)
+  
+  **Start a Project Brief**
+  Tell us what you need and find the right talent for your project.
+  
+  [Get Started](https://dribbble.com/instantmatch)
+  --- End Content ---
