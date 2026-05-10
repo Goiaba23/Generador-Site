@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -20,11 +21,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Este email já está registrado' }, { status: 409 });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 12);
+
     const user = await prisma.user.create({
       data: {
         name: name || email.split('@')[0],
         email,
-        password,
+        password: hashedPassword,
         plan: 'simple',
         sitesLimit: 5,
       },

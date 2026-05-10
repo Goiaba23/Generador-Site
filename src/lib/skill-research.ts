@@ -253,10 +253,22 @@ export function getSkillKnowledgeBase(): string {
     'framer-motion-react-animations',
     'responsividade-mobile-first',
     'design-systems-componentes',
+    'website-design-restaurant',
+    'website-design-barbershop',
+    'website-design-clinic',
+    'website-design-gym',
+    'website-design-hotel',
+    'website-design-tech',
   ];
 
   return required.map(name => {
     const content = loadSkill(name);
-    return content ? `=== ${name} ===\n${content.substring(0, 4000)}` : null;
+    if (!content) return null;
+    try {
+      const parsed = JSON.parse(content.substring(content.indexOf('{')));
+      return `=== ${parsed.name || name} ===\nDescrição: ${parsed.description || ''}\nFonte: ${parsed.source || ''}\nPrincípio: ${parsed.sandwichLayers?.foundation?.principle || ''}\n${parsed.keyTakeaways ? 'Key Takeaways:\n' + parsed.keyTakeaways.map((t: string) => '• ' + t).join('\n') : ''}`;
+    } catch {
+      return `=== ${name} ===\n${content.substring(0, 4000)}`;
+    }
   }).filter(Boolean).join('\n\n');
 }

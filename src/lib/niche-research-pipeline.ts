@@ -1,4 +1,5 @@
 import { researchNiche, NicheDesignTokens } from './skill-research';
+import { designInspirationEngine, DesignInspiration } from './design-inspiration';
 
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY || '';
 
@@ -17,11 +18,13 @@ interface WebSearchResult {
   snippet: string;
 }
 
-interface NicheResearchResult extends NicheDesignTokens {
+export interface NicheResearchResult extends NicheDesignTokens {
   businessType: string;
   businessName: string;
   designTokens: NicheDesignTokens;
   youtubeFindings: YouTubeVideo[];
+  platformFindings: YouTubeVideo[];
+  designInspirations: DesignInspiration[];
   webFindings: WebSearchResult[];
   trends: string[];
   confidence: number;
@@ -37,6 +40,39 @@ const NICHE_TRENDS: Record<string, string[]> = {
   TECH: ['Hero 3D com Three.js', 'Bento grid features interativo', 'Pricing toggle anual/mensal', 'FAQ com search interno', 'Stats counter com gradient text'],
   DEFAULT: ['Hero moderno com CTA', 'Bento grid de serviços', 'Depoimentos em carrossel', 'FAQ accordion', 'Footer com mapa e contato'],
 };
+
+const DESIGN_PLATFORMS = ['Mobbin', 'Refero', 'Curated Design', 'Bento Grinds', 'Httpster', 'Awwwards', 'Godly', 'SiteInspire', 'Land Book'];
+
+async function searchYouTubeForDesignPlatforms(businessType: string, style: string): Promise<YouTubeVideo[]> {
+  if (!YOUTUBE_API_KEY) return [];
+
+  const queries = DESIGN_PLATFORMS.flatMap(p => [
+    `how to use ${p} for website design inspiration ${businessType}`,
+    `${p} web design tutorial ${style}`,
+    `best ${p} designs ${businessType}`,
+    `${p} review website design inspiration 2026`,
+  ]);
+
+  const all: YouTubeVideo[] = [];
+  const seen = new Set<string>();
+  for (const query of queries.slice(0, 12)) {
+    try {
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&maxResults=2&key=${YOUTUBE_API_KEY}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.items) for (const item of data.items) {
+        const t = item.snippet.title;
+        if (!seen.has(t)) { seen.add(t); all.push({
+          title: t, description: (item.snippet.description || '').substring(0, 200),
+          thumbnail: item.snippet.thumbnails?.default?.url || '',
+          url: `https://youtube.com/watch?v=${item.id.videoId}`,
+          channelTitle: item.snippet.channelTitle, publishedAt: item.snippet.publishedAt,
+        }); }
+      }
+    } catch { continue; }
+  }
+  return all.slice(0, 8);
+}
 
 async function searchYouTubeForNiche(businessType: string, businessName: string): Promise<YouTubeVideo[]> {
   if (!YOUTUBE_API_KEY) return [];
@@ -117,11 +153,19 @@ function extractDesignFindings(videos: YouTubeVideo[], trends: string[]): WebSea
 export async function researchNicheWithYouTube(
   businessType: string,
   businessName: string,
-  userDescription: string
+  userDescription: string,
+  style: string = 'modern'
 ): Promise<NicheResearchResult> {
   const baseTokens = researchNiche(businessType, businessName, userDescription);
 
-  const youtubeVideos = await searchYouTubeForNiche(businessType, businessName);
+  const [youtubeVideos, platformVideos, designInsp] = await Promise.all([
+    searchYouTubeForNiche(businessType, businessName),
+    searchYouTubeForDesignPlatforms(businessType, style),
+    designInspirationEngine.search(
+      { businessName, businessType, style, keywords: [], niches: [businessType] },
+      { limit: 8 }
+    ),
+  ]);
 
   const keywords = extractKeywordsDeep(userDescription);
 
@@ -129,7 +173,7 @@ export async function researchNicheWithYouTube(
 
   const webFindings = extractDesignFindings(youtubeVideos, trends);
 
-  const hasLiveData = youtubeVideos.length > 0;
+  const hasLiveData = youtubeVideos.length > 0 || platformVideos.length > 0;
   const enrichedTokens = {
     ...baseTokens,
     keywords: [...new Set([...baseTokens.keywords, ...keywords])].slice(0, 15),
@@ -141,9 +185,11 @@ export async function researchNicheWithYouTube(
     businessName,
     designTokens: enrichedTokens,
     youtubeFindings: youtubeVideos,
+    platformFindings: platformVideos,
+    designInspirations: designInsp.inspirations,
     webFindings,
     trends,
-    confidence: hasLiveData ? 0.85 : 0.65,
+    confidence: hasLiveData ? 0.9 : 0.65,
   };
 }
 

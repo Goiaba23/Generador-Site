@@ -3,8 +3,8 @@ import './globals.css';
 import { ReactLenis } from 'lenis/react';
 
 export const metadata: Metadata = {
-  title: 'NexusAI — Chat Creator de Landing Pages',
-  description: 'Converse com a IA e tenha sua landing page profissional pronta em minutos.',
+  title: 'NexusAI — Assistente Pessoal Multi-IA',
+  description: 'Seu assistente pessoal com 10 superpoderes: YouTube, web scraping, DALL-E, FLUX, pesquisa de design, criação de sites e muito mais.',
   icons: {
     icon: '/favicon.svg',
   },
